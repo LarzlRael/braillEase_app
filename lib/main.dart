@@ -7,7 +7,7 @@ import 'constants/constant.dart';
 import 'constants/enviroments.dart';
 
 void main() async {
-  await Enviroment.initEnviroment();
+  /* await Enviroment.initEnviroment(); */
   return runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProviderNotifier(),
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     final appTheme = Provider.of<ThemeProviderNotifier>(context).appTheme;
     return MultiProvider(
       providers: [
-        /* Fill this with another provider */
+        ChangeNotifierProvider(create: (_) => GlobalProvider()),
       ],
       child: MaterialApp.router(
         title: appName,
