@@ -107,10 +107,7 @@ class _HomePageState extends State<HomePage> {
 
 class LetterBraile extends StatelessWidget {
   final List<bool> word;
-  LetterBraile({
-    required this.word,
-    Key? key,
-  }) : super(key: key);
+  LetterBraile({required this.word, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +134,7 @@ class Point extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(5),
+      margin: const EdgeInsets.all(1),
       width: 5,
       height: 5,
       decoration: BoxDecoration(
@@ -156,12 +153,12 @@ class Point extends StatelessWidget {
 
 Widget line() {
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 5),
+    margin: EdgeInsets.symmetric(horizontal: 1.5),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       color: Colors.white,
     ),
     width: double.infinity,
-    height: 3,
+    height: 2.5,
   );
 }
