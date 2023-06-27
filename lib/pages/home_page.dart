@@ -74,9 +74,9 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      elevation: 5,
+                      elevation: 3,
                       color: Colors.purple,
                       child: Column(
                         children: [
@@ -134,7 +134,7 @@ class Point extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(1),
+      margin: const EdgeInsets.all(5),
       width: 5,
       height: 5,
       decoration: BoxDecoration(
@@ -153,7 +153,10 @@ class Point extends StatelessWidget {
 
 Widget line() {
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 1.5),
+    margin: EdgeInsets.symmetric(
+      horizontal: 1.5,
+      vertical: 5,
+    ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       color: Colors.white,
