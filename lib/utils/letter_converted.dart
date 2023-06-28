@@ -107,6 +107,50 @@ final braileNumericFormat = {
   'z': 1356,
 };
 
+Map<String, String> brailleSimbolMap = {
+  'a': '⠁',
+  'b': '⠃',
+  'c': '⠉',
+  'd': '⠙',
+  'e': '⠑',
+  'f': '⠋',
+  'g': '⠛',
+  'h': '⠓',
+  'i': '⠊',
+  'j': '⠚',
+  'k': '⠅',
+  'l': '⠇',
+  'm': '⠍',
+  'n': '⠝',
+  'o': '⠕',
+  'p': '⠏',
+  'q': '⠟',
+  'r': '⠗',
+  's': '⠎',
+  't': '⠞',
+  'u': '⠥',
+  'v': '⠧',
+  'w': '⠺',
+  'x': '⠭',
+  'y': '⠽',
+  'z': '⠵',
+  ' ': ' ',
+};
+String convertToBraillex(String word) {
+  String brailleWord = '';
+
+  for (var i = 0; i < word.length; i++) {
+    final letter = word[i].toLowerCase();
+    final brailleLetter = brailleSimbolMap[letter];
+
+    if (brailleLetter != null) {
+      brailleWord += brailleLetter;
+    }
+  }
+  return brailleWord;
+  /* return word; */
+}
+
 String validateAndCleanWord(String word) {
   final regex = RegExp(r'[^\w\s]');
   final cleanedWord = word.replaceAll(regex, '');

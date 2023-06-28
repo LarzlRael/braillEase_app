@@ -1,8 +1,5 @@
 part of 'pages.dart';
 
-const MINSLIDER = 5.0;
-const MAXSLIDER = 10.0;
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key});
 
@@ -11,96 +8,89 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String text = "hola a todos we";
+  String text = "abcdefghijklmnopqrstuvwxyz";
   TextEditingController textController = TextEditingController();
-  double _currentSliderValue = 5;
+  bool isSwitched = false;
 
   @override
   Widget build(BuildContext context) {
-    final listGenerate = getLetterConverted(text);
-
+    List<Widget> itemMap = items
+        .map(
+          (item) => ButtonCategory(
+            icon: item.icon,
+            text: item.texto + "\n" + convertToBraillex(item.texto),
+            color1: item.color1,
+            color2: item.color2,
+            onPress: () {
+              context.push(item.path, extra: item.texto);
+            },
+          ),
+        )
+        .toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(appName),
+        title: Text(appName + " - ${convertToBraillex(appName)}"),
         centerTitle: true,
       ),
-      body: LayoutBuilder(builder: (ctx, constraints) {
-        final width = constraints.maxWidth;
-        final height = constraints.maxHeight;
-        print("width: $width");
-        print("height: $height");
-        print(MediaQuery.of(context).size.width);
-        print(MediaQuery.of(context).size.height);
-        return SizedBox.expand(
-          child: Column(
-            children: [
-              Slider(
-                value: _currentSliderValue,
-                min: MINSLIDER,
-                max: MAXSLIDER,
-                /* divisions: maxSlider.toInt() - minSlider.toInt(), */
-                label: _currentSliderValue.round().toString(),
-                onChanged: (double value) {
-                  setState(() {
-                    _currentSliderValue = value;
-                  });
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...itemMap,
+            /* Slider(
+              value: _currentSliderValue,
+              min: MINSLIDER,
+              max: MAXSLIDER,
+              /* divisions: maxSlider.toInt() - minSlider.toInt(), */
+              label: _currentSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  _currentSliderValue = value;
+                });
+              },
+            ), */
+
+            /*  Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
+                  childAspectRatio: MediaQuery.of(context).size.width /
+                      (MediaQuery.of(context).size.height / 1.15),
+                ),
+                shrinkWrap: true,
+                itemCount: text.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    elevation: 3,
+                    color: Colors.purple,
+                    child: Column(
+                      children: [
+                        LetterBraile(
+                          word: listGenerate[index],
+                        ),
+                        line(),
+                        Text(
+                          text[index] + " - " + text[index].toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
-              TextField(
-                controller: textController,
-                decoration: InputDecoration(
-                  hintText: "Escribe algo",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    text = value;
-                  });
-                },
-              ),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _currentSliderValue.toInt(),
-                    crossAxisSpacing: 0,
-                    mainAxisSpacing: 0,
-                    childAspectRatio: MediaQuery.of(context).size.width /
-                        (MediaQuery.of(context).size.height / .9),
-                  ),
-                  shrinkWrap: true,
-                  itemCount: text.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      elevation: 3,
-                      color: Colors.purple,
-                      child: Column(
-                        children: [
-                          LetterBraile(
-                            word: listGenerate[index],
-                          ),
-                          line(),
-                          Text(
-                            text[index],
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
-      }),
+            ), */
+          ],
+        ),
+      ),
     );
   }
 }
@@ -112,10 +102,13 @@ class LetterBraile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(13),
       child: GridView.count(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
+        crossAxisSpacing: 13,
+        mainAxisSpacing: 13,
         children: List.generate(
           word.length,
           (index) => Point(
@@ -134,9 +127,6 @@ class Point extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(5),
-      width: 5,
-      height: 5,
       decoration: BoxDecoration(
         color: paint ? Colors.white : null,
         shape: BoxShape.circle,
@@ -155,7 +145,6 @@ Widget line() {
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: 1.5,
-      vertical: 5,
     ),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
