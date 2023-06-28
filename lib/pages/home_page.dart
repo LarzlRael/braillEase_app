@@ -22,73 +22,26 @@ class _HomePageState extends State<HomePage> {
             color1: item.color1,
             color2: item.color2,
             onPress: () {
-              context.push(item.path, extra: item.texto);
+              context.push(
+                item.path,
+                extra: PageRouteParams(
+                  phase: item.phase,
+                  titlePage: item.texto,
+                ),
+              );
             },
           ),
         )
         .toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(appName + " - ${convertToBraillex(appName)}"),
+        title: Text(appName + " ${convertToBraillex(appName)}"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ...itemMap,
-            /* Slider(
-              value: _currentSliderValue,
-              min: MINSLIDER,
-              max: MAXSLIDER,
-              /* divisions: maxSlider.toInt() - minSlider.toInt(), */
-              label: _currentSliderValue.round().toString(),
-              onChanged: (double value) {
-                setState(() {
-                  _currentSliderValue = value;
-                });
-              },
-            ), */
-
-            /*  Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 5,
-                  crossAxisSpacing: 1,
-                  mainAxisSpacing: 1,
-                  childAspectRatio: MediaQuery.of(context).size.width /
-                      (MediaQuery.of(context).size.height / 1.15),
-                ),
-                shrinkWrap: true,
-                itemCount: text.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    elevation: 3,
-                    color: Colors.purple,
-                    child: Column(
-                      children: [
-                        LetterBraile(
-                          word: listGenerate[index],
-                        ),
-                        line(),
-                        Text(
-                          text[index] + " - " + text[index].toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ), */
-          ],
+          children: itemMap,
         ),
       ),
     );

@@ -81,7 +81,7 @@ class _ButtonBackGround extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: color2.withOpacity(0.9),
             blurRadius: 10,
             spreadRadius: 2,
             offset: const Offset(4, 6),

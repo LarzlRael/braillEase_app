@@ -6,7 +6,15 @@ class ItemBoton {
   final Color color1;
   final Color color2;
   final String path;
-  ItemBoton(this.icon, this.texto, this.color1, this.color2, this.path);
+  final String phase;
+  ItemBoton(
+    this.icon,
+    this.texto,
+    this.color1,
+    this.color2,
+    this.path,
+    this.phase,
+  );
 }
 
 final items = [
@@ -16,6 +24,7 @@ final items = [
     Color(0xff6989F5),
     Color(0xff906EF5),
     '/abcdario',
+    'abcdefghijklmnopqrstuvwxyz',
   ),
   ItemBoton(
     Icons.numbers,
@@ -23,6 +32,7 @@ final items = [
     Color(0xff66A9F2),
     Color(0xff536CF6),
     '/abcdario',
+    '1234567890',
   ),
   ItemBoton(
     Icons.abc,
@@ -30,5 +40,6 @@ final items = [
     Color(0xffF2D572),
     Color(0xffE06AA3),
     '/translate',
+    'Traduccion',
   ),
 ];

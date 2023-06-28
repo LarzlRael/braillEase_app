@@ -1,6 +1,15 @@
 import 'package:go_router/go_router.dart';
 import '../pages/pages.dart';
 
+class PageRouteParams {
+  final String titlePage;
+  final String phase;
+  PageRouteParams({
+    required this.titlePage,
+    required this.phase,
+  });
+}
+
 final appRouter = GoRouter(
   initialLocation: '/',
   /* refreshListenable: goRouterNotifier, */
@@ -12,13 +21,16 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/abcdario',
-      builder: (context, state) => Abcdario(),
+      builder: (context, state) {
+        final pageArgs = state.extra as PageRouteParams;
+        return AbcdarioPage(pageArgs: pageArgs);
+      },
     ),
     GoRoute(
       path: '/translate',
       builder: (context, state) {
-        final titlePage = state.extra as String;
-        return TranslatePage(titlePage: titlePage);
+        final pageRouteParams = state.extra as PageRouteParams;
+        return TranslatePage(titlePage: pageRouteParams);
       },
     ),
   ],

@@ -4,8 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../constants/constant.dart';
 import '../data/data.dart';
+import '../router/app_router.dart';
 import '../utils/utils.dart';
 import '../widgets/widgets.dart';
 part 'home_page.dart';
-part 'abcdario.dart';
+part 'abcdario_page.dart';
 part 'translate_page.dart';
