@@ -15,6 +15,14 @@ class _TranslatePageState extends State<TranslatePage> {
   TextEditingController textController = TextEditingController();
   bool isSwitched = false;
   String text = "";
+  late GlobalProvider globalProvider;
+
+  @override
+  initState() {
+    super.initState();
+    globalProvider = Provider.of<GlobalProvider>(context, listen: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +84,8 @@ class _TranslatePageState extends State<TranslatePage> {
                                   .bodySmall!
                                   .copyWith(
                                     fontSize: 20,
+                                    color: globalProvider.pickerColor,
+                                    fontWeight: FontWeight.bold,
                                   ),
                             ),
                     ),

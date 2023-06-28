@@ -36,10 +36,10 @@ final items = [
   ),
   ItemBoton(
     Icons.book,
-    'Traducción',
+    'Traductor',
     Color(0xffF2D572),
     Color(0xffE06AA3),
     '/translate',
-    'Traducción',
+    'Traductor',
   ),
 ];

@@ -14,9 +14,11 @@ class CustomAppbar extends StatelessWidget {
         ),
         Hero(
           tag: titlePage,
-          child: Text(
-            titlePage + "" + convertToBraillex(titlePage),
-            style: Theme.of(context).textTheme.titleLarge,
+          child: Expanded(
+            child: Text(
+              titlePage + "" + convertToBraillex(titlePage),
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
           ),
         ),
       ],
