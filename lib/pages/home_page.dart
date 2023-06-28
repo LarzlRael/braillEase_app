@@ -8,34 +8,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String text = "abcdefghijklmnopqrstuvwxyz";
-  TextEditingController textController = TextEditingController();
-  bool isSwitched = false;
-
   @override
   Widget build(BuildContext context) {
     List<Widget> itemMap = items
         .map(
-          (item) => ButtonCategory(
-            icon: item.icon,
-            text: item.texto + "\n" + convertToBraillex(item.texto),
-            color1: item.color1,
-            color2: item.color2,
-            onPress: () {
-              context.push(
-                item.path,
-                extra: PageRouteParams(
-                  phase: item.phase,
-                  titlePage: item.texto,
-                ),
-              );
-            },
+          (item) => FadeInRight(
+            child: ButtonCategory(
+              icon: item.icon,
+              text: item.texto + "\n" + convertToBraillex(item.texto),
+              color1: item.color1,
+              color2: item.color2,
+              onPress: () {
+                context.push(
+                  item.path,
+                  extra: PageRouteParams(
+                    phase: item.phase,
+                    titlePage: item.texto,
+                  ),
+                );
+              },
+            ),
           ),
         )
         .toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(appName + " ${convertToBraillex(appName)}"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.push('/settings');
+            },
+            icon: Icon(Icons.settings),
+          ),
+        ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(

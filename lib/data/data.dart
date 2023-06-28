@@ -35,11 +35,11 @@ final items = [
     '1234567890',
   ),
   ItemBoton(
-    Icons.abc,
-    'Traduccion',
+    Icons.book,
+    'Traducción',
     Color(0xffF2D572),
     Color(0xffE06AA3),
     '/translate',
-    'Traduccion',
+    'Traducción',
   ),
 ];

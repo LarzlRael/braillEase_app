@@ -34,8 +34,17 @@ class _TranslatePageState extends State<TranslatePage> {
                       child: TextField(
                         controller: textController,
                         maxLines: 6, //or null
-                        decoration: InputDecoration.collapsed(
+                        decoration: InputDecoration(
                           hintText: "Enter your text here",
+                          suffixIcon: textController.text.isNotEmpty
+                              ? IconButton(
+                                  onPressed: () {
+                                    textController.text = "";
+                                    textController.clear();
+                                  },
+                                  icon: Icon(Icons.cancel),
+                                )
+                              : null,
                         ),
                         onChanged: (value) {
                           setState(() {
@@ -71,8 +80,10 @@ class _TranslatePageState extends State<TranslatePage> {
                             ),
                     ),
                   ),
-                  Checkbox(
+                  CheckboxListTile(
+                    title: Text("Show text"),
                     value: isSwitched,
+                    controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (value) {
                       setState(() {
                         isSwitched = value!;

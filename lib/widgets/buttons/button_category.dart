@@ -19,43 +19,39 @@ class ButtonCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return InkWell(
-      onTap: onPress,
-      child: Ink(
-        child: Stack(
-          children: [
-            _ButtonBackGround(color1: color1, color2: color2, icon: icon),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: ListTile(
-                    leading: Icon(
-                      icon,
+    return Stack(
+      children: [
+        _ButtonBackGround(color1: color1, color2: color2, icon: icon),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListTile(
+                onTap: onPress,
+                leading: Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 40,
+                ),
+                title: Hero(
+                  tag: text,
+                  child: Text(
+                    text,
+                    style: textTheme.titleLarge!.copyWith(
                       color: Colors.white,
-                      size: 40,
                     ),
-                    title: Hero(
-                      tag: text,
-                      child: Text(
-                        text,
-                        style: textTheme.titleLarge!.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    /*  const FaIcon(
-                          FontAwesomeIcons.chevronRight,
-                          color: Colors.white,
-                        ), */
                   ),
                 ),
+                /*  const FaIcon(
+                      FontAwesomeIcons.chevronRight,
+                      color: Colors.white,
+                    ), */
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

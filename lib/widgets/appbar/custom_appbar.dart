@@ -12,9 +12,12 @@ class CustomAppbar extends StatelessWidget {
           onPressed: context.pop,
           icon: Icon(Icons.chevron_left),
         ),
-        Text(
-          titlePage + "" + convertToBraillex(titlePage),
-          style: Theme.of(context).textTheme.titleLarge,
+        Hero(
+          tag: titlePage,
+          child: Text(
+            titlePage + "" + convertToBraillex(titlePage),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
         ),
       ],
     );

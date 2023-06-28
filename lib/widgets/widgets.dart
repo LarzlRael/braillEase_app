@@ -10,3 +10,5 @@ part './cards/image_gallery.dart';
 part 'buttons/button_category.dart';
 
 part 'appbar/custom_appbar.dart';
+part 'anim/fade_in_transition.dart';
+part 'anim/fade_in_right.dart';

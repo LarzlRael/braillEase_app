@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import '../pages/pages.dart';
+import '../widgets/widgets.dart';
 
 class PageRouteParams {
   final String titlePage;
@@ -21,16 +22,24 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/abcdario',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final pageArgs = state.extra as PageRouteParams;
-        return AbcdarioPage(pageArgs: pageArgs);
+        /* return AbcdarioPage(pageArgs: pageArgs); */
+        return fadeInTransition(child: AbcdarioPage(pageArgs: pageArgs));
       },
     ),
     GoRoute(
       path: '/translate',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final pageRouteParams = state.extra as PageRouteParams;
-        return TranslatePage(titlePage: pageRouteParams);
+        return fadeInTransition(
+            child: TranslatePage(titlePage: pageRouteParams));
+      },
+    ),
+    GoRoute(
+      path: '/settings',
+      pageBuilder: (context, state) {
+        return fadeInTransition(child: SettingsPage());
       },
     ),
   ],
