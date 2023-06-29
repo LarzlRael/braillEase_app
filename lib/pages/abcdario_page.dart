@@ -26,35 +26,83 @@ class AbcdarioPage extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: pageArgs.phase.length,
                 itemBuilder: (_, int index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    elevation: 3,
-                    color: globalProvider.pickerColor,
-                    child: Column(
-                      children: [
-                        LetterBraile(
-                          word: listGenerate[index],
-                        ),
-                        line(),
-                        Text(
-                          pageArgs.phase[index] +
-                              " - " +
-                              pageArgs.phase[index].toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
+                  final letter = pageArgs.phase[index];
+                  final listGenerated = listGenerate[index];
+                  return BraileLetterCard(
+                    globalProvider: globalProvider,
+                    listGenerated: listGenerated,
+                    letter: letter,
                   );
                 },
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BraileLetterCard extends StatelessWidget {
+  const BraileLetterCard({
+    super.key,
+    required this.globalProvider,
+    required this.listGenerated,
+    required this.letter,
+  });
+
+  final GlobalProvider globalProvider;
+  final List<bool> listGenerated;
+  final String letter;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.push(
+          '/details',
+          extra: DetailPageRouteParams(
+            letter: letter,
+            listGenerated: listGenerated,
+          ),
+        );
+      },
+      child: Hero(
+        tag: letter,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              /* boxShadow: [
+              BoxShadow(
+                color: globalProvider.pickerColor.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 10,
+                offset: const Offset(1, .2),
+              ),
+            ], */
+              ),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            elevation: 0,
+            color: globalProvider.pickerColor,
+            child: Column(
+              children: [
+                LetterBraile(
+                  word: listGenerated,
+                ),
+                line(),
+                Text(
+                  letter + " - " + letter.toUpperCase(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

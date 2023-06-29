@@ -16,6 +16,7 @@ class _TranslatePageState extends State<TranslatePage> {
   bool isSwitched = false;
   String text = "";
   late GlobalProvider globalProvider;
+  String textBraille = "";
 
   @override
   initState() {
@@ -43,20 +44,29 @@ class _TranslatePageState extends State<TranslatePage> {
                         controller: textController,
                         maxLines: 6, //or null
                         decoration: InputDecoration(
-                          hintText: "Enter your text here",
+                          hintText: "Ingrese su texto aquí",
+                          border: InputBorder.none,
                           suffixIcon: textController.text.isNotEmpty
                               ? IconButton(
                                   onPressed: () {
                                     textController.text = "";
                                     textController.clear();
+                                    setState(() {
+                                      text = "";
+                                      textBraille = "";
+                                    });
                                   },
-                                  icon: Icon(Icons.cancel),
+                                  icon: Icon(
+                                    Icons.cancel,
+                                    color: globalProvider.pickerColor,
+                                  ),
                                 )
                               : null,
                         ),
                         onChanged: (value) {
                           setState(() {
                             text = value;
+                            textBraille = convertToBraillex(value);
                           });
                         },
                       ),
@@ -78,7 +88,7 @@ class _TranslatePageState extends State<TranslatePage> {
                                   ),
                             )
                           : Text(
-                              convertToBraillex(text),
+                              textBraille,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
@@ -90,7 +100,7 @@ class _TranslatePageState extends State<TranslatePage> {
                             ),
                     ),
                   ),
-                  CheckboxListTile(
+                  /* CheckboxListTile(
                     title: Text("Show text"),
                     value: isSwitched,
                     controlAffinity: ListTileControlAffinity.leading,
@@ -99,7 +109,7 @@ class _TranslatePageState extends State<TranslatePage> {
                         isSwitched = value!;
                       });
                     },
-                  ),
+                  ), */
                 ],
               ),
             )),

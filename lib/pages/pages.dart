@@ -14,3 +14,4 @@ part 'home_page.dart';
 part 'abcdario_page.dart';
 part 'translate_page.dart';
 part 'settings_page.dart';
+part 'detail_letter_page.dart';

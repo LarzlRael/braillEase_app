@@ -40,14 +40,14 @@ class AppTheme {
           ),
         ),
         colorSchemeSeed: colorList[0],
-        appBarTheme: AppBarTheme(
+        /* appBarTheme: AppBarTheme(
           centerTitle: true,
           titleTextStyle: GoogleFonts.montserratAlternates().copyWith(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             /* color: Colors.black, */
           ),
-        ),
+        ), */
       );
   AppTheme copyWith({
     int? selectedColor,

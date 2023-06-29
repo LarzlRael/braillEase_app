@@ -11,6 +11,15 @@ class PageRouteParams {
   });
 }
 
+class DetailPageRouteParams {
+  final String letter;
+  final List<bool> listGenerated;
+  DetailPageRouteParams({
+    required this.letter,
+    required this.listGenerated,
+  });
+}
+
 final appRouter = GoRouter(
   initialLocation: '/',
   /* refreshListenable: goRouterNotifier, */
@@ -40,6 +49,17 @@ final appRouter = GoRouter(
       path: '/settings',
       pageBuilder: (context, state) {
         return fadeInTransition(child: SettingsPage());
+      },
+    ),
+    GoRoute(
+      path: '/details',
+      pageBuilder: (context, state) {
+        final letter = state.extra as DetailPageRouteParams;
+        return fadeInTransition(
+          child: DetailLetterPage(
+            detailPageRouteParams: letter,
+          ),
+        );
       },
     ),
   ],
