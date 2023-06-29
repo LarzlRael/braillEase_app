@@ -2,7 +2,7 @@ part of '../widgets.dart';
 
 CustomTransitionPage<dynamic> fadeInTransition({
   required Widget child,
-  duration = const Duration(milliseconds: 5000),
+  duration = const Duration(milliseconds: 500),
 }) {
   return CustomTransitionPage(
     transitionDuration: duration,

@@ -57,6 +57,8 @@ class BraileLetterCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showText =
+        isInAlphabet(letter) ? letter + " - " + letter.toUpperCase() : letter;
     return GestureDetector(
       onTap: () {
         context.push(
@@ -93,7 +95,7 @@ class BraileLetterCard extends StatelessWidget {
                 ),
                 line(),
                 Text(
-                  letter + " - " + letter.toUpperCase(),
+                  showText,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

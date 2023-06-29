@@ -14,3 +14,9 @@ String removeAllHtmlTags(String htmlText) {
 
   return htmlText.replaceAll(exp, '');
 }
+
+bool isInAlphabet(String character) {
+  final pattern = r'^[a-zA-Z]$';
+  final regex = RegExp(pattern);
+  return regex.hasMatch(character);
+}
