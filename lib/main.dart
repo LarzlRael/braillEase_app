@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:templat_project/provider/providers.dart';
 import 'package:templat_project/router/app_router.dart';
 import 'constants/constant.dart';
-import 'constants/enviroments.dart';
+import 'env/environment_variables.dart';
 
 void main() async {
-  /* await Enviroment.initEnviroment(); */
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
+  await Enviroment.initEnviroment();
   return runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProviderNotifier(),
