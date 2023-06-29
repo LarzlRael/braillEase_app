@@ -15,7 +15,7 @@ class DetailLetterPage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          margin: EdgeInsets.all(20),
+          margin: EdgeInsets.all(25),
           child: Hero(
             tag: detailPageRouteParams.letter,
             child: Card(

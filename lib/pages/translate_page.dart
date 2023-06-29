@@ -26,6 +26,7 @@ class _TranslatePageState extends State<TranslatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -72,33 +73,62 @@ class _TranslatePageState extends State<TranslatePage> {
                       ),
                     ),
                   ),
-                  Card(
-                    child: Container(
-                      padding: EdgeInsets.all(8.0),
-                      width: double.infinity,
-                      height: 150,
-                      child: isSwitched
-                          ? Text(
-                              text,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    fontSize: 20,
-                                  ),
-                            )
-                          : Text(
+                  Stack(
+                    children: [
+                      Card(
+                        child: SingleChildScrollView(
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            width: double.infinity,
+                            height: 150,
+                            child: Text(
                               textBraille,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    fontSize: 20,
-                                    color: globalProvider.pickerColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              style: textTheme.bodySmall!.copyWith(
+                                fontSize: 20,
+                                color: globalProvider.pickerColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                    ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        child: Row(
+                          children: [
+                            Text(
+                              "Traducción en Braille",
+                              style: textTheme.titleMedium!.copyWith(
+                                fontSize: 13,
+                                color:
+                                    globalProvider.pickerColor.withOpacity(0.7),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            textBraille.isEmpty
+                                ? SizedBox()
+                                : IconButton(
+                                    onPressed: () async {
+                                      await Clipboard.setData(
+                                          ClipboardData(text: textBraille));
+
+                                      globalProvider.showSnackBar(
+                                        backgroundColor: Colors.green,
+                                        context,
+                                        "Texto copiado al portapapeles",
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.copy,
+                                      color: globalProvider.pickerColor,
+                                    ),
+                                  ),
+                          ],
+                        ),
+                        bottom: 10,
+                        right: 10,
+                      ),
+                    ],
                   ),
                   /* CheckboxListTile(
                     title: Text("Show text"),
