@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:provider/provider.dart';
 import 'package:templat_project/provider/providers.dart';
@@ -8,6 +9,8 @@ import 'constants/enviroments.dart';
 
 void main() async {
   /* await Enviroment.initEnviroment(); */
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   return runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProviderNotifier(),
@@ -25,6 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => GlobalProvider()),
+        ChangeNotifierProvider(create: (_) => AdProvider()),
       ],
       child: MaterialApp.router(
         title: appName,
