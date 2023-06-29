@@ -8,6 +8,7 @@ class DetailLetterPage extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final braileProvider = context.read<GlobalProvider>();
     return Scaffold(
       appBar: AppBar(
         title: Text(detailPageRouteParams.letter),
@@ -19,7 +20,7 @@ class DetailLetterPage extends StatelessWidget {
           child: Hero(
             tag: detailPageRouteParams.letter,
             child: Card(
-              color: Colors.blue,
+              color: braileProvider.pickerColor,
               child: LetterBraile(
                 word: detailPageRouteParams.listGenerated,
               ),

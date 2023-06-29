@@ -3,14 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 const colorList = <Color>[
   Colors.purple,
-  Colors.amber,
-  Colors.teal,
-  Colors.green,
-  Colors.red,
-  Colors.deepPurple,
-  Colors.orange,
-  Colors.pink,
-  Colors.pinkAccent,
 ];
 
 class AppTheme {
@@ -39,7 +31,7 @@ class AppTheme {
             fontSize: 20,
           ),
         ),
-        colorSchemeSeed: colorList[0],
+        colorSchemeSeed: Colors.blue,
         /* appBarTheme: AppBarTheme(
           centerTitle: true,
           titleTextStyle: GoogleFonts.montserratAlternates().copyWith(

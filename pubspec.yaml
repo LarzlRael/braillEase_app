@@ -47,15 +47,15 @@ dependencies:
 
 flutter_native_splash:
   color: '#ffffff'
-  image: assets/yourPathLogo.png
+  image: assets/icons/braille.png
   #branding: assets/branding-development.png
   color_dark: '#15141b'
-  image_dark: assets/yourPathLogo.png
+  image_dark: assets/icons/braille.png
   #branding_dark: assets/branding-development.png
   android_12:
-    image: assets/yourPathLogo.png
+    image: assets/icons/braille.png
     icon_background_color: '#ffffff'
-    image_dark: assets/yourPathLogo.png
+    image_dark: assets/icons/braille.png
     icon_background_color_dark: '#ffffff'
 
   web: false
@@ -70,7 +70,7 @@ dev_dependencies:
 flutter_icons:
   android: 'launcher_icon'
   ios: true
-  image_path: 'assets/yourPathIcon.png'
+  image_path: 'assets/icons/braille.png'
   min_sdk_android: 21
 
   # The "flutter_lints" package below contains a set of recommended lints to

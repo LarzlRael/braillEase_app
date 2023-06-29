@@ -42,4 +42,12 @@ final items = [
     '/translate',
     'Traductor',
   ),
+  /* ItemBoton(
+    Icons.percent,
+    'Signos y símbolos',
+    Color(0xff317183),
+    Color(0xff46997D),
+    '/abcdario',
+    'Traductor',
+  ), */
 ];

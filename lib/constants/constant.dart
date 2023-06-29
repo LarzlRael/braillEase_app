@@ -1,1 +1,1 @@
-const appName = "Braile APP";
+const appName = "BraillEase";

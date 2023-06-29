@@ -1,4 +1,4 @@
-package com.example.templat_project
+package com.dosan.braillease
 
 import io.flutter.embedding.android.FlutterActivity
 

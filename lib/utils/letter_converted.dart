@@ -107,7 +107,8 @@ final braileNumericFormat = {
   'z': 1356,
 };
 
-Map<String, String> brailleSimbolMap = {
+Map<String, String> brailleAllSymbolMap = {
+  ' ': ' ',
   'a': '⠁',
   'b': '⠃',
   'c': '⠉',
@@ -134,21 +135,71 @@ Map<String, String> brailleSimbolMap = {
   'x': '⠭',
   'y': '⠽',
   'z': '⠵',
-  ' ': ' ',
+  'á': '⠷',
+  'é': '⠮',
+  'í': '⠾',
+  'ó': '⠪',
+  'ú': '⠳',
+  'ü': '⠿',
+  '0': '⠚',
+  '1': '⠁',
+  '2': '⠃',
+  '3': '⠉',
+  '4': '⠙',
+  '5': '⠑',
+  '6': '⠋',
+  '7': '⠛',
+  '8': '⠓',
+  '9': '⠊',
+  '!': '⠮',
+  '?': '⠹',
+  '#': '⠼',
+  '\$': '⠿',
+  '%': '⠅',
+  '&': '⠯',
+  '*': '⠇',
+  '+': '⠖',
+  '-': '⠤',
+  '=': '⠲',
+  '@': '⠈',
+  '^': '⠦',
+  '.': '⠲',
+  ',': '⠂',
+  ';': '⠆',
+  ':': '⠒',
+  '/': '⠌',
+  '\\': '⠶',
+  '|': '⠾',
+  '(': '⠐⠣',
+  ')': '⠐⠜',
+  '[': '⠐⠶',
+  ']': '⠐⠦',
+  '{': '⠐⠲',
+  '}': '⠐⠶',
+  '<': '⠐⠢',
+  '>': '⠐⠦',
+  '_': '⠤',
+  '∆': '⠤',
+  '`': '⠂',
+  '~': '⠢',
+  '"': '⠐⠠',
+  '\'': '⠄',
+  '♂': '⠪',
+  '♀': '⠳',
 };
+
 String convertToBraillex(String word) {
   String brailleWord = '';
 
   for (var i = 0; i < word.length; i++) {
     final letter = word[i].toLowerCase();
-    final brailleLetter = brailleSimbolMap[letter];
+    final brailleLetter = brailleAllSymbolMap[letter];
 
     if (brailleLetter != null) {
       brailleWord += brailleLetter;
     }
   }
   return brailleWord;
-  /* return word; */
 }
 
 String validateAndCleanWord(String word) {

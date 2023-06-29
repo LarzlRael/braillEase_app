@@ -26,71 +26,68 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Consumer<GlobalProvider>(
-          builder: (context, globalProvider, child) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomAppbar(
-                  titlePage: 'Configuraciones',
+      appBar: AppBar(
+        title: Text('Configuraciones'),
+      ),
+      body: Consumer<GlobalProvider>(
+        builder: (context, globalProvider, child) {
+          return ListView(
+            children: [
+              ListTile(
+                onTap: () {
+                  themeProviderNotifier.toggleTheme();
+                },
+                title: Text('Cambiar tema'),
+                leading: Icon(
+                  themeProviderNotifier.isDarkModeEnabled
+                      ? Icons.dark_mode
+                      : Icons.light_mode,
                 ),
-                ListTile(
-                  onTap: () {
-                    themeProviderNotifier.toggleTheme();
-                  },
-                  title: Text('Cambiar tema'),
-                  leading: Icon(
-                    themeProviderNotifier.isDarkModeEnabled
-                        ? Icons.dark_mode
-                        : Icons.light_mode,
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Pick a color!'),
-                          content: SingleChildScrollView(
-                            child: MaterialPicker(
-                              pickerColor: globalProvider.pickerColor,
-                              onColorChanged: changeColor,
-                              /* showLabel: true,
-                                      pickerAreaHeightPercent: 0.8, */
-                            ),
+              ),
+              ListTile(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Escoge un color'),
+                        content: SingleChildScrollView(
+                          child: MaterialPicker(
+                            pickerColor: globalProvider.pickerColor,
+                            onColorChanged: changeColor,
+                            /* showLabel: true,
+                                    pickerAreaHeightPercent: 0.8, */
                           ),
-                          actions: [
-                            TextButton(
-                              child: const Text('OK'),
-                              onPressed: () {
-                                globalProvider.currentColor =
-                                    globalProvider.pickerColor;
-                                context.pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  title: Text('Color actual'),
-                  leading: GestureDetector(
-                    child: Container(
-                      width: 25,
-                      height: 25,
-                      decoration: BoxDecoration(
-                        color: globalProvider.pickerColor,
-                        shape: BoxShape.circle,
-                      ),
+                        ),
+                        actions: [
+                          TextButton(
+                            child: const Text('OK'),
+                            onPressed: () {
+                              globalProvider.currentColor =
+                                  globalProvider.pickerColor;
+                              context.pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                title: Text('Color actual'),
+                leading: GestureDetector(
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    decoration: BoxDecoration(
+                      color: globalProvider.pickerColor,
+                      shape: BoxShape.circle,
                     ),
                   ),
-                )
-              ],
-            );
-          },
-        ),
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
   }

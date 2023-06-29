@@ -18,8 +18,14 @@ samples, guidance on mobile development, and a full API reference.
 # view Documentation
 
 - https://pub.dev/packages/flutter_native_splash
+  flutter pub run flutter_native_splash:create
+
 - https://pub.dev/packages/flutter_launcher_icons
+  flutter pub run flutter_launcher_icons
+
 - https://pub.dev/packages/change_app_package_name
+  flutter pub run change_app_package_name:main com.new.package.name
+
 
 - flutter pub run flutter_native_splash:create
 
