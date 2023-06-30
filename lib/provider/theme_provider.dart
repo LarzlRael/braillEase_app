@@ -3,7 +3,7 @@ part of './providers.dart';
 class ThemeProviderNotifier extends ChangeNotifier {
   /* STATE = estado => new AppTheme */
   AppTheme _appTheme = AppTheme(
-    isDarkMode: false,
+    isDarkMode: UserPreferences.isDarkModeEnabled,
   ); // Estado interno
 
   AppTheme get appTheme => _appTheme; // Acceso al estado

@@ -36,6 +36,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ListTile(
                 onTap: () {
                   themeProviderNotifier.toggleTheme();
+                  UserPreferences.isDarkModeEnabled =
+                      themeProviderNotifier.isDarkModeEnabled;
                 },
                 title: Text('Cambiar tema'),
                 leading: Icon(
