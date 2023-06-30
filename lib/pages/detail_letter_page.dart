@@ -6,26 +6,36 @@ class DetailLetterPage extends StatelessWidget {
     super.key,
     required this.detailPageRouteParams,
   });
+
   @override
   Widget build(BuildContext context) {
     final braileProvider = context.read<GlobalProvider>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(detailPageRouteParams.letter),
+        title: Text(detailPageRouteParams.letter +
+            " - ${convertToBraillex(detailPageRouteParams.letter)}"),
         centerTitle: true,
       ),
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.all(25),
-          child: Hero(
-            tag: detailPageRouteParams.letter,
-            child: Card(
-              color: braileProvider.pickerColor,
-              child: LetterBraile(
-                word: detailPageRouteParams.listGenerated,
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                margin: EdgeInsets.all(25),
+                child: Hero(
+                  tag: detailPageRouteParams.letter,
+                  child: Card(
+                    color: braileProvider.pickerColor,
+                    child: LetterBraile(
+                      word: detailPageRouteParams.listGenerated,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
+            BannerWidgetPositioned(),
+          ],
         ),
       ),
     );

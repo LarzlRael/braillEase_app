@@ -59,6 +59,7 @@ final appRouter = GoRouter(
           child: DetailLetterPage(
             detailPageRouteParams: letter,
           ),
+          duration: const Duration(milliseconds: 1500),
         );
       },
     ),
