@@ -13,7 +13,7 @@ class DetailLetterPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(detailPageRouteParams.letter +
-            " - ${convertToBraillex(detailPageRouteParams.letter)}"),
+            " ${convertToBraillex(detailPageRouteParams.letter)}"),
         centerTitle: true,
       ),
       body: SizedBox.expand(

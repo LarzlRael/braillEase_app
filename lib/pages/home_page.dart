@@ -44,11 +44,13 @@ class HomePage extends StatelessWidget {
         height: double.infinity,
         child: Stack(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ...itemMap,
-              ],
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ...itemMap,
+                ],
+              ),
             ),
             BannerWidgetPositioned(),
           ],

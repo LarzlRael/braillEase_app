@@ -65,17 +65,7 @@ class PrintPdfPage extends StatelessWidget {
                   );
                 },
                 title: Text(pagesSizes[index].sizeName),
-                leading: Container(
-                  margin: EdgeInsets.all(8),
-                  width: 20,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 1,
-                    ),
-                  ),
-                ),
+                leading: Icon(Icons.content_copy),
                 subtitle: Text(pagesSizes[index].size),
               );
             },

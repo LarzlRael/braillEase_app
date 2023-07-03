@@ -69,7 +69,9 @@ class _TranslatePageState extends State<TranslatePage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text('Crear PDF'),
+        icon: Icon(Icons.picture_as_pdf_rounded),
         onPressed: () async {
           /*  await createAndDownloadPdf(
             textBraille,
@@ -79,7 +81,6 @@ class _TranslatePageState extends State<TranslatePage> {
           context.push('/print_pdf_page');
         },
         tooltip: 'Crear pdf',
-        child: Icon(Icons.picture_as_pdf),
       ),
       body: SafeArea(
         child: Container(
@@ -88,120 +89,111 @@ class _TranslatePageState extends State<TranslatePage> {
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: Stack(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomAppbar(
-                    titlePage: widget.titlePage.titlePage,
-                  ),
-                  /* Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        // If listening is active show the recognized words
-                        _speechToText.isListening
-                            ? '$_lastWords'
-                            // If listening isn't active but could be tell the user
-                            // how to start it, otherwise indicate that speech
-                            // recognition is not yet ready or not supported on
-                            // the target device
-                            : _speechEnabled
-                                ? 'Tap the microphone to start listening...'
-                                : 'Speech not available',
-                      ),
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomAppbar(
+                      titlePage: widget.titlePage.titlePage,
                     ),
-                  ), */
-                  Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: textController,
-                        maxLines: 6, //or null
-                        decoration: InputDecoration(
-                          hintText: "Ingrese su texto aquí",
-                          border: InputBorder.none,
-                          suffixIcon: textController.text.isNotEmpty
-                              ? IconButton(
-                                  onPressed: () {
-                                    textController.text = "";
-                                    textController.clear();
-                                    setState(() {
-                                      textBraille = "";
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.cancel,
-                                    color: globalProvider.pickerColor,
-                                  ),
-                                )
-                              : null,
+                    Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: textController,
+                          maxLines: 8,
+                          decoration: InputDecoration(
+                            hintText: "Ingrese su texto aquí",
+                            border: InputBorder.none,
+                            suffixIcon: textController.text.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () {
+                                      textController.text = "";
+                                      textController.clear();
+                                      setState(() {
+                                        textBraille = "";
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.cancel,
+                                      color: globalProvider.pickerColor,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              textBraille = convertToBraillex(value);
+                            });
+                          },
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            textBraille = convertToBraillex(value);
-                          });
-                        },
                       ),
                     ),
-                  ),
-                  Stack(
-                    children: [
-                      Card(
-                        child: SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            width: double.infinity,
-                            height: 150,
-                            child: Text(
-                              textBraille,
-                              style: textTheme.bodySmall!.copyWith(
-                                fontSize: 20,
-                                color: globalProvider.pickerColor,
-                                fontWeight: FontWeight.bold,
+                    Stack(
+                      children: [
+                        Card(
+                          child: SingleChildScrollView(
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              width: double.infinity,
+                              child: TextField(
+                                readOnly: true,
+                                maxLines: 8,
+                                controller: TextEditingController(
+                                  text: textBraille,
+                                ),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                style: textTheme.bodySmall!.copyWith(
+                                  fontSize: 20,
+                                  color: globalProvider.pickerColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Traducción en Braille",
-                              style: textTheme.titleMedium!.copyWith(
-                                fontSize: 13,
-                                color:
-                                    globalProvider.pickerColor.withOpacity(0.7),
-                                fontWeight: FontWeight.w400,
+                        Positioned(
+                          child: Row(
+                            children: [
+                              Text(
+                                "Traducción en Braille",
+                                style: textTheme.titleMedium!.copyWith(
+                                  fontSize: 13,
+                                  color: globalProvider.pickerColor
+                                      .withOpacity(0.7),
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 5),
-                            textBraille.isEmpty
-                                ? SizedBox()
-                                : IconButton(
-                                    onPressed: () async {
-                                      await Clipboard.setData(
-                                          ClipboardData(text: textBraille));
+                              SizedBox(width: 5),
+                              textBraille.isEmpty
+                                  ? SizedBox()
+                                  : IconButton(
+                                      onPressed: () async {
+                                        await Clipboard.setData(
+                                            ClipboardData(text: textBraille));
 
-                                      globalProvider.showSnackBar(
-                                        backgroundColor: Colors.green,
-                                        context,
-                                        "Texto copiado al portapapeles",
-                                      );
-                                    },
-                                    icon: Icon(
-                                      Icons.copy,
-                                      color: globalProvider.pickerColor,
+                                        globalProvider.showSnackBar(
+                                          backgroundColor: Colors.green,
+                                          context,
+                                          "Texto copiado al portapapeles",
+                                        );
+                                      },
+                                      icon: Icon(
+                                        Icons.copy,
+                                        color: globalProvider.pickerColor,
+                                      ),
                                     ),
-                                  ),
-                          ],
+                            ],
+                          ),
+                          bottom: 10,
+                          right: 10,
                         ),
-                        bottom: 10,
-                        right: 10,
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
               BannerWidgetPositioned(),
             ],
