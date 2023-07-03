@@ -63,5 +63,14 @@ final appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: '/print_pdf_page',
+      pageBuilder: (context, state) {
+        return fadeInTransition(
+          child: PrintPdfPage(),
+          duration: const Duration(milliseconds: 1000),
+        );
+      },
+    ),
   ],
 );

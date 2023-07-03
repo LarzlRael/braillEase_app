@@ -45,6 +45,10 @@ dependencies:
   google_mobile_ads: ^3.0.0
   shared_preferences: ^2.1.2
   speech_to_text: ^6.3.0
+  pdf: ^3.10.4
+  path_provider: ^2.0.15
+  open_file: ^3.3.2
+  printing: ^5.11.0
 
 flutter_native_splash:
   color: '#ffffff'
@@ -95,6 +99,7 @@ flutter:
   assets:
     - assets/
     - .env
+    - assets/dejavu_sans.ttf
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

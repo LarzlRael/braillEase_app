@@ -13,6 +13,7 @@ class TranslatePage extends StatefulWidget {
 
 class _TranslatePageState extends State<TranslatePage> {
   late GlobalProvider globalProvider;
+  late BraileProvider braileProvider;
   TextEditingController textController = TextEditingController();
   bool isSwitched = false;
   String textBraille = "";
@@ -27,6 +28,7 @@ class _TranslatePageState extends State<TranslatePage> {
     super.initState();
     globalProvider = Provider.of<GlobalProvider>(context, listen: false);
     _initSpeech();
+    braileProvider = Provider.of<BraileProvider>(context, listen: false);
   }
 
   /// This has to happen only once per app
@@ -68,11 +70,16 @@ class _TranslatePageState extends State<TranslatePage> {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed:
-            // If not yet listening for speech start, otherwise stop
-            _speechToText.isNotListening ? _startListening : _stopListening,
-        tooltip: 'Listen',
-        child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
+        onPressed: () async {
+          /*  await createAndDownloadPdf(
+            textBraille,
+            braileProvider.selectedPagesSizes.pageFormat,
+          ); */
+          braileProvider.setBraileConverted = textBraille;
+          context.push('/print_pdf_page');
+        },
+        tooltip: 'Crear pdf',
+        child: Icon(Icons.picture_as_pdf),
       ),
       body: SafeArea(
         child: Container(
