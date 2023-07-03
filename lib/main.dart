@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => GlobalProvider()),
-        ChangeNotifierProvider(create: (_) => AdProvider()),
       ],
       child: MaterialApp.router(
         title: appName,

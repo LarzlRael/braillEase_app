@@ -13,11 +13,10 @@ CustomTransitionPage<dynamic> fadeInTransition({
       animation,
       secondaryAnimation,
       child,
-    ) {
-      return FadeTransition(
-        opacity: animation,
-        child: child,
-      );
-    },
+    ) =>
+        FadeTransition(
+      opacity: animation,
+      child: child,
+    ),
   );
 }

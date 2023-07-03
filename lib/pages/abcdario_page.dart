@@ -1,18 +1,24 @@
 part of 'pages.dart';
 
-class AbcdarioPage extends StatelessWidget {
+class AbcdarioPage extends StatefulWidget {
   final PageRouteParams pageArgs;
   const AbcdarioPage({super.key, required this.pageArgs});
+
+  @override
+  State<AbcdarioPage> createState() => _AbcdarioPageState();
+}
+
+class _AbcdarioPageState extends State<AbcdarioPage> {
   @override
   Widget build(BuildContext context) {
     final globalProvider = context.read<GlobalProvider>();
-    final listGenerate = getLetterConverted(pageArgs.phase);
+    final listGenerate = getLetterConverted(widget.pageArgs.phase);
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             CustomAppbar(
-              titlePage: pageArgs.titlePage,
+              titlePage: widget.pageArgs.titlePage,
             ),
             Expanded(
               child: GridView.builder(
@@ -24,9 +30,9 @@ class AbcdarioPage extends StatelessWidget {
                       (MediaQuery.of(context).size.height / 1.15),
                 ),
                 shrinkWrap: true,
-                itemCount: pageArgs.phase.length,
+                itemCount: widget.pageArgs.phase.length,
                 itemBuilder: (_, int index) {
-                  final letter = pageArgs.phase[index];
+                  final letter = widget.pageArgs.phase[index];
                   final listGenerated = listGenerate[index];
                   return BraileLetterCard(
                     globalProvider: globalProvider,

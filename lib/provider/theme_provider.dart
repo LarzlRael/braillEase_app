@@ -28,13 +28,13 @@ class ThemeProviderNotifier extends ChangeNotifier {
     _appTheme = _appTheme.copyWith(
       isDarkMode: false,
     );
-    notifyListeners(); // Notificar a los oyentes del cambio de estado
+    notifyListeners();
   }
 
   void changeToDarkTheme() {
     _appTheme = _appTheme.copyWith(
       isDarkMode: false,
     );
-    notifyListeners(); // Notificar a los oyentes del cambio de estado
+    notifyListeners();
   }
 }

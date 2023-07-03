@@ -13,8 +13,9 @@ class UserPreferences {
   static set isDarkModeEnabled(bool value) =>
       _prefs.setBool('isDarkTheme', value);
 
-  static int get getPickerColor =>
+  static int? get getPickerColor =>
       _prefs.getInt('pickerColor') ?? Colors.blue.value;
   static set setPickerColor(int colorValue) =>
       _prefs.setInt('pickerColor', colorValue);
+  /* 4292030255 */
 }

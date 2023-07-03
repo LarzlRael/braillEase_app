@@ -1,6 +1,14 @@
 part of 'providers.dart';
 
 class GlobalProvider extends ChangeNotifier {
+  late Color _pickerColor;
+  Color _currentColor = Colors.pink;
+
+  GlobalProvider() {
+    _pickerColor = UserPreferences.getPickerColor == null
+        ? Colors.blue
+        : Color(UserPreferences.getPickerColor!);
+  }
   void showSnackBar(
     BuildContext context,
     String message, {
@@ -16,11 +24,11 @@ class GlobalProvider extends ChangeNotifier {
     );
   }
 
-  Color _pickerColor = Colors.blue;
-  Color _currentColor = Colors.pink;
-
   Color get pickerColor => _pickerColor;
-  Color get currentColor => _currentColor;
+  Color get currentColor {
+    return _currentColor;
+  }
+
   set pickerColor(Color color) {
     _pickerColor = color;
     notifyListeners();

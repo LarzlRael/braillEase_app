@@ -21,6 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
 // ValueChanged<Color> callback
   void changeColor(Color color) {
     globalProvider.pickerColor = color;
+    UserPreferences.setPickerColor = color.value;
   }
 
   @override
@@ -48,42 +49,15 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Escoge un color'),
-                        content: SingleChildScrollView(
-                          child: MaterialPicker(
-                            pickerColor: globalProvider.pickerColor,
-                            onColorChanged: changeColor,
-                            /* showLabel: true,
-                                    pickerAreaHeightPercent: 0.8, */
-                          ),
-                        ),
-                        actions: [
-                          TextButton(
-                            child: const Text('OK'),
-                            onPressed: () {
-                              globalProvider.currentColor =
-                                  globalProvider.pickerColor;
-                              context.pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  showPickerColor();
                 },
                 title: Text('Color actual'),
-                leading: GestureDetector(
-                  child: Container(
-                    width: 25,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      color: globalProvider.pickerColor,
-                      shape: BoxShape.circle,
-                    ),
+                leading: Container(
+                  width: 25,
+                  height: 25,
+                  decoration: BoxDecoration(
+                    color: globalProvider.pickerColor,
+                    shape: BoxShape.circle,
                   ),
                 ),
               )
@@ -91,6 +65,34 @@ class _SettingsPageState extends State<SettingsPage> {
           );
         },
       ),
+    );
+  }
+
+  showPickerColor() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Escoge un color'),
+          content: SingleChildScrollView(
+            child: MaterialPicker(
+              pickerColor: globalProvider.pickerColor,
+              onColorChanged: changeColor,
+              /* showLabel: true,
+                                    pickerAreaHeightPercent: 0.8, */
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                globalProvider.currentColor = globalProvider.pickerColor;
+                context.pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
