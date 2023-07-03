@@ -44,6 +44,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   google_mobile_ads: ^3.0.0
   shared_preferences: ^2.1.2
+  speech_to_text: ^6.3.0
 
 flutter_native_splash:
   color: '#ffffff'
