@@ -8,7 +8,13 @@ class UserPreferences {
     _prefs = await SharedPreferences.getInstance();
   }
 
-/* Theme status */
+  static bool get isFirstTime => _prefs.getBool('isFirstTime') ?? true;
+
+  static set isFirstTime(bool value) {
+    _prefs.setBool('isFirstTime', value);
+  }
+
+  /* Theme status */
   static bool get isDarkModeEnabled => _prefs.getBool('isDarkTheme') ?? false;
   static set isDarkModeEnabled(bool value) =>
       _prefs.setBool('isDarkTheme', value);

@@ -69,19 +69,21 @@ class _TranslatePageState extends State<TranslatePage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text('Crear PDF'),
-        icon: Icon(Icons.picture_as_pdf_rounded),
-        onPressed: () async {
-          /*  await createAndDownloadPdf(
+      floatingActionButton: textController.text.isNotEmpty
+          ? FloatingActionButton.extended(
+              label: Text('Crear PDF'),
+              icon: Icon(Icons.picture_as_pdf_rounded),
+              onPressed: () async {
+                /*  await createAndDownloadPdf(
             textBraille,
             braileProvider.selectedPagesSizes.pageFormat,
           ); */
-          braileProvider.setBraileConverted = textBraille;
-          context.push('/print_pdf_page');
-        },
-        tooltip: 'Crear pdf',
-      ),
+                braileProvider.setBraileConverted = textBraille;
+                context.push('/print_pdf_page');
+              },
+              tooltip: 'Crear pdf',
+            )
+          : null,
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -95,6 +97,18 @@ class _TranslatePageState extends State<TranslatePage> {
                   children: [
                     CustomAppbar(
                       titlePage: widget.titlePage.titlePage,
+                      actions: [
+                        IconButton(
+                          onPressed: _speechToText.isNotListening
+                              ? _startListening
+                              : _stopListening,
+                          icon: Icon(
+                            _speechToText.isNotListening
+                                ? Icons.mic_off
+                                : Icons.mic,
+                          ),
+                        ),
+                      ],
                     ),
                     Card(
                       child: Padding(

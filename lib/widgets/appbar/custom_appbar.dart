@@ -2,11 +2,12 @@ part of '../widgets.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String titlePage;
-
-  const CustomAppbar({super.key, required this.titlePage});
+  final List<Widget>? actions;
+  const CustomAppbar({super.key, required this.titlePage, this.actions});
   @override
   Widget build(BuildContext context) {
     return Row(
+      /* mainAxisAlignment: MainAxisAlignment.spaceBetween, */
       children: [
         IconButton(
           onPressed: context.pop,
@@ -19,6 +20,8 @@ class CustomAppbar extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
+        Spacer(),
+        if (actions != null) ...actions!,
       ],
     );
   }

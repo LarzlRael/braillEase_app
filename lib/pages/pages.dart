@@ -21,3 +21,5 @@ part 'translate_page.dart';
 part 'settings_page.dart';
 part 'detail_letter_page.dart';
 part 'print_pdf_page.dart';
+part 'welcome_page.dart';
+part 'splash_screen_page.dart';

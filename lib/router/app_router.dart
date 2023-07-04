@@ -21,13 +21,21 @@ class DetailPageRouteParams {
 }
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/splash_screen',
   /* refreshListenable: goRouterNotifier, */
   routes: [
     ///* Primera pantalla
     GoRoute(
+      path: '/splash_screen',
+      builder: (context, state) => SplashScreenPage(),
+    ),
+    GoRoute(
       path: '/',
       builder: (context, state) => HomePage(),
+    ),
+    GoRoute(
+      path: '/welcome',
+      builder: (context, state) => WelcomePage(),
     ),
     GoRoute(
       path: '/abcdario',

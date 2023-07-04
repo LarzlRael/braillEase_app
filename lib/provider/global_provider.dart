@@ -3,6 +3,7 @@ part of 'providers.dart';
 class GlobalProvider extends ChangeNotifier {
   late Color _pickerColor;
   Color _currentColor = Colors.pink;
+  bool _isLastPageSlider = false;
 
   GlobalProvider() {
     _pickerColor = UserPreferences.getPickerColor == null
@@ -22,6 +23,13 @@ class GlobalProvider extends ChangeNotifier {
         backgroundColor: backgroundColor,
       ),
     );
+  }
+
+  bool get getIsLastPageSlider => _isLastPageSlider;
+
+  set setIsLastPageSlider(bool value) {
+    _isLastPageSlider = value;
+    notifyListeners();
   }
 
   Color get pickerColor => _pickerColor;
