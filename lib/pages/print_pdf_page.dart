@@ -18,39 +18,34 @@ class PrintPdfPage extends StatelessWidget {
     final braileProvider = Provider.of<BraileProvider>(context);
     final List<PagesSizes> pagesSizes = [
       PagesSizes(
-        sizeName: 'Letter',
-        size: '22cmx55cm',
+        sizeName: 'Carta',
+        size: '21.59cm x 27.94cm',
         pageFormat: PdfPageFormat.letter,
       ),
       PagesSizes(
         sizeName: 'Legal',
-        size: '22cmx55cm',
+        size: '21.59cm x 35.56cm',
         pageFormat: PdfPageFormat.legal,
       ),
       PagesSizes(
         sizeName: 'A4',
-        size: '22cmx55cm',
+        size: '21.0cm x 29.7cm',
         pageFormat: PdfPageFormat.a4,
       ),
       PagesSizes(
         sizeName: 'A5',
-        size: '22cmx55cm',
+        size: '14.8cm x 21.0cm',
         pageFormat: PdfPageFormat.a5,
       ),
       PagesSizes(
         sizeName: 'A6',
-        size: '22cmx55cm',
+        size: '10.5cm x 14.8cm',
         pageFormat: PdfPageFormat.a6,
       ),
-      /* PagesSizes(
-        sizeName: 'Ledger',
-        size: '22cmx55cm',
-        pageFormat: PdfPageFormat.ledger,
-      ), */
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text("Selecciona el tamaño")),
+      appBar: AppBar(title: Text("Selecciona el tamaño del papel")),
       body: Container(
         child: Center(
           child: ListView.builder(

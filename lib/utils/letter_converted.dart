@@ -186,6 +186,8 @@ Map<String, String> brailleAllSymbolMap = {
   '\'': '⠄',
   '♂': '⠪',
   '♀': '⠳',
+  '\n': '\n',
+  '\t': '\t',
 };
 
 String convertToBraillex(String word) {

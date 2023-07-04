@@ -11,7 +11,7 @@ import 'env/environment_variables.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
-  await Enviroment.initEnviroment();
+  await Environment.initEnviroment();
   await UserPreferences.init();
   return runApp(
     ChangeNotifierProvider(
