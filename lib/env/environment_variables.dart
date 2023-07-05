@@ -9,6 +9,6 @@ class Environment {
 
   static String admobBanner =
       dotenv.env['ADMOB_BANNER'] ?? 'No está configurado el banner ID';
-  static String admobIntersitial =
-      dotenv.env['ADMOB_INTERSITIAL'] ?? 'No está configurado el banner ID';
+  static String admobIntersitial = dotenv.env['ADMOB_INTERSITIAL'] ??
+      'No está configurado el ADMOB_INTERSITIAL';
 }

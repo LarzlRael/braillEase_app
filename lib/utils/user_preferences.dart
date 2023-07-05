@@ -23,5 +23,11 @@ class UserPreferences {
       _prefs.getInt('pickerColor') ?? Colors.blue.value;
   static set setPickerColor(int colorValue) =>
       _prefs.setInt('pickerColor', colorValue);
-  /* 4292030255 */
+
+  static int get getCountIntersitialAd =>
+      _prefs.getInt('countIntersitialAd') ?? 0;
+
+  static set setCountInterstialAd(int value) {
+    _prefs.setInt('countIntersitialAd', value);
+  }
 }

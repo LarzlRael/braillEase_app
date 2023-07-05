@@ -16,6 +16,7 @@ class PrintPdfPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final braileProvider = Provider.of<BraileProvider>(context);
+    final textTheme = Theme.of(context).textTheme;
     final List<PagesSizes> pagesSizes = [
       PagesSizes(
         sizeName: 'Carta',
@@ -45,7 +46,7 @@ class PrintPdfPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text("Selecciona el tamaño del papel")),
+      appBar: AppBar(title: Text("Selecciona tamaño")),
       body: Container(
         child: Center(
           child: ListView.builder(
@@ -61,7 +62,10 @@ class PrintPdfPage extends StatelessWidget {
                 },
                 title: Text(pagesSizes[index].sizeName),
                 leading: Icon(Icons.content_copy),
-                subtitle: Text(pagesSizes[index].size),
+                subtitle: Text(
+                  pagesSizes[index].size,
+                  style: textTheme.labelMedium,
+                ),
               );
             },
           ),

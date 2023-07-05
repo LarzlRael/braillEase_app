@@ -36,3 +36,14 @@ void loadIntersitialAd(InterstitialAd interstitialAd) {
     ),
   );
 }
+
+bool addCounterIntersitialAd() {
+  const MAXCOUNT = 4;
+  UserPreferences.setCountInterstialAd =
+      UserPreferences.getCountIntersitialAd + 1;
+  if (UserPreferences.getCountIntersitialAd == MAXCOUNT) {
+    UserPreferences.setCountInterstialAd = 0;
+    return true;
+  }
+  return false;
+}

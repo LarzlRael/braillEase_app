@@ -26,7 +26,7 @@ class _TranslatePageState extends State<TranslatePage> {
 
   void loadAd() {
     InterstitialAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/1033173712",
+        adUnitId: Environment.admobIntersitial,
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           // Called when an ad is successfully received.
@@ -63,8 +63,8 @@ class _TranslatePageState extends State<TranslatePage> {
   @override
   initState() {
     super.initState();
-    globalProvider = Provider.of<GlobalProvider>(context, listen: false);
-    braileProvider = Provider.of<BraileProvider>(context, listen: false);
+    globalProvider = context.read<GlobalProvider>();
+    braileProvider = context.read<BraileProvider>();
     /* loadIntersitialAd(interstitialAd); */
     loadAd();
     _initSpeech();
@@ -94,6 +94,13 @@ class _TranslatePageState extends State<TranslatePage> {
     setState(() {});
   }
 
+  @override
+  void dispose() {
+    _speechToText.cancel();
+    interstitialAd!.dispose();
+    super.dispose();
+  }
+
   /// This is the callback that the SpeechToText plugin calls when
   /// the platform returns recognized words.
   void _onSpeechResult(SpeechRecognitionResult result) {
@@ -113,9 +120,10 @@ class _TranslatePageState extends State<TranslatePage> {
               label: Text('Crear PDF'),
               icon: Icon(Icons.picture_as_pdf_rounded),
               onPressed: () {
-                interstitialAd!.show();
-                loadAd();
-
+                if (addCounterIntersitialAd()) {
+                  interstitialAd!.show();
+                  loadAd();
+                }
                 braileProvider.setBraileConverted = textBraille;
                 context.push('/print_pdf_page');
               },
@@ -137,9 +145,11 @@ class _TranslatePageState extends State<TranslatePage> {
                       titlePage: widget.titlePage.titlePage,
                       actions: [
                         IconButton(
-                          onPressed: _speechToText.isNotListening
-                              ? _startListening
-                              : _stopListening,
+                          onPressed: () async {
+                            await _speechToText.isNotListening
+                                ? _startListening()
+                                : _stopListening();
+                          },
                           icon: Icon(
                             _speechToText.isNotListening
                                 ? Icons.mic_off
