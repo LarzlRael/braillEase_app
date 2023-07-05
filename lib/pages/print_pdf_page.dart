@@ -61,7 +61,7 @@ class PrintPdfPage extends StatelessWidget {
                   );
                 },
                 title: Text(pagesSizes[index].sizeName),
-                leading: Icon(Icons.content_copy),
+                leading: Icon(FontAwesomeIcons.filePdf),
                 subtitle: Text(
                   pagesSizes[index].size,
                   style: textTheme.labelMedium,
