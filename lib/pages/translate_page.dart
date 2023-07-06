@@ -66,6 +66,8 @@ class _TranslatePageState extends State<TranslatePage> {
     globalProvider = context.read<GlobalProvider>();
     braileProvider = context.read<BraileProvider>();
     /* loadIntersitialAd(interstitialAd); */
+    textController.text = braileProvider.getNormalText;
+    textBraille = convertToBraillex(textController.text);
     loadAd();
     _initSpeech();
   }
@@ -97,7 +99,10 @@ class _TranslatePageState extends State<TranslatePage> {
   @override
   void dispose() {
     _speechToText.cancel();
-    interstitialAd!.dispose();
+    if (interstitialAd != null) {
+      interstitialAd!.dispose();
+    }
+
     super.dispose();
   }
 
@@ -114,6 +119,7 @@ class _TranslatePageState extends State<TranslatePage> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    /* textController.text = braileProvider.getNormalText; */
     return Scaffold(
       floatingActionButton: textController.text.isNotEmpty
           ? FloatingActionButton.extended(
@@ -163,7 +169,12 @@ class _TranslatePageState extends State<TranslatePage> {
                         padding: EdgeInsets.all(8.0),
                         child: TextField(
                           controller: textController,
-                          maxLines: 8,
+                          maxLines: 7,
+                          style: textTheme.bodySmall!.copyWith(
+                            fontSize: 20,
+                            color: globalProvider.pickerColor,
+                            fontWeight: FontWeight.normal,
+                          ),
                           decoration: InputDecoration(
                             hintText: "Ingrese su texto aquí",
                             border: InputBorder.none,
@@ -186,6 +197,7 @@ class _TranslatePageState extends State<TranslatePage> {
                           onChanged: (value) {
                             setState(() {
                               textBraille = convertToBraillex(value);
+                              braileProvider.setNormalText = value;
                             });
                           },
                         ),
@@ -200,7 +212,7 @@ class _TranslatePageState extends State<TranslatePage> {
                               width: double.infinity,
                               child: TextField(
                                 readOnly: true,
-                                maxLines: 8,
+                                maxLines: 7,
                                 controller: TextEditingController(
                                   text: textBraille,
                                 ),
@@ -208,7 +220,7 @@ class _TranslatePageState extends State<TranslatePage> {
                                   border: InputBorder.none,
                                 ),
                                 style: textTheme.bodySmall!.copyWith(
-                                  fontSize: 20,
+                                  fontSize: 25,
                                   color: globalProvider.pickerColor,
                                   fontWeight: FontWeight.bold,
                                 ),

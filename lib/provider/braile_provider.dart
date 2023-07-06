@@ -3,6 +3,7 @@ part of 'providers.dart';
 class BraileProvider with ChangeNotifier {
   late PagesSizes _selectedPagesSizes;
   late String braileConverted;
+  String _normalText = '';
 
   set setBraileConverted(String braile) {
     braileConverted = braile;
@@ -16,4 +17,11 @@ class BraileProvider with ChangeNotifier {
   }
 
   PagesSizes get selectedPagesSizes => _selectedPagesSizes;
+
+  set setNormalText(String normalText) {
+    _normalText = normalText;
+    notifyListeners();
+  }
+
+  String get getNormalText => _normalText;
 }

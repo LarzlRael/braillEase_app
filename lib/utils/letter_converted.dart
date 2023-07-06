@@ -1,6 +1,6 @@
 part of 'utils.dart';
 
-final brailleMap = {
+const brailleMap = {
   'a': [true, false, false, false, false, false],
   'b': [true, false, true, false, false, false],
   'c': [true, true, false, false, false, false],
@@ -9,27 +9,34 @@ final brailleMap = {
   'f': [true, true, true, false, false, false],
   'g': [true, true, true, true, false, false],
   'h': [true, false, true, true, false, false],
-  'i': [false, true, false, true, false, false],
-  'j': [false, true, false, true, true, false],
-  'k': [true, false, false, false, false, true],
-  'l': [true, false, true, false, false, true],
-  'm': [true, true, false, false, false, true],
-  'n': [true, true, false, true, false, true],
-  'ñ': [true, true, true, false, false, true],
-  'o': [true, false, false, true, false, true],
-  'p': [true, true, true, true, false, true],
-  'q': [true, true, true, true, true, true],
-  'r': [true, false, true, true, true, true],
-  's': [false, true, true, true, false, true],
-  't': [false, true, true, true, true, true],
+  'i': [false, true, true, false, false, false],
+  'j': [false, true, true, true, false, false],
+  'k': [true, false, false, false, true, false],
+  'l': [true, false, true, false, true, false],
+  'm': [true, true, false, false, true, false],
+  'n': [true, true, false, true, true, false],
+  'ñ': [
+    true,
+    false,
+    false,
+    false,
+    true,
+    true
+  ], // Corregido: La 'ñ' se representa como [true, false, false, false, true, true]
+  'o': [true, false, false, true, true, false],
+  'p': [true, true, true, false, true, false],
+  'q': [true, true, true, true, true, false],
+  'r': [true, false, true, true, true, false],
+  's': [false, true, true, false, true, false],
+  't': [false, true, true, true, true, false],
   'u': [true, false, false, false, true, true],
   'v': [true, false, true, false, true, true],
-  'w': [false, true, true, true, false, false],
+  'w': [false, true, true, true, false, true],
   'x': [true, true, false, false, true, true],
   'y': [true, true, false, true, true, true],
   'z': [true, false, false, true, true, true],
   ' ': [false, false, false, false, false, false], // Espacio en blanco
-  '0': [false, true, true, false, false, false],
+  '0': [false, true, true, true, false, false],
   '1': [true, false, false, false, false, false],
   '2': [true, false, true, false, false, false],
   '3': [true, true, false, false, false, false],
@@ -49,9 +56,9 @@ final brailleMap = {
   '"': [false, false, false, true, false, true], // Comillas dobles
   '(': [false, true, false, true, true, false], // Paréntesis izquierdo
   ')': [false, true, true, false, true, true], // Paréntesis derecho
-  '[': [false, true, true, true, true, true], // Corchete izquierdo
+  '[': [false, false, true, true, true, true], // Corchete izquierdo
   ']': [false, true, true, true, true, true], // Corchete derecho
-  '{': [false, true, true, true, true, true], // Llave izquierda
+  '{': [false, false, true, true, true, true], // Llave izquierda
   '}': [false, true, true, true, true, true], // Llave derecha
   '-': [false, false, false, false, true, true], // Guión
   '/': [false, false, true, true, false, true], // Barra diagonal
@@ -221,9 +228,6 @@ String cleanWord(String word) {
 }
 
 List<List<bool>> getLetterConverted(String word) {
-/*   String cleanedWord = validateAndCleanWord(word);
-  cleanedWord = cleanWord(cleanedWord); */
-
   final brailleWord = <List<bool>>[];
 
   for (var i = 0; i < word.length; i++) {

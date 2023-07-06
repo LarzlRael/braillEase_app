@@ -20,3 +20,9 @@ bool isInAlphabet(String character) {
   final regex = RegExp(pattern);
   return regex.hasMatch(character);
 }
+
+String textInAlphabet(String character) {
+  return isInAlphabet(character)
+      ? character + " - " + character.toUpperCase()
+      : character;
+}

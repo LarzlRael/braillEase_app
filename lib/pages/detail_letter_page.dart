@@ -10,6 +10,8 @@ class DetailLetterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final braileProvider = context.read<GlobalProvider>();
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(detailPageRouteParams.letter +
@@ -21,14 +23,34 @@ class DetailLetterPage extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Container(
-                margin: EdgeInsets.all(25),
-                child: Hero(
-                  tag: detailPageRouteParams.letter,
+              child: Hero(
+                tag: detailPageRouteParams.letter,
+                child: Container(
+                  height: size.height * 0.80,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.10,
+                    vertical: size.height * 0.05,
+                  ),
                   child: Card(
                     color: braileProvider.pickerColor,
-                    child: LetterBraile(
+                    /* child: LetterBraile(
                       word: detailPageRouteParams.listGenerated,
+                    ), */
+                    child: Column(
+                      children: [
+                        LetterBraile(
+                          word: detailPageRouteParams.listGenerated,
+                        ),
+                        line(),
+                        Text(
+                          textInAlphabet(detailPageRouteParams.letter),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
