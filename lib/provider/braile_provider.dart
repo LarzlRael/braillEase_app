@@ -5,13 +5,6 @@ class BraileProvider with ChangeNotifier {
   late String braileConverted;
   Color pickerTextColor = Colors.black;
   String _normalText = '';
-  List<bool> word = [false, false, false, false, false, false];
-
-  List<bool> get getWord => word;
-  set setWord(List<bool> word) {
-    this.word = word;
-    notifyListeners();
-  }
 
   Color get getPickerTextColor => pickerTextColor;
   set setPickerTextColor(Color color) {

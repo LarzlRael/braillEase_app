@@ -21,12 +21,13 @@ class _LetterBraileCreatorState extends State<LetterBraileCreator> {
   @override
   void initState() {
     super.initState();
-    if (widget.params != null) {
-      word = widget.params!;
-    } else {
-      word = [false, false, false, false, false, false];
-    }
-    setState(() {});
+    setState(() {
+      if (widget.params != null) {
+        word = widget.params!;
+      } else {
+        word = [false, false, false, false, false, false];
+      }
+    });
   }
 
   /* List<bool> word = [false, false, false, false, false, false]; */

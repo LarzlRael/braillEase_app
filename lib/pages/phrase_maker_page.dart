@@ -77,10 +77,12 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
       context: context,
       builder: (BuildContext context) {
         String wordToShow = '';
+        final size = MediaQuery.of(context).size;
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             void handleWordChanged(List<bool> word) {
               // Lógica para manejar el array actualizado
+
               brailleMap.forEach((character, array) {
                 if (listEquals(array, word)) {
                   setState(() {
@@ -94,9 +96,9 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
               title: Row(
                 children: [
                   Icon(Icons.add),
-                  SizedBox(width: 5),
+                  SizedBox(width: 10),
                   Text(
-                    'Agregar: $wordToShow',
+                    'Agregar : $wordToShow',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -128,8 +130,9 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                 ),
               ),
               actions: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.apps_rounded)),
-                IconButton(onPressed: () {}, icon: Icon(Icons.backspace)),
+                /*  IconButton(
+                    onPressed: () {}, icon: Icon(Icons.more_vert_outlined)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.cancel)), */
                 TextButton(
                   child: const Text('OK'),
                   onPressed: () {
