@@ -24,6 +24,8 @@ class _TranslatePageState extends State<TranslatePage> {
   bool _speechEnabled = false;
   String _lastWords = '';
 
+  double fontSize = 20;
+
   void loadAd() {
     InterstitialAd.load(
         adUnitId: Environment.admobIntersitial,
@@ -164,6 +166,24 @@ class _TranslatePageState extends State<TranslatePage> {
                         ),
                       ],
                     ),
+                    /* Row(
+                      children: [
+                        Expanded(
+                          child: Slider(
+                            label: "Tamaño de letra",
+                            value: fontSize,
+                            max: 50,
+                            min: 10,
+                            onChanged: (value) {
+                              setState(() {
+                                fontSize = value;
+                              });
+                            },
+                          ),
+                        ),
+                        PickColorButton(),
+                      ],
+                    ), */
                     Card(
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -171,7 +191,8 @@ class _TranslatePageState extends State<TranslatePage> {
                           controller: textController,
                           maxLines: 7,
                           style: textTheme.bodySmall!.copyWith(
-                            fontSize: 20,
+                            fontSize: fontSize,
+                            /* color: braileProvider.getPickerTextColor, */
                             color: globalProvider.pickerColor,
                             fontWeight: FontWeight.normal,
                           ),
@@ -220,7 +241,8 @@ class _TranslatePageState extends State<TranslatePage> {
                                   border: InputBorder.none,
                                 ),
                                 style: textTheme.bodySmall!.copyWith(
-                                  fontSize: 25,
+                                  fontSize: fontSize + 5,
+                                  /* color: braileProvider.getPickerTextColor, */
                                   color: globalProvider.pickerColor,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -249,7 +271,7 @@ class _TranslatePageState extends State<TranslatePage> {
                                             ClipboardData(text: textBraille));
 
                                         globalProvider.showSnackBar(
-                                          backgroundColor: Colors.green,
+                                          backgroundColor: Colors.blue,
                                           context,
                                           "Texto copiado al portapapeles",
                                         );

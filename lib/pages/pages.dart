@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -26,3 +27,4 @@ part 'detail_letter_page.dart';
 part 'print_pdf_page.dart';
 part 'welcome_page.dart';
 part 'splash_screen_page.dart';
+part 'phrase_maker_page.dart';

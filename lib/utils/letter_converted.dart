@@ -37,7 +37,7 @@ const brailleMap = {
   'z': [true, false, false, true, true, true],
   ' ': [false, false, false, false, false, false], // Espacio en blanco
   '0': [false, true, true, true, false, false],
-  '1': [true, false, false, false, false, false],
+  /* '1': [true, false, false, false, false, false],
   '2': [true, false, true, false, false, false],
   '3': [true, true, false, false, false, false],
   '4': [true, true, false, true, false, false],
@@ -45,7 +45,7 @@ const brailleMap = {
   '6': [true, true, true, false, false, false],
   '7': [true, true, true, true, false, false],
   '8': [true, false, true, true, false, false],
-  '9': [false, true, false, true, false, false],
+  '9': [false, true, false, true, false, false], */
   '.': [false, false, true, true, true, true], // Punto
   ',': [false, true, false, false, false, false], // Coma
   ';': [false, true, true, false, false, true], // Punto y coma

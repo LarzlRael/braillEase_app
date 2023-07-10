@@ -114,3 +114,55 @@ class BraileLetterCard extends StatelessWidget {
     );
   }
 }
+
+class BraileLetterCardPickeed extends StatelessWidget {
+  const BraileLetterCardPickeed({
+    super.key,
+    required this.globalProvider,
+    required this.listGenerated,
+    required this.letter,
+  });
+
+  final GlobalProvider globalProvider;
+  final List<bool> listGenerated;
+  final String letter;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+          /* boxShadow: [
+          BoxShadow(
+            color: globalProvider.pickerColor.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: const Offset(1, .2),
+          ),
+        ], */
+          ),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        elevation: 0,
+        color: globalProvider.pickerColor,
+        child: Column(
+          children: [
+            LetterBraile(
+              word: listGenerated,
+            ),
+            line(),
+            Text(
+              textInAlphabet(letter),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

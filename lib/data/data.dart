@@ -24,7 +24,7 @@ final items = [
     Color(0xff6989F5),
     Color(0xff906EF5),
     '/abcdario',
-    'abcdefghijklmnopqrstuvwxyz',
+    'abcdefghijklmnñopqrstuvwxyz',
   ),
   ItemBoton(
     Icons.numbers,
@@ -42,12 +42,12 @@ final items = [
     '/translate',
     'Traductor',
   ),
-  /* ItemBoton(
-    Icons.percent,
-    'Signos y símbolos',
+  ItemBoton(
+    Icons.book_online,
+    'phrase maker',
     Color(0xff317183),
     Color(0xff46997D),
-    '/abcdario',
+    '/phrase_maker',
     'Traductor',
-  ), */
+  ),
 ];

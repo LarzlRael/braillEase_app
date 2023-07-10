@@ -80,5 +80,14 @@ final appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: '/phrase_maker',
+      pageBuilder: (context, state) {
+        return fadeInTransition(
+          child: PhraseMakerPage(),
+          duration: const Duration(milliseconds: 250),
+        );
+      },
+    ),
   ],
 );

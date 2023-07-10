@@ -62,7 +62,12 @@ class HomePage extends StatelessWidget {
 
 class LetterBraile extends StatelessWidget {
   final List<bool> word;
-  LetterBraile({required this.word, Key? key}) : super(key: key);
+  final double? childAspectRatio;
+  LetterBraile({
+    required this.word,
+    Key? key,
+    this.childAspectRatio,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +78,7 @@ class LetterBraile extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
         crossAxisSpacing: 13,
+        childAspectRatio: childAspectRatio ?? 1,
         mainAxisSpacing: 13,
         children: List.generate(
           word.length,

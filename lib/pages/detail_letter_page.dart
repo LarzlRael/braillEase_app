@@ -26,11 +26,12 @@ class DetailLetterPage extends StatelessWidget {
               child: Hero(
                 tag: detailPageRouteParams.letter,
                 child: Container(
-                  height: size.height * 0.80,
-                  margin: EdgeInsets.symmetric(
+                  height: size.height * 0.40,
+                  width: size.width * 0.5,
+                  /* margin: EdgeInsets.symmetric(
                     horizontal: size.width * 0.10,
                     vertical: size.height * 0.05,
-                  ),
+                  ), */
                   child: Card(
                     color: braileProvider.pickerColor,
                     /* child: LetterBraile(
@@ -39,6 +40,7 @@ class DetailLetterPage extends StatelessWidget {
                     child: Column(
                       children: [
                         LetterBraile(
+                          childAspectRatio: 1.1,
                           word: detailPageRouteParams.listGenerated,
                         ),
                         line(),

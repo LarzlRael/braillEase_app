@@ -3,7 +3,14 @@ part of 'providers.dart';
 class BraileProvider with ChangeNotifier {
   late PagesSizes _selectedPagesSizes;
   late String braileConverted;
+  Color pickerTextColor = Colors.black;
   String _normalText = '';
+
+  Color get getPickerTextColor => pickerTextColor;
+  set setPickerTextColor(Color color) {
+    pickerTextColor = color;
+    notifyListeners();
+  }
 
   set setBraileConverted(String braile) {
     braileConverted = braile;
