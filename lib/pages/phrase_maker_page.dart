@@ -77,49 +77,71 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
       context: context,
       builder: (BuildContext context) {
         String wordToShow = '';
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            void handleWordChanged(List<bool> word) {
+              // Lógica para manejar el array actualizado
+              brailleMap.forEach((character, array) {
+                if (listEquals(array, word)) {
+                  setState(() {
+                    wordToShow = character;
+                  });
+                }
+              });
+            }
 
-        return AlertDialog(
-          title: const Text('Escoge un color'),
-          content: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              void handleWordChanged(List<bool> word) {
-                // Lógica para manejar el array actualizado
-
-                brailleMap.forEach((character, array) {
-                  if (listEquals(array, word)) {
-                    setState(() {
-                      wordToShow = character;
-                    });
-                  }
-                });
-              }
-
-              return Column(
+            return AlertDialog(
+              title: Row(
                 children: [
-                  Text('Palabra: $wordToShow'),
-                  Container(
-                    width: 200,
-                    height: 600,
-                    color: Colors.blue,
-                    child: LetterBraileCreator(
-                      onWordChanged: handleWordChanged,
+                  Icon(Icons.add),
+                  SizedBox(width: 5),
+                  Text(
+                    'Agregar: $wordToShow',
+                    style: TextStyle(
+                      fontSize: 18,
                     ),
                   ),
                 ],
-              );
-            },
-          ),
-          actions: [
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                setState(() {
-                  phrase += wordToShow;
-                });
-                context.pop();
-              },
-            ),
-          ],
+              ),
+              content: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                height: 300,
+                child: Column(
+                  children: [
+                    LetterBraileCreator(
+                      onWordChanged: handleWordChanged,
+                      childAspectRatio: 1.5,
+                    ),
+                    line(),
+                    Text(
+                      textInAlphabet(wordToShow),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                IconButton(onPressed: () {}, icon: Icon(Icons.apps_rounded)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.backspace)),
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    setState(() {
+                      phrase += wordToShow;
+                    });
+                    context.pop();
+                  },
+                ),
+              ],
+            );
+          },
         );
       },
     );
