@@ -24,3 +24,5 @@ part 'slideshow/slide_item.dart';
 part 'slideshow/slideshow.dart';
 
 part 'braille/braille_creator.dart';
+
+part '404/no_information.dart';

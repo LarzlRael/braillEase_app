@@ -32,42 +32,127 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
     final listGenerate = getLetterConverted(phrase);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialogPicker();
-        },
+        onPressed: showDialogPicker,
         child: Icon(Icons.add),
       ),
       appBar: AppBar(
         title: Text('Phrase Maker'),
-      ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
-          crossAxisSpacing: 1,
-          mainAxisSpacing: 1,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 1.15),
-        ),
-        shrinkWrap: true,
-        itemCount: listGenerate.length,
-        itemBuilder: (_, int index) {
-          final letter = phrase[index];
-          final listGenerated = listGenerate[index];
-          return GestureDetector(
-            onTap: () {
-              /* globalProvider.showSnackBar(
-                context,
-                letter,
-                backgroundColor: Colors.blue,
-              ); */
-            },
-            child: BraileLetterCardPickeed(
-              globalProvider: globalProvider,
-              listGenerated: listGenerated,
-              letter: letter,
+        actions: [
+          if (phrase.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  phrase = phrase.substring(0, phrase.length - 1);
+                });
+              },
+              icon: Icon(Icons.backspace),
             ),
-          );
-        },
+          if (phrase.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  phrase = "";
+                });
+              },
+              icon: Icon(Icons.cancel),
+            ),
+          if (phrase.isEmpty)
+            IconButton(
+              onPressed: () {
+                showDialogPicker();
+              },
+              icon: Icon(Icons.add),
+            ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * .65,
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  crossAxisSpacing: 1,
+                  mainAxisSpacing: 1,
+                  childAspectRatio: MediaQuery.of(context).size.width /
+                      (MediaQuery.of(context).size.height / 1.15),
+                ),
+                shrinkWrap: true,
+                itemCount: listGenerate.length,
+                itemBuilder: (_, int index) {
+                  final letter = phrase[index];
+                  final listGenerated = listGenerate[index];
+                  return GestureDetector(
+                    onTap: () {
+                      /* globalProvider.showSnackBar(
+                        context,
+                        letter,
+                        backgroundColor: Colors.blue,
+                      ); */
+                    },
+                    child: Stack(
+                      children: [
+                        BraileLetterCardPickeed(
+                          globalProvider: globalProvider,
+                          listGenerated: listGenerated,
+                          letter: letter,
+                        ),
+                        Positioned(
+                          top: -13,
+                          right: -13,
+                          child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                phrase = phrase.replaceFirst(letter, '');
+                              });
+                            },
+                            icon: Icon(
+                              Icons.cancel,
+                              size: 15,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            ListTile(
+              title: Container(
+                width: double.infinity,
+                child: Text(
+                  phrase,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                padding: EdgeInsets.all(10),
+              ),
+              trailing: IconButton(
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: phrase));
+
+                  globalProvider.showSnackBar(
+                    backgroundColor: Colors.blue,
+                    context,
+                    "Texto copiado al portapapeles",
+                  );
+                },
+                icon: phrase.isNotEmpty
+                    ? Icon(
+                        Icons.copy,
+                        color: globalProvider.pickerColor,
+                      )
+                    : SizedBox(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -79,7 +164,18 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
         String wordToShow = '';
 
         return AlertDialog(
-          title: const Text('Escoge un color'),
+          title: Row(
+            children: [
+              Icon(Icons.add),
+              SizedBox(width: 10),
+              Text(
+                'Agregar letra',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               void handleWordChanged(List<bool> word) {
@@ -94,29 +190,34 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                 });
               }
 
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                height: 300,
-                child: Column(
-                  children: [
-                    LetterBraileCreator(
-                      onWordChanged: handleWordChanged,
-                      childAspectRatio: 1.5,
+              return Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Provider.of<GlobalProvider>(context, listen: false)
+                          .pickerColor,
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    line(),
-                    Text(
-                      textInAlphabet(wordToShow),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      ),
+                    height: 300,
+                    child: Column(
+                      children: [
+                        LetterBraileCreator(
+                          onWordChanged: handleWordChanged,
+                          childAspectRatio: 1.5,
+                        ),
+                        line(),
+                        Text(
+                          textInAlphabet(wordToShow),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           ),
