@@ -13,7 +13,7 @@ class TranslatePage extends StatefulWidget {
 
 class _TranslatePageState extends State<TranslatePage> {
   late GlobalProvider globalProvider;
-  late BraileProvider braileProvider;
+  late BrailleProvider braileProvider;
   InterstitialAd? interstitialAd;
   TextEditingController textController = TextEditingController();
   bool isSwitched = false;
@@ -66,7 +66,7 @@ class _TranslatePageState extends State<TranslatePage> {
   initState() {
     super.initState();
     globalProvider = context.read<GlobalProvider>();
-    braileProvider = context.read<BraileProvider>();
+    braileProvider = context.read<BrailleProvider>();
     /* loadIntersitialAd(interstitialAd); */
     textController.text = braileProvider.getNormalText;
     textBraille = convertToBraillex(textController.text);

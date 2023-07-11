@@ -5,6 +5,14 @@ class GlobalProvider extends ChangeNotifier {
   Color _currentColor = Colors.pink;
   bool _isLastPageSlider = false;
 
+  String _phrase = "";
+
+  String get setPhrase => _phrase;
+  set setPhrase(String value) {
+    _phrase = value;
+    notifyListeners();
+  }
+
   GlobalProvider() {
     _pickerColor = UserPreferences.getPickerColor == null
         ? Colors.blue

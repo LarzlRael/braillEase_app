@@ -17,12 +17,13 @@ const brailleMap = {
   'n': [true, true, false, true, true, false],
   'ñ': [
     true,
-    false,
-    false,
+    true,
+    true,
+    true,
     false,
     true,
-    true
-  ], // Corregido: La 'ñ' se representa como [true, false, false, false, true, true]
+  ],
+  // Corregido: La 'ñ' se representa como [true, false, false, false, true, true]
   'o': [true, false, false, true, true, false],
   'p': [true, true, true, false, true, false],
   'q': [true, true, true, true, true, false],
@@ -37,7 +38,7 @@ const brailleMap = {
   'z': [true, false, false, true, true, true],
   ' ': [false, false, false, false, false, false], // Espacio en blanco
   '0': [false, true, true, true, false, false],
-  /* '1': [true, false, false, false, false, false],
+  '1': [true, false, false, false, false, false],
   '2': [true, false, true, false, false, false],
   '3': [true, true, false, false, false, false],
   '4': [true, true, false, true, false, false],
@@ -45,17 +46,17 @@ const brailleMap = {
   '6': [true, true, true, false, false, false],
   '7': [true, true, true, true, false, false],
   '8': [true, false, true, true, false, false],
-  '9': [false, true, false, true, false, false], */
-  '.': [false, false, true, true, true, true], // Punto
-  ',': [false, true, false, false, false, false], // Coma
-  ';': [false, true, true, false, false, true], // Punto y coma
-  ':': [false, true, false, true, false, true], // Dos puntos
-  '?': [false, true, true, false, true, false], // Signo de interrogación
-  '!': [false, true, true, true, true, false], // Signo de exclamación
+  '9': [false, true, false, true, false, false],
+  '.': [false, false, false, false, true, false], // Punto
+  ',': [false, false, true, false, false, false], // Coma
+  ';': [false, false, true, false, true, false], // Punto y coma
+  ':': [false, false, true, true, false, false], // Dos puntos
+  '?': [false, false, true, false, false, true], // Signo de interrogación
+  '!': [false, false, true, true, true, false], // Signo de exclamación
   "'": [false, false, false, true, false, false], // Comilla simple
-  '"': [false, false, false, true, false, true], // Comillas dobles
-  '(': [false, true, false, true, true, false], // Paréntesis izquierdo
-  ')': [false, true, true, false, true, true], // Paréntesis derecho
+  '"': [false, false, true, false, true, true], // Comillas dobles
+  '(': [true, false, true, false, false, true], // Paréntesis izquierdo
+  ')': [false, true, false, true, true, false], // Paréntesis derecho
   '[': [false, false, true, true, true, true], // Corchete izquierdo
   ']': [false, true, true, true, true, true], // Corchete derecho
   '{': [false, false, true, true, true, true], // Llave izquierda
@@ -71,13 +72,7 @@ const brailleMap = {
   '#': [false, true, false, false, true, false], // Numeral
   '@': [false, true, true, true, false, true], // Arroba
   '\$': [false, true, true, false, false, true], // Signo de dólar
-  '€': [false, false, true, true, true, true], // Euro
-  '£': [false, true, false, true, true, true], // Libra esterlina
-  '¥': [false, true, false, false, true, true], // Yen
-  '¢': [false, false, false, true, true, true], // Centavo
-  '®': [false, true, true, false, true, false], // Registrado
-  '©': [false, true, true, false, true, true], // Copyright
-  '™': [false, true, true, true, false, true], // Marca comercial
+
   '°': [false, true, false, false, false, true], // Grado
   '§': [false, true, false, true, false, false], // Sección
   '&': [false, true, true, true, false, false], // Ampersand

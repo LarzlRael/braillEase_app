@@ -2,7 +2,7 @@ part of 'utils.dart';
 
 Future<void> createAndDownloadPdf(
   String textToPrint,
-  BraileProvider braileProvider,
+  BrailleProvider braileProvider,
 ) async {
   final fontData = await rootBundle.load('assets/dejavu_sans.ttf');
   final ttf = pw.Font.ttf(fontData.buffer.asByteData());

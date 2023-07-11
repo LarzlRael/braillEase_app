@@ -5,4 +5,4 @@ import '../theme/theme.dart';
 
 part 'theme_provider.dart';
 part 'global_provider.dart';
-part 'braile_provider.dart';
+part 'braille_provider.dart';

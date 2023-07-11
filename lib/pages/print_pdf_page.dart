@@ -15,7 +15,7 @@ class PrintPdfPage extends StatelessWidget {
   const PrintPdfPage({super.key});
   @override
   Widget build(BuildContext context) {
-    final braileProvider = Provider.of<BraileProvider>(context);
+    final braileProvider = Provider.of<BrailleProvider>(context);
     final textTheme = Theme.of(context).textTheme;
     final List<PagesSizes> pagesSizes = [
       PagesSizes(

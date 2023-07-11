@@ -1,6 +1,29 @@
 part of 'providers.dart';
 
-class BraileProvider with ChangeNotifier {
+class BrailleProvider with ChangeNotifier {
+  List<bool> _word = [false, false, false, false, false, false];
+
+  List<bool> get getWord => _word;
+  set setWord(List<bool> word) {
+    _word = word;
+    notifyListeners();
+  }
+
+  void setWordIndex(int index, bool value) {
+    this._word[index] = value;
+    notifyListeners();
+  }
+
+  void clearWord() {
+    this._word = [false, false, false, false, false, false];
+    notifyListeners();
+  }
+
+  void fillWord() {
+    this._word = [true, true, true, true, true, true];
+    notifyListeners();
+  }
+
   late PagesSizes _selectedPagesSizes;
   late String braileConverted;
   Color pickerTextColor = Colors.black;

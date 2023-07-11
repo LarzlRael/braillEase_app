@@ -1,6 +1,6 @@
 part of '../widgets.dart';
 
-class LetterBraileCreator extends StatefulWidget {
+class LetterBraileCreator extends StatelessWidget {
   final double? childAspectRatio;
   final Function(List<bool>) onWordChanged;
   final List<bool>? params;
@@ -13,26 +13,8 @@ class LetterBraileCreator extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<LetterBraileCreator> createState() => _LetterBraileCreatorState();
-}
-
-class _LetterBraileCreatorState extends State<LetterBraileCreator> {
-  late List<bool> word;
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      if (widget.params != null) {
-        word = widget.params!;
-      } else {
-        word = [false, false, false, false, false, false];
-      }
-    });
-  }
-
-  /* List<bool> word = [false, false, false, false, false, false]; */
-  @override
   Widget build(BuildContext context) {
+    final brailleProvider = context.watch<BrailleProvider>();
     return Container(
       margin: EdgeInsets.all(13),
       child: GridView.count(
@@ -40,19 +22,19 @@ class _LetterBraileCreatorState extends State<LetterBraileCreator> {
         physics: NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
         crossAxisSpacing: 13,
-        childAspectRatio: widget.childAspectRatio ?? 1,
+        childAspectRatio: childAspectRatio ?? 1,
         mainAxisSpacing: 13,
         children: List.generate(
-          word.length,
+          brailleProvider.getWord.length,
           (index) => GestureDetector(
             onTap: () {
-              setState(() {
-                word[index] = !word[index];
-              });
-              widget.onWordChanged(word);
+              brailleProvider.setWordIndex(
+                  index, !brailleProvider.getWord[index]);
+              onWordChanged(brailleProvider.getWord);
             },
             child: Point(
-              selected: word[index],
+              /* selected: word[index], */
+              selected: brailleProvider.getWord[index],
             ),
           ),
         ),
@@ -67,7 +49,8 @@ class Point extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 250),
       decoration: BoxDecoration(
         color: selected ? Colors.white : null,
         shape: BoxShape.circle,
@@ -75,7 +58,7 @@ class Point extends StatelessWidget {
             ? null
             : Border.all(
                 color: Colors.white,
-                width: 1,
+                width: 1.5,
               ),
       ),
     );

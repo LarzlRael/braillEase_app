@@ -8,11 +8,11 @@ class PickColorButton extends StatefulWidget {
 }
 
 class _PickColorButtonState extends State<PickColorButton> {
-  late BraileProvider braileProvider;
+  late BrailleProvider braileProvider;
   @override
   void initState() {
     super.initState();
-    braileProvider = context.read<BraileProvider>();
+    braileProvider = context.read<BrailleProvider>();
   }
 
   void changeColor(Color color) {
@@ -21,7 +21,7 @@ class _PickColorButtonState extends State<PickColorButton> {
 
   @override
   Widget build(BuildContext context) {
-    final globalProvider = context.watch<BraileProvider>();
+    final globalProvider = context.watch<BrailleProvider>();
     return GestureDetector(
       onTap: () {
         showPickerColorDialog();
@@ -38,7 +38,7 @@ class _PickColorButtonState extends State<PickColorButton> {
   }
 
   showPickerColorDialog() {
-    final globalProvider = context.read<BraileProvider>();
+    final globalProvider = context.read<BrailleProvider>();
     showDialog(
       context: context,
       builder: (BuildContext context) {

@@ -20,20 +20,20 @@ class NoInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /* final getDarkTheme = Provider.of<ThemeChanger>(context).getDarkTheme; */
+    final textTheme = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
     return Container(
-      /* color: Colors.yellow, */
       padding: const EdgeInsets.all(40),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 150, color: Colors.black),
+            Icon(icon, size: 160),
             SimpleText(
               text: text,
-              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               textAlign: TextAlign.center,
+              style: textTheme.bodyLarge,
             ),
             showButton
                 ? OutlinedButton.icon(
@@ -43,9 +43,7 @@ class NoInformation extends StatelessWidget {
                       ),
                       side: BorderSide(color: colors.primary), //<-- SEE HERE
                     ),
-                    onPressed: () {
-                      onPressed!();
-                    },
+                    onPressed: onPressed,
                     icon: Icon(iconButton),
                     label: Text(
                       buttonText!,

@@ -44,7 +44,7 @@ final items = [
   ),
   ItemBoton(
     Icons.book_online,
-    'phrase maker',
+    'Creador de frases',
     Color(0xff317183),
     Color(0xff46997D),
     '/phrase_maker',

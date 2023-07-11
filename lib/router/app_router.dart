@@ -42,7 +42,9 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final pageArgs = state.extra as PageRouteParams;
         /* return AbcdarioPage(pageArgs: pageArgs); */
-        return fadeInTransition(child: AbcdarioPage(pageArgs: pageArgs));
+        return fadeInTransition(
+            duration: Duration(milliseconds: 250),
+            child: AbcdarioPage(pageArgs: pageArgs));
       },
     ),
     GoRoute(
@@ -67,7 +69,7 @@ final appRouter = GoRouter(
           child: DetailLetterPage(
             detailPageRouteParams: letter,
           ),
-          duration: const Duration(milliseconds: 1000),
+          duration: const Duration(milliseconds: 500),
         );
       },
     ),
@@ -76,7 +78,7 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         return fadeInTransition(
           child: PrintPdfPage(),
-          duration: const Duration(milliseconds: 1000),
+          duration: const Duration(milliseconds: 500),
         );
       },
     ),
