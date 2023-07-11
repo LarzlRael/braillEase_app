@@ -9,39 +9,32 @@ class PhraseMakerPage extends StatefulWidget {
 
 class _PhraseMakerPageState extends State<PhraseMakerPage> {
   late GlobalProvider globalProvider;
-  String phrase = "";
+
   @override
   void initState() {
     super.initState();
     globalProvider = context.read<GlobalProvider>();
-    setState(() {
-      phrase = globalProvider.setPhrase;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final listGenerate = getLetterConverted(phrase);
-    return WillPopScope(
-      onWillPop: () async {
-        globalProvider.setPhrase = phrase;
-        return true;
-      },
-      child: Scaffold(
+    return Consumer<GlobalProvider>(builder: (_, globalProvider, __) {
+      final listGenerate = getLetterConverted(globalProvider.getPhrase);
+      final phrase = globalProvider.getPhrase;
+      return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: showDialogPicker,
           child: Icon(Icons.add),
         ),
         appBar: AppBar(
-          title: Text('Phrase Maker'),
+          title: Text('Creador de frases'),
           actions: [
             if (phrase.isNotEmpty)
               IconButton(
                 tooltip: "Borrar letra",
                 onPressed: () {
-                  setState(() {
-                    phrase = phrase.substring(0, phrase.length - 1);
-                  });
+                  globalProvider.setPhrase =
+                      phrase.substring(0, phrase.length - 1);
                 },
                 icon: Icon(Icons.backspace),
               ),
@@ -49,9 +42,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
               IconButton(
                 tooltip: "Borrar todo",
                 onPressed: () {
-                  setState(() {
-                    phrase = "";
-                  });
+                  globalProvider.setPhrase = "";
                 },
                 icon: Icon(Icons.cancel),
               ),
@@ -93,10 +84,10 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                           return GestureDetector(
                             onTap: () {
                               /* globalProvider.showSnackBar(
-                          context,
-                          letter,
-                          backgroundColor: Colors.blue,
-                        ); */
+                            context,
+                            letter,
+                            backgroundColor: Colors.blue,
+                          ); */
                             },
                             child: Stack(
                               children: [
@@ -113,10 +104,8 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                                   right: -13,
                                   child: IconButton(
                                     onPressed: () {
-                                      setState(() {
-                                        phrase =
-                                            phrase.replaceFirst(letter, '');
-                                      });
+                                      globalProvider.setPhrase =
+                                          phrase.replaceFirst(letter, '');
                                     },
                                     icon: Icon(
                                       Icons.cancel,
@@ -164,8 +153,8 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                   ],
                 ),
               ),
-      ),
-    );
+      );
+    });
   }
 
   void showDialogPicker() {
@@ -194,9 +183,8 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               void selectedAndPop(String x) {
-                setState(() {
-                  phrase += x.toString();
-                });
+                globalProvider.setPhrase =
+                    globalProvider.getPhrase + x.toString();
                 brailleProvider.clearWord();
                 context.pop();
               }
@@ -207,9 +195,6 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                 matchingCharacters.clear();
                 brailleMap.forEach((character, array) {
                   if (listEquals(array, word)) {
-                    /* setState(() {
-                      wordToShow = character;
-                    }); */
                     matchingCharacters.add(character);
                   }
                 });
@@ -291,9 +276,9 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                setState(() {
-                  phrase += wordToShow;
-                });
+                globalProvider.setPhrase =
+                    globalProvider.getPhrase + matchingCharacters[0];
+
                 brailleProvider.clearWord();
                 context.pop();
               },

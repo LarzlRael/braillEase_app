@@ -7,7 +7,7 @@ class GlobalProvider extends ChangeNotifier {
 
   String _phrase = "";
 
-  String get setPhrase => _phrase;
+  String get getPhrase => _phrase;
   set setPhrase(String value) {
     _phrase = value;
     notifyListeners();
