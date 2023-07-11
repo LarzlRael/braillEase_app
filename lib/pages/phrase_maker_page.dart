@@ -227,34 +227,35 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                         ),
                         line(),
                         matchingCharacters.length == 1
-                            ? Text(
-                                textInAlphabet(wordToShow),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
+                            ? FadeInOpacity(
+                                duration: Duration(milliseconds: 250),
+                                child: Text(
+                                  textInAlphabet(wordToShow),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                  ),
                                 ),
                               )
                             : Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceAround,
                                 children: matchingCharacters
                                     .map(
                                       (e) => FilledButton(
+                                          /* style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                          ), */
                                           onPressed: () {
                                             selectedAndPop(e);
                                           },
                                           child: Text(e)),
                                     )
                                     .toList())
-                        /* Text(
-                          textInAlphabet(wordToShow),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                          ),
-                        ), */
                       ],
                     ),
                   ),

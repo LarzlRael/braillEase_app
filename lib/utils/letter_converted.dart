@@ -52,7 +52,9 @@ const brailleMap = {
   ';': [false, false, true, false, true, false], // Punto y coma
   ':': [false, false, true, true, false, false], // Dos puntos
   '?': [false, false, true, false, false, true], // Signo de interrogación
+  '¿': [false, false, true, false, false, true], // Signo de interrogación
   '!': [false, false, true, true, true, false], // Signo de exclamación
+  '¡': [false, false, true, true, true, false], // Signo de exclamación
   "'": [false, false, false, true, false, false], // Comilla simple
   '"': [false, false, true, false, true, true], // Comillas dobles
   '(': [true, false, true, false, false, true], // Paréntesis izquierdo
@@ -63,21 +65,26 @@ const brailleMap = {
   '}': [false, true, true, true, true, true], // Llave derecha
   '-': [false, false, false, false, true, true], // Guión
   '/': [false, false, true, true, false, true], // Barra diagonal
-  '\\': [false, false, true, true, true, false], // Barra diagonal inversa
-  '+': [false, false, true, true, false, true], // Signo más
+  /* '\\': [false, false, true, true, true, false], // Barra diagonal inversa */
+  '+': [false, false, true, true, true, false], // Signo más
   '=': [false, false, true, true, true, true], // Signo igual
   '<': [false, true, false, false, true, true], // Menor que
   '>': [false, true, true, false, true, true], // Mayor que
   '%': [false, true, true, false, true, true], // Porcentaje
-  '#': [false, true, false, false, true, false], // Numeral
-  '@': [false, true, true, true, false, true], // Arroba
+  '#': [false, true, false, true, true, true], // Numeral
+  '@': [false, true, false, true, true, false], // Arroba
   '\$': [false, true, true, false, false, true], // Signo de dólar
 
   '°': [false, true, false, false, false, true], // Grado
   '§': [false, true, false, true, false, false], // Sección
   '&': [false, true, true, true, false, false], // Ampersand
   '*': [false, true, true, true, false, true], // Asterisco
-  '~': [false, true, false, false, true, false], // Tilde
+  '~': [false, true, false, false, true, false], // Tilde,
+  'á': [true, false, true, true, true, true], // Tilde,
+  'é': [false, true, true, false, true, true], // Tilde,
+  'í': [false, true, false, false, true, false], // Tilde,
+  'ó': [false, true, false, false, true, true], // Tilde,
+  'ú': [false, true, true, true, true, true], // Tilde,
 };
 final braileNumericFormat = {
   'a': 1,
