@@ -1,14 +1,14 @@
 part of 'pages.dart';
 
-class AbcdarioPage extends StatefulWidget {
+class AbecedarioPage extends StatefulWidget {
   final PageRouteParams pageArgs;
-  const AbcdarioPage({super.key, required this.pageArgs});
+  const AbecedarioPage({super.key, required this.pageArgs});
 
   @override
-  State<AbcdarioPage> createState() => _AbcdarioPageState();
+  State<AbecedarioPage> createState() => _AbecedarioPageState();
 }
 
-class _AbcdarioPageState extends State<AbcdarioPage> {
+class _AbecedarioPageState extends State<AbecedarioPage> {
   @override
   Widget build(BuildContext context) {
     final globalProvider = context.read<GlobalProvider>();
@@ -96,6 +96,7 @@ class BraileLetterCard extends StatelessWidget {
               children: [
                 LetterBraile(
                   word: listGenerated,
+                  childAspectRatio: .9,
                 ),
                 line(),
                 Text(

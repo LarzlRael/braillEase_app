@@ -73,11 +73,11 @@ const brailleMap = {
   '%': [false, true, true, false, true, true], // Porcentaje
   '#': [false, true, false, true, true, true], // Numeral
   '@': [false, true, false, true, true, false], // Arroba
-  '\$': [false, true, true, false, false, true], // Signo de dólar
+  '\$': [false, true, true, false, false, true], // Sign de dólar
 
   '°': [false, true, false, false, false, true], // Grado
   '§': [false, true, false, true, false, false], // Sección
-  '&': [false, true, true, true, false, false], // Ampersand
+  /* '&': [false, true, true, true, false, false], // Ampersand */
   '*': [false, true, true, true, false, true], // Asterisco
   '~': [false, true, false, false, true, false], // Tilde,
   'á': [true, false, true, true, true, true], // Tilde,

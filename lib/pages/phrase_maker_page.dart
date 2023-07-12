@@ -42,7 +42,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
               IconButton(
                 tooltip: "Borrar todo",
                 onPressed: () {
-                  globalProvider.setPhrase = "";
+                  globalProvider.setPhrase = '';
                 },
                 icon: Icon(Icons.cancel),
               ),
@@ -56,11 +56,14 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
           ],
         ),
         body: phrase.isEmpty
-            ? NoInformation(
-                icon: Icons.info_outline,
-                text: "Pulsa en el boton + para agregar letras",
-                showButton: false,
-                iconButton: Icons.add_a_photo,
+            ? FadeInOpacity(
+                duration: Duration(milliseconds: 500),
+                child: NoInformation(
+                  icon: Icons.info_outline,
+                  text: "Pulsa en el boton + para agregar letras",
+                  showButton: false,
+                  iconButton: Icons.add_a_photo,
+                ),
               )
             : SingleChildScrollView(
                 child: Column(
@@ -135,7 +138,6 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                       trailing: IconButton(
                         onPressed: () async {
                           await Clipboard.setData(ClipboardData(text: phrase));
-
                           globalProvider.showSnackBar(
                             backgroundColor: Colors.blue,
                             context,
@@ -178,6 +180,10 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                   fontSize: 18,
                 ),
               ),
+              Spacer(),
+              IconButton(
+                  onPressed: brailleProvider.fillWord,
+                  icon: Icon(Icons.apps_rounded)),
             ],
           ),
           content: StatefulBuilder(
@@ -186,12 +192,14 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                 globalProvider.setPhrase =
                     globalProvider.getPhrase + x.toString();
                 brailleProvider.clearWord();
-                context.pop();
+                /* context.pop(); */
+                setState(() {
+                  matchingCharacters.clear();
+                });
               }
 
               void handleWordChanged(List<bool> word) {
                 // Lógica para manejar el array actualizado
-
                 matchingCharacters.clear();
                 brailleMap.forEach((character, array) {
                   if (listEquals(array, word)) {
@@ -243,17 +251,21 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                                     MainAxisAlignment.spaceAround,
                                 children: matchingCharacters
                                     .map(
-                                      (e) => FilledButton(
+                                      (e) => FadeInOpacity(
+                                        duration: Duration(milliseconds: 400),
+                                        child: FilledButton(
                                           /* style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                          ), */
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                            ), */
                                           onPressed: () {
                                             selectedAndPop(e);
                                           },
-                                          child: Text(e)),
+                                          child: Text(e),
+                                        ),
+                                      ),
                                     )
                                     .toList())
                       ],
@@ -264,24 +276,40 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
             },
           ),
           actions: [
+            TextButton(
+              child: const Text('Cerrar'),
+              onPressed: () {
+                context.pop();
+              },
+            ),
             IconButton(
                 onPressed: () {
                   brailleProvider.clearWord();
+                  setState(() {
+                    matchingCharacters.clear();
+                    wordToShow = "";
+                  });
                 },
                 icon: Icon(Icons.backspace)),
+            /*
             IconButton(
                 onPressed: () {
                   brailleProvider.fillWord();
                 },
-                icon: Icon(Icons.apps_rounded)),
+                icon: Icon(Icons.apps_rounded)), */
             TextButton(
-              child: const Text('OK'),
+              child: const Text('AGREGAR'),
               onPressed: () {
+                if (matchingCharacters.isEmpty) {
+                  globalProvider.setPhrase = globalProvider.getPhrase + " ";
+                  return;
+                }
                 globalProvider.setPhrase =
                     globalProvider.getPhrase + matchingCharacters[0];
 
                 brailleProvider.clearWord();
-                context.pop();
+
+                /* context.pop(); */
               },
             ),
           ],

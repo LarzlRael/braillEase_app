@@ -38,13 +38,12 @@ final appRouter = GoRouter(
       builder: (context, state) => WelcomePage(),
     ),
     GoRoute(
-      path: '/abcdario',
+      path: '/abecedario',
       pageBuilder: (context, state) {
         final pageArgs = state.extra as PageRouteParams;
-        /* return AbcdarioPage(pageArgs: pageArgs); */
         return fadeInTransition(
             duration: Duration(milliseconds: 250),
-            child: AbcdarioPage(pageArgs: pageArgs));
+            child: AbecedarioPage(pageArgs: pageArgs));
       },
     ),
     GoRoute(

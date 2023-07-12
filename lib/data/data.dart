@@ -23,7 +23,7 @@ final items = [
     'Abcdedario',
     Color(0xff6989F5),
     Color(0xff906EF5),
-    '/abcdario',
+    '/abecedario',
     'abcdefghijklmnñopqrstuvwxyz',
   ),
   ItemBoton(
@@ -31,8 +31,8 @@ final items = [
     'Números',
     Color(0xff66A9F2),
     Color(0xff536CF6),
-    '/abcdario',
-    '1234567890',
+    '/abecedario',
+    '1234567890+-*/=',
   ),
   ItemBoton(
     Icons.book,
