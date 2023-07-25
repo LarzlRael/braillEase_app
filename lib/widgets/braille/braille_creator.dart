@@ -5,7 +5,6 @@ class LetterBraileCreator extends StatelessWidget {
   final Function(List<bool>) onWordChanged;
   final List<bool>? params;
   LetterBraileCreator({
-    /* required this.word, */
     Key? key,
     this.childAspectRatio,
     this.params,

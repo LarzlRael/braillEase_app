@@ -67,9 +67,10 @@ class _CreateSlideShow extends StatelessWidget {
       children: [
         if (indicatorTopPosition)
           _Dots(
-              totalSlides: slides.length,
-              primaryColor: primaryColor,
-              secondaryColor: secondaryColor),
+            totalSlides: slides.length,
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+          ),
         Expanded(
           /* color: Colors.blue,
           height: MediaQuery.of(context).size.height * 0.48, */
@@ -77,9 +78,10 @@ class _CreateSlideShow extends StatelessWidget {
         ),
         if (!indicatorTopPosition)
           _Dots(
-              totalSlides: slides.length,
-              primaryColor: primaryColor,
-              secondaryColor: secondaryColor)
+            totalSlides: slides.length,
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+          )
       ],
     );
   }

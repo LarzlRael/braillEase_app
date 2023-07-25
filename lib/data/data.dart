@@ -20,7 +20,7 @@ class ItemBoton {
 final items = [
   ItemBoton(
     Icons.abc,
-    'Abcdedario',
+    'Abecedario',
     Color(0xff6989F5),
     Color(0xff906EF5),
     '/abecedario',
