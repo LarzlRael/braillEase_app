@@ -9,12 +9,26 @@ class PhraseMakerPage extends StatefulWidget {
 
 class _PhraseMakerPageState extends State<PhraseMakerPage> {
   late GlobalProvider globalProvider;
-  late TextEditingController textFormController = TextEditingController();
+  TextEditingController textFormController = TextEditingController();
+  ScrollController scrollController = ScrollController();
   final _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
     globalProvider = context.read<GlobalProvider>();
+    _focusNode.requestFocus();
+  }
+
+  void _performActionAndScrollToBottom() {
+    // Realiza la acción que desencadena el desplazamiento automático.
+    // Por ejemplo, si quieres agregar un nuevo elemento, agrega el elemento a la lista de elementos que alimenta el GridView.
+
+    // Luego de realizar la acción, haremos que el GridView se desplace automáticamente hacia abajo.
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
@@ -96,6 +110,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                                 height:
                                     MediaQuery.of(context).size.height * .75,
                                 child: GridView.builder(
+                                  controller: scrollController,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 5,
@@ -159,58 +174,63 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                           ),
                         ),
                 ),
-                Row(
-                  children: [
-                    Container(
-                      child: Flexible(
-                        child: Card(
-                          child: TextField(
-                            keyboardType: TextInputType.multiline,
-                            focusNode: _focusNode,
-                            controller: textFormController,
-                            maxLines: 3,
-                            minLines: 1,
-                            onChanged: (value) {
-                              setState(() {});
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Escribe una frase',
-                              hintStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
+                Container(
+                  /* margin: EdgeInsets.only(top: 20), */
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Flexible(
+                          child: Card(
+                            child: TextField(
+                              keyboardType: TextInputType.multiline,
+                              focusNode: _focusNode,
+                              controller: textFormController,
+                              maxLines: 3,
+                              minLines: 1,
+                              onChanged: (value) {
+                                setState(() {});
+                                if (textFormController.text.length > 5)
+                                  _performActionAndScrollToBottom();
+                              },
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Escribe una frase',
+                                hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                contentPadding: EdgeInsets.all(10),
                               ),
-                              contentPadding: EdgeInsets.all(10),
                             ),
                           ),
+                          /* padding: EdgeInsets.all(10), */
                         ),
-                        /* padding: EdgeInsets.all(10), */
                       ),
-                    ),
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 250),
-                      margin: textFormController.text.isEmpty
-                          ? EdgeInsets.all(0)
-                          : EdgeInsets.symmetric(horizontal: 5),
-                      child: textFormController.text.isEmpty
-                          ? SizedBox()
-                          : FloatingActionButton(
-                              shape: StadiumBorder(),
-                              onPressed: () async {
-                                await Clipboard.setData(ClipboardData(
-                                  text: convertToBraillex(
-                                      textFormController.text),
-                                ));
-                                globalProvider.showSnackBar(
-                                  backgroundColor: Colors.blue,
-                                  context,
-                                  "Texto copiado al portapapeles",
-                                );
-                              },
-                              child: Icon(FontAwesomeIcons.clipboard, size: 30),
-                            ),
-                    )
-                  ],
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 250),
+                        margin: textFormController.text.isEmpty
+                            ? EdgeInsets.all(0)
+                            : EdgeInsets.symmetric(horizontal: 5),
+                        child: textFormController.text.isEmpty
+                            ? SizedBox()
+                            : FloatingActionButton(
+                                shape: StadiumBorder(),
+                                onPressed: () async {
+                                  await Clipboard.setData(ClipboardData(
+                                    text: convertToBraillex(
+                                        textFormController.text),
+                                  ));
+                                  globalProvider.showSnackBar(
+                                    backgroundColor: Colors.blue,
+                                    context,
+                                    "Texto copiado al portapapeles",
+                                  );
+                                },
+                                child: Icon(Icons.copy_outlined, size: 30),
+                              ),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -233,7 +253,10 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
         return AlertDialog(
           title: Row(
             children: [
-              Icon(Icons.add),
+              IconButton(
+                onPressed: brailleProvider.fillWord,
+                icon: Icon(Icons.apps_rounded),
+              ),
               SizedBox(width: 10),
               Text(
                 'Agregar letra',
@@ -242,9 +265,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                 ),
               ),
               Spacer(),
-              IconButton(
-                  onPressed: brailleProvider.fillWord,
-                  icon: Icon(Icons.apps_rounded)),
+              IconButton(onPressed: context.pop, icon: Icon(Icons.cancel)),
             ],
           ),
           content: StatefulBuilder(
