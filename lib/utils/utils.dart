@@ -19,3 +19,4 @@ part 'letter_converted.dart';
 part 'user_preferences.dart';
 part 'pdf_creator.dart';
 part 'ad_utils.dart';
+part 'intersitial_util.dart';

@@ -16,7 +16,13 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
   void initState() {
     super.initState();
     globalProvider = context.read<GlobalProvider>();
-    _focusNode.requestFocus();
+    InterstitialAdManager.loadAd();
+  }
+
+  @override
+  void dispose() {
+    InterstitialAdManager.disposeAd();
+    super.dispose();
   }
 
   void _performActionAndScrollToBottom() {
@@ -37,37 +43,9 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
       final listGenerate = getLetterConverted(textFormController.text);
       final phrase = textFormController.text;
       return Scaffold(
-        /* floatingActionButton: FloatingActionButton(
-          onPressed: phrase.isEmpty
-              ? showDialogPicker
-              : () async {
-                  await Clipboard.setData(ClipboardData(text: phrase));
-                  globalProvider.showSnackBar(
-                    backgroundColor: Colors.blue,
-                    context,
-                    "Texto copiado al portapapeles",
-                  );
-                },
-          child: phrase.isEmpty
-              ? Icon(FontAwesomeIcons.braille)
-              : Icon(FontAwesomeIcons.clipboard),
-        ), */
         appBar: AppBar(
           title: Text('Creador de frases'),
           actions: [
-            /*  if (phrase.isNotEmpty)
-              IconButton(
-                tooltip: "Borrar letra",
-                onPressed: () {
-                  /*  globalProvider.setPhrase =
-                      phrase.substring(0, phrase.length - 1); */
-                  textFormController.text = textFormController.text
-                      .substring(0, textFormController.text.length - 1);
-                  setState(() {});
-                  /* _focusNode.end */
-                },
-                icon: Icon(Icons.backspace),
-              ), */
             if (phrase.isNotEmpty)
               IconButton(
                 tooltip: "Borrar todo",
@@ -78,7 +56,6 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                 },
                 icon: Icon(Icons.cancel),
               ),
-            /* if (phrase.isEmpty) */
             IconButton(
               onPressed: () {
                 showDialogPicker();
@@ -97,7 +74,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                           duration: Duration(milliseconds: 500),
                           child: NoInformation(
                             icon: Icons.info_outline,
-                            text: "Pulsa en el boton + para agregar letras",
+                            text: "Escribe una frase para comenzar",
                             showButton: false,
                             iconButton: Icons.add_a_photo,
                           ),
@@ -216,6 +193,9 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                             : FloatingActionButton(
                                 shape: StadiumBorder(),
                                 onPressed: () async {
+                                  if (addCounterIntersitialAd()) {
+                                    InterstitialAdManager.showAd();
+                                  }
                                   await Clipboard.setData(ClipboardData(
                                     text: convertToBraillex(
                                         textFormController.text),
