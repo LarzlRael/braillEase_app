@@ -38,6 +38,15 @@ class _AbecedarioPageState extends State<AbecedarioPage> {
                     globalProvider: globalProvider,
                     listGenerated: listGenerated,
                     letter: letter,
+                    onSelected: () {
+                      context.push(
+                        '/details',
+                        extra: DetailPageRouteParams(
+                          letter: letter,
+                          listGenerated: listGenerated,
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -55,24 +64,27 @@ class BraileLetterCard extends StatelessWidget {
     required this.globalProvider,
     required this.listGenerated,
     required this.letter,
+    required this.onSelected,
   });
 
   final GlobalProvider globalProvider;
   final List<bool> listGenerated;
   final String letter;
+  final Function() onSelected;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.push(
+      onTap: onSelected,
+      /* () {
+        /* context.push(
           '/details',
           extra: DetailPageRouteParams(
             letter: letter,
             listGenerated: listGenerated,
           ),
-        );
-      },
+        ); */
+      }, */
       child: Hero(
         tag: letter,
         child: DecoratedBox(

@@ -111,6 +111,13 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                               letter,
                               backgroundColor: Colors.blue,
                             ); */
+                                        context.push(
+                                          '/details',
+                                          extra: DetailPageRouteParams(
+                                            letter: letter,
+                                            listGenerated: listGenerated,
+                                          ),
+                                        );
                                       },
                                       child: Stack(
                                         children: [
