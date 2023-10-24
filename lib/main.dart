@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:provider/provider.dart';
+import 'package:templat_project/firebase_options.dart';
 import 'package:templat_project/provider/providers.dart';
 import 'package:templat_project/router/app_router.dart';
 import 'package:templat_project/utils/utils.dart';
@@ -13,6 +15,9 @@ void main() async {
   MobileAds.instance.initialize();
   await Environment.initEnviroment();
   await UserPreferences.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   return runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProviderNotifier(),
@@ -31,6 +36,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => GlobalProvider()),
         ChangeNotifierProvider(create: (_) => BrailleProvider()),
+        ChangeNotifierProvider(
+            create: (_) => NotificationProvider(), lazy: false),
       ],
       child: MaterialApp.router(
         title: appName,

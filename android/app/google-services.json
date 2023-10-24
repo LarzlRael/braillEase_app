@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "166033796620",
+    "project_id": "braillease",
+    "storage_bucket": "braillease.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166033796620:android:7fcae5ad6df331bfe58829",
+        "android_client_info": {
+          "package_name": "com.dosan.braillease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4tWG2jr4ZZJTz8G7aKXYPY9Ol_eqa6Bs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

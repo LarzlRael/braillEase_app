@@ -17,15 +17,14 @@ class _PickColorButtonState extends State<PickColorButton> {
 
   void changeColor(Color color) {
     braileProvider.setPickerTextColor = color;
+    context.pop();
   }
 
   @override
   Widget build(BuildContext context) {
     final globalProvider = context.watch<BrailleProvider>();
     return GestureDetector(
-      onTap: () {
-        showPickerColorDialog();
-      },
+      onTap: showPickerColorDialog,
       child: Container(
         width: 25,
         height: 25,
@@ -48,6 +47,7 @@ class _PickColorButtonState extends State<PickColorButton> {
             child: MaterialPicker(
               pickerColor: globalProvider.getPickerTextColor,
               onColorChanged: changeColor,
+
               /* showLabel: true,
                                     pickerAreaHeightPercent: 0.8, */
             ),
@@ -55,9 +55,7 @@ class _PickColorButtonState extends State<PickColorButton> {
           actions: [
             TextButton(
               child: const Text('OK'),
-              onPressed: () {
-                context.pop();
-              },
+              onPressed: context.pop,
             ),
           ],
         );
