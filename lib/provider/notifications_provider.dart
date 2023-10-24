@@ -5,6 +5,7 @@ class NotificationProvider extends ChangeNotifier {
   NotificationProvider() {
     /* initialStatusCheck(); */
     _getFCMToken();
+    _onForegroundMessage();
   }
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   late String token;
@@ -32,5 +33,31 @@ class NotificationProvider extends ChangeNotifier {
   void _getFCMToken() async {
     final token = await messaging.getToken();
     print('FCM Token: $token');
+  }
+
+  void _onForegroundMessage() {
+    FirebaseMessaging.onMessage.listen(handleRemoteMessage);
+  }
+
+  void handleRemoteMessage(RemoteMessage message) {
+    if (message.notification == null) return;
+    print('onMessage: ${message.notification}');
+    /* final notification = PushMessage(
+      messageId: clearMessageId(message.messageId),
+      title: message.notification!.title ?? '',
+      body: message.notification!.body ?? '',
+      sentDate: message.sentTime ?? DateTime.now(),
+      data: message.data,
+      imageUrl: Platform.isAndroid
+          ? message.notification!.android?.imageUrl
+          : message.notification!.apple?.imageUrl,
+    );
+    LocalNotification.showLocalNotification(
+      id: notification.messageId.hashCode,
+      body: notification.body,
+      data: notification.messageId,
+      title: notification.title,
+    );
+    add(NotificationsReceived(notification)); */
   }
 }

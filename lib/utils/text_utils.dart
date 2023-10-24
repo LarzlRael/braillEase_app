@@ -26,3 +26,7 @@ String textInAlphabet(String character) {
       ? character + " - " + character.toUpperCase()
       : character;
 }
+
+String clearMessageId(String? id) {
+  return id?.replaceAll(':', '').replaceAll('%', '') ?? '';
+}

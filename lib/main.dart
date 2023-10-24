@@ -7,6 +7,7 @@ import 'package:templat_project/firebase_options.dart';
 import 'package:templat_project/provider/providers.dart';
 import 'package:templat_project/router/app_router.dart';
 import 'package:templat_project/utils/utils.dart';
+import 'package:templat_project/widgets/widgets.dart';
 import 'constants/constant.dart';
 import 'env/environment_variables.dart';
 
@@ -37,13 +38,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => GlobalProvider()),
         ChangeNotifierProvider(create: (_) => BrailleProvider()),
         ChangeNotifierProvider(
-            create: (_) => NotificationProvider(), lazy: false),
+          create: (_) => NotificationProvider(),
+          lazy: false,
+        ),
       ],
       child: MaterialApp.router(
         title: appName,
         debugShowCheckedModeBanner: false,
         routerConfig: appRouter,
         theme: appTheme.getTheme(),
+        builder: (context, child) => HandleNotificationInteraction(
+          child: child!,
+        ),
       ),
     );
   }

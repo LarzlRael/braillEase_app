@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:go_router/go_router.dart';
@@ -26,3 +27,4 @@ part 'slideshow/slideshow.dart';
 part 'braille/braille_creator.dart';
 
 part '404/no_information.dart';
+part 'notifications/handle_notification_interactive.dart';
