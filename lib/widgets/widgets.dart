@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../env/environment_variables.dart';
 import '../provider/providers.dart';
+import '../router/app_router.dart';
 import '../utils/utils.dart';
 
 part 'simple_text.dart';

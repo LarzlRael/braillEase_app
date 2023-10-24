@@ -11,15 +11,6 @@ class PageRouteParams {
   });
 }
 
-class DetailPageRouteParams {
-  final String letter;
-  final List<bool> listGenerated;
-  DetailPageRouteParams({
-    required this.letter,
-    required this.listGenerated,
-  });
-}
-
 final appRouter = GoRouter(
   initialLocation: '/splash_screen',
   /* refreshListenable: goRouterNotifier, */
@@ -42,8 +33,11 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final pageArgs = state.extra as PageRouteParams;
         return fadeInTransition(
-            duration: Duration(milliseconds: 250),
-            child: AbecedarioPage(pageArgs: pageArgs));
+          duration: Duration(milliseconds: 250),
+          child: AbecedarioPage(
+            pageArgs: pageArgs,
+          ),
+        );
       },
     ),
     GoRoute(
@@ -56,17 +50,15 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/settings',
-      pageBuilder: (context, state) {
-        return fadeInTransition(child: SettingsPage());
-      },
+      pageBuilder: (context, state) => fadeInTransition(child: SettingsPage()),
     ),
     GoRoute(
-      path: '/details',
+      path: '/details/:letter',
       pageBuilder: (context, state) {
-        final letter = state.extra as DetailPageRouteParams;
+        final letter = state.params['letter'] as String;
         return fadeInTransition(
           child: DetailLetterPage(
-            detailPageRouteParams: letter,
+            letter: letter,
           ),
           duration: const Duration(milliseconds: 500),
         );
@@ -78,6 +70,17 @@ final appRouter = GoRouter(
         return fadeInTransition(
           child: PrintPdfPage(),
           duration: const Duration(milliseconds: 500),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/phrase_maker/:phrase',
+      pageBuilder: (context, state) {
+        return fadeInTransition(
+          child: PhraseMakerPage(
+            phrase: state.params['phrase'] as String,
+          ),
+          duration: const Duration(milliseconds: 250),
         );
       },
     ),

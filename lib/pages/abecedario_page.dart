@@ -40,11 +40,7 @@ class _AbecedarioPageState extends State<AbecedarioPage> {
                     letter: letter,
                     onSelected: () {
                       context.push(
-                        '/details',
-                        extra: DetailPageRouteParams(
-                          letter: letter,
-                          listGenerated: listGenerated,
-                        ),
+                        '/details/$letter',
                       );
                     },
                   );

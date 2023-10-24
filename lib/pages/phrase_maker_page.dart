@@ -1,8 +1,8 @@
 part of 'pages.dart';
 
 class PhraseMakerPage extends StatefulWidget {
-  const PhraseMakerPage({super.key});
-
+  final String? phrase;
+  const PhraseMakerPage({super.key, this.phrase});
   @override
   State<PhraseMakerPage> createState() => _PhraseMakerPageState();
 }
@@ -16,6 +16,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
   void initState() {
     super.initState();
     globalProvider = context.read<GlobalProvider>();
+    textFormController.text = widget.phrase ?? '';
     InterstitialAdManager.loadAd();
   }
 
@@ -112,11 +113,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                               backgroundColor: Colors.blue,
                             ); */
                                         context.push(
-                                          '/details',
-                                          extra: DetailPageRouteParams(
-                                            letter: letter,
-                                            listGenerated: listGenerated,
-                                          ),
+                                          '/details/$letter',
                                         );
                                       },
                                       child: Stack(

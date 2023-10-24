@@ -6,6 +6,7 @@ class NotificationProvider extends ChangeNotifier {
     /* initialStatusCheck(); */
     _getFCMToken();
     _onForegroundMessage();
+    /* saveDeviceId(); */
   }
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   late String token;
@@ -62,10 +63,10 @@ class NotificationProvider extends ChangeNotifier {
     add(NotificationsReceived(notification)); */
   }
 
-  /* Future saveDeviceId() async {
+  Future saveDeviceId() async {
     await Request.sendRequest(
       RequestType.get,
       '/notifications/saveDeviceId/' + token,
     );
-  } */
+  }
 }

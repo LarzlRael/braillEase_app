@@ -25,7 +25,7 @@ class _HandleNotificationInteractionState
   void _handleMessage(RemoteMessage message) {
     context.read<NotificationProvider>().handleRemoteMessage(message);
     final messageId = clearMessageId(message.messageId);
-    /* context.push('/push-details/$messageId'); */
+    appRouter.push('/push-details/$messageId');
   }
 
   @override

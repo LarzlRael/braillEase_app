@@ -233,13 +233,18 @@ List<List<bool>> getLetterConverted(String word) {
   final brailleWord = <List<bool>>[];
 
   for (var i = 0; i < word.length; i++) {
-    final letter = word[i].toLowerCase();
-    final brailleLetter = brailleMap[letter];
-
-    if (brailleLetter != null) {
-      brailleWord.add(brailleLetter);
-    }
+    brailleWord.add(getOneLetterConverted(word[i]));
   }
 
   return brailleWord;
+}
+
+List<bool> getOneLetterConverted(String letter) {
+  final brailleLetter = brailleMap[letter.toLowerCase()];
+
+  if (brailleLetter != null) {
+    return brailleLetter;
+  }
+
+  return [];
 }

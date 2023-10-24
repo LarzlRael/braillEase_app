@@ -1,21 +1,22 @@
 part of 'pages.dart';
 
 class DetailLetterPage extends StatelessWidget {
-  final DetailPageRouteParams detailPageRouteParams;
+  /* final DetailPageRouteParams detailPageRouteParams; */
+  final String letter;
   const DetailLetterPage({
     super.key,
-    required this.detailPageRouteParams,
+    /* required this.detailPageRouteParams, */
+    required this.letter,
   });
 
   @override
   Widget build(BuildContext context) {
     final braileProvider = context.read<GlobalProvider>();
     final size = MediaQuery.of(context).size;
-
+    final convertedLetter = getOneLetterConverted(letter);
     return Scaffold(
       appBar: AppBar(
-        title: Text(detailPageRouteParams.letter +
-            " ${convertToBraillex(detailPageRouteParams.letter)}"),
+        title: Text(letter + " ${convertToBraillex(letter)}"),
         centerTitle: true,
       ),
       body: SizedBox.expand(
@@ -24,7 +25,7 @@ class DetailLetterPage extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Hero(
-                tag: detailPageRouteParams.letter,
+                tag: letter,
                 child: Container(
                   height: size.height * 0.40,
                   width: size.width * 0.5,
@@ -41,11 +42,11 @@ class DetailLetterPage extends StatelessWidget {
                       children: [
                         LetterBraile(
                           childAspectRatio: 1.1,
-                          word: detailPageRouteParams.listGenerated,
+                          word: convertedLetter,
                         ),
                         line(),
                         Text(
-                          textInAlphabet(detailPageRouteParams.letter),
+                          textInAlphabet(letter),
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
