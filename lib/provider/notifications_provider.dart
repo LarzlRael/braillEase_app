@@ -31,8 +31,9 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   void _getFCMToken() async {
-    final token = await messaging.getToken();
+    token = (await messaging.getToken())!;
     print('FCM Token: $token');
+    notifyListeners();
   }
 
   void _onForegroundMessage() {
@@ -60,4 +61,11 @@ class NotificationProvider extends ChangeNotifier {
     );
     add(NotificationsReceived(notification)); */
   }
+
+  /* Future saveDeviceId() async {
+    await Request.sendRequest(
+      RequestType.get,
+      '/notifications/saveDeviceId/' + token,
+    );
+  } */
 }

@@ -11,4 +11,6 @@ class Environment {
       dotenv.env['ADMOB_BANNER'] ?? 'No está configurado el banner ID';
   static String admobIntersitial = dotenv.env['ADMOB_INTERSITIAL'] ??
       'No está configurado el ADMOB_INTERSITIAL';
+  static String serverUrl =
+      dotenv.env['SERVER_URL'] ?? 'No está configurado el API_URL';
 }

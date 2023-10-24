@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:templat_project/pages/pages.dart';
 import 'package:templat_project/utils/utils.dart';
+import '../request/services.dart';
 import '../theme/theme.dart';
 
 part 'theme_provider.dart';
