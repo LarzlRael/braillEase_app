@@ -25,7 +25,9 @@ class _HandleNotificationInteractionState
   void _handleMessage(RemoteMessage message) {
     context.read<NotificationProvider>().handleRemoteMessage(message);
     final messageId = clearMessageId(message.messageId);
-    appRouter.push('/push-details/$messageId');
+    print('Message ID: $messageId');
+    final dataContent = message.data['translateWord'];
+    appRouter.push('/phrase_maker/$dataContent');
   }
 
   @override

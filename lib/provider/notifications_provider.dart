@@ -4,18 +4,17 @@ class NotificationProvider extends ChangeNotifier {
 //constructor
   NotificationProvider() {
     /* initialStatusCheck(); */
-    _getFCMToken();
+    _getAndSaveFCMToken();
     _onForegroundMessage();
-    /* saveDeviceId(); */
   }
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  late String token;
+  late String? token;
   Future initializeApp() async {
     // Push Notifications
     await Firebase.initializeApp();
     /* await requestPermission(); */
 
-    token = (await messaging.getToken())!;
+    token = (await messaging.getToken());
 
     print('Token: $token');
     notifyListeners();
@@ -31,9 +30,13 @@ class NotificationProvider extends ChangeNotifier {
     final settings = await messaging.getNotificationSettings();
   }
 
-  void _getFCMToken() async {
+  void _getAndSaveFCMToken() async {
     token = (await messaging.getToken())!;
     print('FCM Token: $token');
+    final savedDeviceId = await Request.sendRequest(
+      RequestType.get,
+      '/notifications/saveDeviceId/$token/$packageName',
+    );
     notifyListeners();
   }
 
@@ -61,12 +64,5 @@ class NotificationProvider extends ChangeNotifier {
       title: notification.title,
     );
     add(NotificationsReceived(notification)); */
-  }
-
-  Future saveDeviceId() async {
-    await Request.sendRequest(
-      RequestType.get,
-      '/notifications/saveDeviceId/' + token,
-    );
   }
 }

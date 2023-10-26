@@ -112,9 +112,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                               letter,
                               backgroundColor: Colors.blue,
                             ); */
-                                        context.push(
-                                          '/details/$letter',
-                                        );
+                                        context.push('/details/$letter');
                                       },
                                       child: Stack(
                                         children: [

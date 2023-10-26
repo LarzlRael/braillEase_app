@@ -39,9 +39,7 @@ class _AbecedarioPageState extends State<AbecedarioPage> {
                     listGenerated: listGenerated,
                     letter: letter,
                     onSelected: () {
-                      context.push(
-                        '/details/$letter',
-                      );
+                      context.push('/details/$letter');
                     },
                   );
                 },
