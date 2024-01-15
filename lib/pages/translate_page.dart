@@ -1,6 +1,6 @@
 part of 'pages.dart';
 
-class TranslatePage extends ConsumerStatefulWidget {
+class TranslatePage extends HookConsumerWidget {
   final PageRouteParams titlePage;
   const TranslatePage({
     super.key,
@@ -8,78 +8,21 @@ class TranslatePage extends ConsumerStatefulWidget {
   });
 
   @override
-  _TranslatePageState createState() => _TranslatePageState();
-}
+  Widget build(BuildContext context, ref) {
+    final textController = useTextEditingController();
+    final textBraille = useState("");
+    useEffect(() {
+      textController.text = ref.read(brailleProvider).normalText;
+      textBraille.value = convertToBraillex(textController.text);
+      InterstitialAdManager.loadAd();
+      return () {
+        textController.dispose();
+      };
+    }, []);
 
-class _TranslatePageState extends ConsumerState<TranslatePage> {
-  TextEditingController textController = TextEditingController();
-  bool isSwitched = false;
-  String textBraille = "";
-
-  /* Speach */
-  SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
-  String _lastWords = '';
-
-  double fontSize = 20;
-
-  @override
-  initState() {
-    super.initState();
-
-    textController.text = ref.read(brailleProvider).normalText;
-    textBraille = convertToBraillex(textController.text);
-    InterstitialAdManager.loadAd();
-    _initSpeech();
-  }
-
-  /// This has to happen only once per app
-  void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
-    setState(() {});
-  }
-
-  /// Each time to start a speech recognition session
-  void _startListening() async {
-    await _speechToText.listen(
-      onResult: _onSpeechResult,
-      localeId: 'es_ES',
-    );
-    setState(() {});
-  }
-
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
-  void _stopListening() async {
-    await _speechToText.stop();
-    setState(() {});
-  }
-
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      _lastWords = result.recognizedWords;
-      textController.text = _lastWords;
-      textBraille = convertToBraillex(_lastWords);
-    });
-  }
-
-  @override
-  void dispose() {
-    _speechToText.cancel();
-    InterstitialAdManager.disposeAd();
-    super.dispose();
-  }
-
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
-
-  @override
-  Widget build(BuildContext context) {
     final globalProviderS = ref.watch(globalProvider);
     final textTheme = Theme.of(context).textTheme;
-    /* textController.text = braileProvider.getNormalText; */
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -93,7 +36,7 @@ class _TranslatePageState extends ConsumerState<TranslatePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomAppbar(
-                      titlePage: widget.titlePage.titlePage,
+                      titlePage: titlePage.titlePage,
                       actions: [
                         textController.text.isNotEmpty
                             ? IconButton(
@@ -105,7 +48,7 @@ class _TranslatePageState extends ConsumerState<TranslatePage> {
                                   /* braileProvider.setBraileConverted = textBraille; */
                                   ref
                                       .read(brailleProvider.notifier)
-                                      .setBraileConverted(textBraille);
+                                      .setBraileConverted(textBraille.value);
                                   context.push('/print_pdf_page');
                                 },
                                 tooltip: 'Crear pdf',
@@ -124,7 +67,7 @@ class _TranslatePageState extends ConsumerState<TranslatePage> {
                                 readOnly: true,
                                 maxLines: 7,
                                 controller: TextEditingController(
-                                  text: textBraille,
+                                  text: textBraille.value,
                                 ),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
@@ -152,12 +95,12 @@ class _TranslatePageState extends ConsumerState<TranslatePage> {
                                 ),
                               ),
                               SizedBox(width: 5),
-                              textBraille.isEmpty
+                              textBraille.value.isEmpty
                                   ? SizedBox()
                                   : IconButton(
                                       onPressed: () async {
-                                        await Clipboard.setData(
-                                            ClipboardData(text: textBraille));
+                                        await Clipboard.setData(ClipboardData(
+                                            text: textBraille.value));
 
                                         ref
                                             .read(globalProvider.notifier)
@@ -179,118 +122,26 @@ class _TranslatePageState extends ConsumerState<TranslatePage> {
                         ),
                       ],
                     ),
-                    /* Card(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: textController,
-                          maxLines: 7,
-                          style: textTheme.bodySmall!.copyWith(
-                            fontSize: fontSize,
-                            /* color: braileProvider.getPickerTextColor, */
-                            color: globalProviderS.pickerColor,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Ingrese su texto aquí",
-                            border: InputBorder.none,
-                            suffixIcon: textController.text.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () {
-                                      textController.text = "";
-                                      textController.clear();
-                                      setState(() {
-                                        textBraille = "";
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.cancel,
-                                      color: globalProviderS.pickerColor,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              textBraille = convertToBraillex(value);
-
-                              ref
-                                  .read(brailleProvider.notifier)
-                                  .setNormalText(value);
-                            });
-                          },
-                        ),
-                      ),
-                    ), */
                   ],
                 ),
               ),
               /* BannerWidgetPositioned(), */
               Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Card(
-                          child: TextField(
-                            controller: textController,
-                            minLines: 1,
-                            maxLines: 3,
-                            style: textTheme.bodySmall!.copyWith(
-                              fontSize: fontSize,
-                              /* color: braileProvider.getPickerTextColor, */
-                              color: globalProviderS.pickerColor,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "Ingrese su texto aquí",
-                              hintStyle: TextStyle(fontSize: 14),
-                              border: InputBorder.none,
-                              suffixIcon: textController.text.isNotEmpty
-                                  ? IconButton(
-                                      onPressed: () {
-                                        textController.text = "";
-                                        textController.clear();
-                                        setState(() {
-                                          textBraille = "";
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.cancel,
-                                        color: globalProviderS.pickerColor,
-                                      ),
-                                    )
-                                  : null,
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                textBraille = convertToBraillex(value);
+                alignment: Alignment.bottomCenter,
+                child: CustomTextFormSpeechButton(
+                  focusNode: FocusNode(),
+                  onTextChange: (text) {
+                    ref.read(brailleProvider.notifier).setNormalText(text);
+                    textBraille.value = convertToBraillex(text);
+                  },
+                  onSpeechResult: (value) {
+                    textBraille.value =
+                        convertToBraillex(value.recognizedWords);
 
-                                ref
-                                    .read(brailleProvider.notifier)
-                                    .setNormalText(value);
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      /* IconButton(
-                        onPressed: () async {
-                          await _speechToText.isNotListening
-                              ? _startListening()
-                              : _stopListening();
-                        },
-                        icon: Icon(
-                          _speechToText.isNotListening
-                              ? Icons.mic_off
-                              : Icons.mic,
-                        ),
-                      ), */
-                      SpeechButton(
-                        onSpeechResult: _onSpeechResult,
-                      ),
-                    ],
-                  ))
+                    textController.text = value.recognizedWords;
+                  },
+                ),
+              )
             ],
           ),
         ),

@@ -52,6 +52,7 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
               tooltip: "Borrar todo",
               onPressed: () {
                 /* globalProvider.setPhrase = ''; */
+                ref.read(globalProvider.notifier).setPhrase('');
                 textFormController.text = '';
                 setState(() {});
               },
@@ -74,6 +75,9 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
                     ? FadeInOpacity(
                         duration: Duration(milliseconds: 500),
                         child: NoInformation(
+                          onPressed: () {
+                            FocusScope.of(context).requestFocus(_focusNode);
+                          },
                           icon: Icons.info_outline,
                           text: "Escribe una frase para comenzar",
                           showButton: false,
@@ -153,7 +157,7 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
               ),
               Container(
                 /* margin: EdgeInsets.only(top: 20), */
-                child: Row(
+                /* child: Row(
                   children: [
                     Container(
                       child: Flexible(
@@ -210,6 +214,23 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
                             ),
                     )
                   ],
+                ), */
+                child: CustomTextFormSpeechButton(
+                  focusNode: _focusNode,
+                  onTextChange: (value) {
+                    setState(() {});
+                    if (textFormController.text.length > 5)
+                      _performActionAndScrollToBottom();
+                    textFormController.text = value;
+                    setState(() {});
+                  },
+                  onSpeechResult: (value) {
+                    setState(() {});
+                    if (textFormController.text.length > 5)
+                      _performActionAndScrollToBottom();
+                    textFormController.text = value.recognizedWords;
+                    setState(() {});
+                  },
                 ),
               ),
             ],
