@@ -81,23 +81,6 @@ class _TranslatePageState extends ConsumerState<TranslatePage> {
     final textTheme = Theme.of(context).textTheme;
     /* textController.text = braileProvider.getNormalText; */
     return Scaffold(
-      floatingActionButton: textController.text.isNotEmpty
-          ? FloatingActionButton.extended(
-              label: Text('Crear PDF'),
-              icon: Icon(Icons.picture_as_pdf_rounded),
-              onPressed: () {
-                if (addCounterIntersitialAd()) {
-                  InterstitialAdManager.showAd();
-                }
-                /* braileProvider.setBraileConverted = textBraille; */
-                ref
-                    .read(brailleProvider.notifier)
-                    .setBraileConverted(textBraille);
-                context.push('/print_pdf_page');
-              },
-              tooltip: 'Crear pdf',
-            )
-          : null,
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -112,80 +95,23 @@ class _TranslatePageState extends ConsumerState<TranslatePage> {
                     CustomAppbar(
                       titlePage: widget.titlePage.titlePage,
                       actions: [
-                        IconButton(
-                          onPressed: () async {
-                            await _speechToText.isNotListening
-                                ? _startListening()
-                                : _stopListening();
-                          },
-                          icon: Icon(
-                            _speechToText.isNotListening
-                                ? Icons.mic_off
-                                : Icons.mic,
-                          ),
-                        ),
+                        textController.text.isNotEmpty
+                            ? IconButton(
+                                icon: Icon(Icons.picture_as_pdf_rounded),
+                                onPressed: () {
+                                  if (addCounterIntersitialAd()) {
+                                    InterstitialAdManager.showAd();
+                                  }
+                                  /* braileProvider.setBraileConverted = textBraille; */
+                                  ref
+                                      .read(brailleProvider.notifier)
+                                      .setBraileConverted(textBraille);
+                                  context.push('/print_pdf_page');
+                                },
+                                tooltip: 'Crear pdf',
+                              )
+                            : SizedBox(),
                       ],
-                    ),
-                    /* Row(
-                      children: [
-                        Expanded(
-                          child: Slider(
-                            label: "Tamaño de letra",
-                            value: fontSize,
-                            max: 50,
-                            min: 10,
-                            onChanged: (value) {
-                              setState(() {
-                                fontSize = value;
-                              });
-                            },
-                          ),
-                        ),
-                        PickColorButton(),
-                      ],
-                    ), */
-                    Card(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: textController,
-                          maxLines: 7,
-                          style: textTheme.bodySmall!.copyWith(
-                            fontSize: fontSize,
-                            /* color: braileProvider.getPickerTextColor, */
-                            color: globalProviderS.pickerColor,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Ingrese su texto aquí",
-                            border: InputBorder.none,
-                            suffixIcon: textController.text.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () {
-                                      textController.text = "";
-                                      textController.clear();
-                                      setState(() {
-                                        textBraille = "";
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.cancel,
-                                      color: globalProviderS.pickerColor,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              textBraille = convertToBraillex(value);
-
-                              ref
-                                  .read(brailleProvider.notifier)
-                                  .setNormalText(value);
-                            });
-                          },
-                        ),
-                      ),
                     ),
                     Stack(
                       children: [
@@ -253,10 +179,118 @@ class _TranslatePageState extends ConsumerState<TranslatePage> {
                         ),
                       ],
                     ),
+                    /* Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: textController,
+                          maxLines: 7,
+                          style: textTheme.bodySmall!.copyWith(
+                            fontSize: fontSize,
+                            /* color: braileProvider.getPickerTextColor, */
+                            color: globalProviderS.pickerColor,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: "Ingrese su texto aquí",
+                            border: InputBorder.none,
+                            suffixIcon: textController.text.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () {
+                                      textController.text = "";
+                                      textController.clear();
+                                      setState(() {
+                                        textBraille = "";
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.cancel,
+                                      color: globalProviderS.pickerColor,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              textBraille = convertToBraillex(value);
+
+                              ref
+                                  .read(brailleProvider.notifier)
+                                  .setNormalText(value);
+                            });
+                          },
+                        ),
+                      ),
+                    ), */
                   ],
                 ),
               ),
-              BannerWidgetPositioned(),
+              /* BannerWidgetPositioned(), */
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Card(
+                          child: TextField(
+                            controller: textController,
+                            minLines: 1,
+                            maxLines: 3,
+                            style: textTheme.bodySmall!.copyWith(
+                              fontSize: fontSize,
+                              /* color: braileProvider.getPickerTextColor, */
+                              color: globalProviderS.pickerColor,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: "Ingrese su texto aquí",
+                              hintStyle: TextStyle(fontSize: 14),
+                              border: InputBorder.none,
+                              suffixIcon: textController.text.isNotEmpty
+                                  ? IconButton(
+                                      onPressed: () {
+                                        textController.text = "";
+                                        textController.clear();
+                                        setState(() {
+                                          textBraille = "";
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.cancel,
+                                        color: globalProviderS.pickerColor,
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                textBraille = convertToBraillex(value);
+
+                                ref
+                                    .read(brailleProvider.notifier)
+                                    .setNormalText(value);
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      /* IconButton(
+                        onPressed: () async {
+                          await _speechToText.isNotListening
+                              ? _startListening()
+                              : _stopListening();
+                        },
+                        icon: Icon(
+                          _speechToText.isNotListening
+                              ? Icons.mic_off
+                              : Icons.mic,
+                        ),
+                      ), */
+                      SpeechButton(
+                        onSpeechResult: _onSpeechResult,
+                      ),
+                    ],
+                  ))
             ],
           ),
         ),

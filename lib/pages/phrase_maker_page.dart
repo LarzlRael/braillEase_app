@@ -225,7 +225,7 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
       context: mainContext,
       builder: (BuildContext context) {
         final brailleProviderN = ref.read(brailleProvider.notifier);
-        final brailleProviderS = ref.read(brailleProvider);
+        final brailleProviderS = ref.watch(brailleProvider);
         final globalProviderN = ref.read(globalProvider.notifier);
         String wordToShow = '';
         List<String> matchingCharacters = [];

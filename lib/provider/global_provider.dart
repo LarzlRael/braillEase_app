@@ -18,11 +18,6 @@ class GlobalProvider extends StateNotifier<GlobalState> {
     state = state.copyWith(phrase: value);
   }
 
-  /* GlobalProvider() {
-    _pickerColor = UserPreferences.getPickerColor == null
-        ? Colors.blue
-        : Color(UserPreferences.getPickerColor!);
-  } */
   void showSnackBar(
     BuildContext context,
     String message, {

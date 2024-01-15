@@ -24,14 +24,16 @@ class BrailleNotifier extends StateNotifier<BrailleState> {
           braileConverted: '',
           pickerTextColor: Colors.black,
         ));
-  final defualtWord = [false, false, false, false, false, false];
+  final defaultWord = [false, false, false, false, false, false];
 
   void setWord(List<bool> word) {
     state = state.copyWith(word: word);
   }
 
   void setWordIndex(int index, bool value) {
-    state = state.copyWith(word: state.word);
+    state = state.copyWith(
+      word: List.of(state.word)..[index] = value,
+    );
   }
 
   void clearWord() {
