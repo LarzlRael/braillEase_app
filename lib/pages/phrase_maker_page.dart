@@ -1,66 +1,74 @@
 part of 'pages.dart';
 
-class PhraseMakerPage extends ConsumerStatefulWidget {
+/* class PhraseMakerPage extends ConsumerStatefulWidget {
   final String? phrase;
   const PhraseMakerPage({super.key, this.phrase});
   @override
   _PhraseMakerPageState createState() => _PhraseMakerPageState();
-}
+} */
 
-class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
-  TextEditingController textFormController = TextEditingController();
-  ScrollController scrollController = ScrollController();
-  final _focusNode = FocusNode();
+class PhraseMakerPage extends HookConsumerWidget {
+  final String? phraseArg;
+
+  PhraseMakerPage({super.key, required this.phraseArg});
   @override
-  void initState() {
-    super.initState();
-
-    textFormController.text = widget.phrase ?? '';
-    InterstitialAdManager.loadAd();
-  }
-
-  @override
-  void dispose() {
-    InterstitialAdManager.disposeAd();
-    super.dispose();
-  }
-
-  void _performActionAndScrollToBottom() {
-    // Realiza la acción que desencadena el desplazamiento automático.
-    // Por ejemplo, si quieres agregar un nuevo elemento, agrega el elemento a la lista de elementos que alimenta el GridView.
-
-    // Luego de realizar la acción, haremos que el GridView se desplace automáticamente hacia abajo.
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final textFormController = useTextEditingController();
+    final scrollController = useScrollController();
+    final _focusNode = FocusNode();
     final globalProviderN = ref.watch(globalProvider.notifier);
-    final listGenerate = getLetterConverted(textFormController.text);
-    final phrase = textFormController.text;
+    final listGenerate =
+        useState<List<List<bool>>>(getLetterConverted(textFormController.text));
+
+    final phrase = useState(textFormController.text);
+
+    useEffect(() {
+      listGenerate.value = getLetterConverted(textFormController.text);
+      phrase.value = textFormController.text;
+    }, [textFormController.text]);
+
+    useEffect(() {
+      textFormController.text = phraseArg ?? '';
+      InterstitialAdManager.loadAd();
+      return () {
+        /* textFormController.dispose();
+        InterstitialAdManager.disposeAd(); */
+      };
+    }, []);
+
+    void _performActionAndScrollToBottom() {
+      // Realiza la acción que desencadena el desplazamiento automático.
+      // Por ejemplo, si quieres agregar un nuevo elemento, agrega el elemento a la lista de elementos que alimenta el GridView.
+
+      // Luego de realizar la acción, haremos que el GridView se desplace automáticamente hacia abajo.
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Creador de frases'),
         actions: [
-          if (phrase.isNotEmpty)
+          if (phrase.value.isNotEmpty)
             IconButton(
               tooltip: "Borrar todo",
               onPressed: () {
                 /* globalProvider.setPhrase = ''; */
                 ref.read(globalProvider.notifier).setPhrase('');
                 textFormController.text = '';
-                setState(() {});
               },
               icon: Icon(Icons.cancel),
             ),
           IconButton(
             onPressed: () {
-              showDialogPicker(ref);
+              showDialogPicker(
+                context,
+                ref,
+                textFormController,
+              );
             },
             icon: Icon(FontAwesomeIcons.braille),
           ),
@@ -71,7 +79,7 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
           child: Column(
             children: [
               Flexible(
-                child: phrase.isEmpty
+                child: phrase.value.isEmpty
                     ? FadeInOpacity(
                         duration: Duration(milliseconds: 500),
                         child: NoInformation(
@@ -103,19 +111,14 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
                                               1.15),
                                 ),
                                 shrinkWrap: true,
-                                itemCount: listGenerate.length,
+                                itemCount: listGenerate.value.length,
                                 itemBuilder: (_, int index) {
-                                  final letter = phrase[index];
-                                  final listGenerated = listGenerate[index];
+                                  final letter = phrase.value[index];
+                                  final listGenerated =
+                                      listGenerate.value[index];
                                   return GestureDetector(
-                                    onTap: () {
-                                      /* globalProvider.showSnackBar(
-                              context,
-                              letter,
-                              backgroundColor: Colors.blue,
-                            ); */
-                                      context.push('/details/$letter');
-                                    },
+                                    onTap: () =>
+                                        context.push('/details/$letter'),
                                     child: Stack(
                                       children: [
                                         FadeInOpacity(
@@ -135,8 +138,8 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
                                               /* globalProvider.setPhrase =
                                                   phrase.replaceFirst(letter, ''); */
                                               textFormController.text = phrase
+                                                  .value
                                                   .replaceFirst(letter, '');
-                                              setState(() {});
                                             },
                                             icon: Icon(
                                               Icons.cancel,
@@ -218,18 +221,16 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
                 child: CustomTextFormSpeechButton(
                   focusNode: _focusNode,
                   onTextChange: (value) {
-                    setState(() {});
-                    if (textFormController.text.length > 5)
+                    if (textFormController.text.length > 5) {
                       _performActionAndScrollToBottom();
+                    }
+
                     textFormController.text = value;
-                    setState(() {});
                   },
                   onSpeechResult: (value) {
-                    setState(() {});
                     if (textFormController.text.length > 5)
                       _performActionAndScrollToBottom();
                     textFormController.text = value.recognizedWords;
-                    setState(() {});
                   },
                 ),
               ),
@@ -240,7 +241,11 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
     );
   }
 
-  void showDialogPicker(WidgetRef ref) {
+  void showDialogPicker(
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController textFormController,
+  ) {
     BuildContext mainContext = context;
     showDialog(
       context: mainContext,
@@ -371,10 +376,9 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
             IconButton(
                 onPressed: () {
                   brailleProviderN.clearWord();
-                  setState(() {
-                    matchingCharacters.clear();
-                    wordToShow = "";
-                  });
+
+                  matchingCharacters.clear();
+                  wordToShow = "";
                 },
                 icon: Icon(Icons.backspace)),
             /*
@@ -394,7 +398,6 @@ class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
                 }
                 /* globalProvider.setPhrase =
                     globalProvider.getPhrase + matchingCharacters[0]; */
-
                 globalProviderN.setPhrase(
                     ref.read(globalProvider).phrase + matchingCharacters[0]);
 

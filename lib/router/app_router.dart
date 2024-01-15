@@ -78,7 +78,7 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         return fadeInTransition(
           child: PhraseMakerPage(
-            phrase: state.params['phrase'] as String,
+            phraseArg: state.params['phrase'] as String,
           ),
           duration: const Duration(milliseconds: 250),
         );
@@ -88,7 +88,9 @@ final appRouter = GoRouter(
       path: '/phrase_maker',
       pageBuilder: (context, state) {
         return fadeInTransition(
-          child: PhraseMakerPage(),
+          child: PhraseMakerPage(
+            phraseArg: null,
+          ),
           duration: const Duration(milliseconds: 250),
         );
       },
