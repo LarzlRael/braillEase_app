@@ -1,76 +1,65 @@
 part of 'pages.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
-
-  @override
-  State<SettingsPage> createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends State<SettingsPage> {
+class SettingsPage extends ConsumerWidget {
   // create some values
-  late GlobalProvider globalProvider;
-  late ThemeProviderNotifier themeProviderNotifier;
-  @override
+  /* late GlobalProvider globalProvider;
+  late ThemeProviderNotifier themeProviderNotifier; */
+  /* @override
   void initState() {
     super.initState();
     globalProvider = context.read<GlobalProvider>();
     themeProviderNotifier = context.read<ThemeProviderNotifier>();
-  }
+  } */
 
 // ValueChanged<Color> callback
-  void changeColor(Color color) {
-    globalProvider.pickerColor = color;
+  /* void changeColor(Color color) {
+    /* globalProvider.pickerColor = color; */
     UserPreferences.setPickerColor = color.value;
 
     context.pop();
-  }
+  } */
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final globalProviderNotifier = ref.watch(settingsProvider.notifier);
+    final globalProviderState = ref.watch(settingsProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Configuraciones'),
       ),
-      body: Consumer<GlobalProvider>(
-        builder: (context, globalProvider, child) {
-          return ListView(
-            children: [
-              ListTile(
-                onTap: () {
-                  themeProviderNotifier.toggleTheme();
-                  UserPreferences.isDarkModeEnabled =
-                      themeProviderNotifier.isDarkModeEnabled;
-                },
-                title: Text('Cambiar tema'),
-                leading: Icon(
-                  themeProviderNotifier.isDarkModeEnabled
-                      ? Icons.dark_mode
-                      : Icons.light_mode,
-                ),
+      body: ListView(
+        children: [
+          ListTile(
+            onTap: () {
+              globalProviderNotifier.toggleTheme();
+              /* UserPreferences.isDarkModeEnabled =
+                  themeProviderNotifier.isDarkModeEnabled; */
+            },
+            title: Text('Cambiar tema'),
+            leading: Icon(
+              globalProviderState.isDarkModeEnabled
+                  ? Icons.dark_mode
+                  : Icons.light_mode,
+            ),
+          ),
+          ListTile(
+            onTap: () => showPickerColor(context, ref),
+            title: Text('Color actual'),
+            leading: Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: ref.watch(globalProvider).currentColor,
+                shape: BoxShape.circle,
               ),
-              ListTile(
-                onTap: () {
-                  showPickerColor();
-                },
-                title: Text('Color actual'),
-                leading: Container(
-                  width: 25,
-                  height: 25,
-                  decoration: BoxDecoration(
-                    color: globalProvider.pickerColor,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              )
-            ],
-          );
-        },
+            ),
+          )
+        ],
       ),
     );
   }
 
-  showPickerColor() {
+  showPickerColor(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -78,8 +67,8 @@ class _SettingsPageState extends State<SettingsPage> {
           title: const Text('Escoge un color'),
           content: SingleChildScrollView(
             child: MaterialPicker(
-              pickerColor: globalProvider.pickerColor,
-              onColorChanged: changeColor,
+              pickerColor: ref.watch(globalProvider).pickerColor,
+              onColorChanged: ref.read(globalProvider.notifier).setPickerColor,
               /* showLabel: true,
                                     pickerAreaHeightPercent: 0.8, */
             ),
@@ -88,7 +77,9 @@ class _SettingsPageState extends State<SettingsPage> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                globalProvider.currentColor = globalProvider.pickerColor;
+                ref.read(globalProvider.notifier).currentColor(
+                      ref.watch(globalProvider).pickerColor,
+                    );
                 context.pop();
               },
             ),

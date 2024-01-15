@@ -1,6 +1,6 @@
 part of 'pages.dart';
 
-class TranslatePage extends StatefulWidget {
+class TranslatePage extends ConsumerStatefulWidget {
   final PageRouteParams titlePage;
   const TranslatePage({
     super.key,
@@ -8,12 +8,10 @@ class TranslatePage extends StatefulWidget {
   });
 
   @override
-  State<TranslatePage> createState() => _TranslatePageState();
+  _TranslatePageState createState() => _TranslatePageState();
 }
 
-class _TranslatePageState extends State<TranslatePage> {
-  late GlobalProvider globalProvider;
-  late BrailleProvider braileProvider;
+class _TranslatePageState extends ConsumerState<TranslatePage> {
   TextEditingController textController = TextEditingController();
   bool isSwitched = false;
   String textBraille = "";
@@ -28,9 +26,8 @@ class _TranslatePageState extends State<TranslatePage> {
   @override
   initState() {
     super.initState();
-    globalProvider = context.read<GlobalProvider>();
-    braileProvider = context.read<BrailleProvider>();
-    textController.text = braileProvider.getNormalText;
+
+    textController.text = ref.read(brailleProvider).normalText;
     textBraille = convertToBraillex(textController.text);
     InterstitialAdManager.loadAd();
     _initSpeech();
@@ -80,6 +77,7 @@ class _TranslatePageState extends State<TranslatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final globalProviderS = ref.watch(globalProvider);
     final textTheme = Theme.of(context).textTheme;
     /* textController.text = braileProvider.getNormalText; */
     return Scaffold(
@@ -91,7 +89,10 @@ class _TranslatePageState extends State<TranslatePage> {
                 if (addCounterIntersitialAd()) {
                   InterstitialAdManager.showAd();
                 }
-                braileProvider.setBraileConverted = textBraille;
+                /* braileProvider.setBraileConverted = textBraille; */
+                ref
+                    .read(brailleProvider.notifier)
+                    .setBraileConverted(textBraille);
                 context.push('/print_pdf_page');
               },
               tooltip: 'Crear pdf',
@@ -152,7 +153,7 @@ class _TranslatePageState extends State<TranslatePage> {
                           style: textTheme.bodySmall!.copyWith(
                             fontSize: fontSize,
                             /* color: braileProvider.getPickerTextColor, */
-                            color: globalProvider.pickerColor,
+                            color: globalProviderS.pickerColor,
                             fontWeight: FontWeight.normal,
                           ),
                           decoration: InputDecoration(
@@ -169,7 +170,7 @@ class _TranslatePageState extends State<TranslatePage> {
                                     },
                                     icon: Icon(
                                       Icons.cancel,
-                                      color: globalProvider.pickerColor,
+                                      color: globalProviderS.pickerColor,
                                     ),
                                   )
                                 : null,
@@ -177,7 +178,10 @@ class _TranslatePageState extends State<TranslatePage> {
                           onChanged: (value) {
                             setState(() {
                               textBraille = convertToBraillex(value);
-                              braileProvider.setNormalText = value;
+
+                              ref
+                                  .read(brailleProvider.notifier)
+                                  .setNormalText(value);
                             });
                           },
                         ),
@@ -202,7 +206,7 @@ class _TranslatePageState extends State<TranslatePage> {
                                 style: textTheme.bodySmall!.copyWith(
                                   fontSize: fontSize + 5,
                                   /* color: braileProvider.getPickerTextColor, */
-                                  color: globalProvider.pickerColor,
+                                  color: globalProviderS.pickerColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -216,7 +220,7 @@ class _TranslatePageState extends State<TranslatePage> {
                                 "Traducción en Braille",
                                 style: textTheme.titleMedium!.copyWith(
                                   fontSize: 13,
-                                  color: globalProvider.pickerColor
+                                  color: globalProviderS.pickerColor
                                       .withOpacity(0.7),
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -229,15 +233,17 @@ class _TranslatePageState extends State<TranslatePage> {
                                         await Clipboard.setData(
                                             ClipboardData(text: textBraille));
 
-                                        globalProvider.showSnackBar(
-                                          backgroundColor: Colors.blue,
-                                          context,
-                                          "Texto copiado al portapapeles",
-                                        );
+                                        ref
+                                            .read(globalProvider.notifier)
+                                            .showSnackBar(
+                                              backgroundColor: Colors.blue,
+                                              context,
+                                              "Texto copiado al portapapeles",
+                                            );
                                       },
                                       icon: Icon(
                                         Icons.copy,
-                                        color: globalProvider.pickerColor,
+                                        color: globalProviderS.pickerColor,
                                       ),
                                     ),
                             ],

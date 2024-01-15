@@ -11,11 +11,12 @@ class PagesSizes {
   });
 }
 
-class PrintPdfPage extends StatelessWidget {
+class PrintPdfPage extends ConsumerWidget {
   const PrintPdfPage({super.key});
   @override
-  Widget build(BuildContext context) {
-    final braileProvider = Provider.of<BrailleProvider>(context);
+  Widget build(BuildContext context, ref) {
+    final braileProviderState = ref.watch(brailleProvider);
+    final braileProviderNotifier = ref.read(brailleProvider.notifier);
     final textTheme = Theme.of(context).textTheme;
     final List<PagesSizes> pagesSizes = [
       PagesSizes(
@@ -54,10 +55,11 @@ class PrintPdfPage extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 onTap: () async {
-                  braileProvider.setSelectedPagesSizes = pagesSizes[index];
+                  braileProviderNotifier
+                      .setSelectedPagesSizes(pagesSizes[index]);
                   await createAndDownloadPdf(
-                    braileProvider.getBraileConverted,
-                    braileProvider,
+                    braileProviderState.braileConverted,
+                    braileProviderState,
                   );
                 },
                 title: Text(pagesSizes[index].sizeName),

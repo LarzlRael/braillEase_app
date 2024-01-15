@@ -2,7 +2,7 @@ part of 'utils.dart';
 
 Future<void> createAndDownloadPdf(
   String textToPrint,
-  BrailleProvider braileProvider,
+  BrailleState braileProvider,
 ) async {
   final fontData = await rootBundle.load('assets/dejavu_sans.ttf');
   final ttf = pw.Font.ttf(fontData.buffer.asByteData());
@@ -10,7 +10,7 @@ Future<void> createAndDownloadPdf(
 
   pdf.addPage(
     pw.MultiPage(
-      pageFormat: braileProvider.selectedPagesSizes.pageFormat,
+      pageFormat: braileProvider.pagesSizes.pageFormat,
       build: (pw.Context context) {
         return <pw.Widget>[
           pw.Header(
@@ -18,7 +18,7 @@ Future<void> createAndDownloadPdf(
             child: pw.Text('Braille'),
           ),
           pw.Paragraph(
-            text: braileProvider.getBraileConverted,
+            text: braileProvider.braileConverted,
             style: pw.TextStyle(
               font: ttf,
               fontSize: 20,

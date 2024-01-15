@@ -1,57 +1,93 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'providers.dart';
 
-class BrailleProvider with ChangeNotifier {
-  List<bool> _word = [false, false, false, false, false, false];
+final brailleProvider =
+    StateNotifierProvider<BrailleNotifier, BrailleState>((ref) {
+  return BrailleNotifier();
+});
 
-  List<bool> get getWord => _word;
-  set setWord(List<bool> word) {
-    _word = word;
-    notifyListeners();
+/* class BraiilerNotifier extends StateNotifier<BrailleState> {
+  BraiilerNotifier() : super();
+
+  void increment() {
+    state = state.copyWith(count: state.count + 1);
+  }
+} */
+
+class BrailleNotifier extends StateNotifier<BrailleState> {
+  BrailleNotifier()
+      : super(BrailleState(
+          pagesSizes: PagesSizes(
+              sizeName: 'Letter', size: '20', pageFormat: PdfPageFormat.letter),
+          word: [false, false, false, false, false, false],
+          normalText: '',
+          braileConverted: '',
+          pickerTextColor: Colors.black,
+        ));
+  final defualtWord = [false, false, false, false, false, false];
+
+  void setWord(List<bool> word) {
+    state = state.copyWith(word: word);
   }
 
   void setWordIndex(int index, bool value) {
-    this._word[index] = value;
-    notifyListeners();
+    state = state.copyWith(word: state.word);
   }
 
   void clearWord() {
-    this._word = [false, false, false, false, false, false];
-    notifyListeners();
+    state = state.copyWith(word: [false, false, false, false, false, false]);
   }
 
   void fillWord() {
-    this._word = [true, true, true, true, true, true];
-    notifyListeners();
+    state = state.copyWith(word: [true, true, true, true, true, true]);
   }
 
-  late PagesSizes _selectedPagesSizes;
-  late String braileConverted;
-  Color pickerTextColor = Colors.black;
-  String _normalText = '';
-
-  Color get getPickerTextColor => pickerTextColor;
-  set setPickerTextColor(Color color) {
-    pickerTextColor = color;
-    notifyListeners();
+  void setPickerTextColor(Color color) {
+    state = state.copyWith(pickerTextColor: color);
   }
 
-  set setBraileConverted(String braile) {
-    braileConverted = braile;
-    notifyListeners();
+  void setBraileConverted(String braile) {
+    state = state.copyWith(braileConverted: braile);
   }
 
-  String get getBraileConverted => braileConverted;
-  set setSelectedPagesSizes(PagesSizes pagesSizes) {
-    _selectedPagesSizes = pagesSizes;
-    notifyListeners();
+  void setSelectedPagesSizes(PagesSizes pagesSizes) {
+    state = state.copyWith(pagesSizes: pagesSizes);
   }
 
-  PagesSizes get selectedPagesSizes => _selectedPagesSizes;
-
-  set setNormalText(String normalText) {
-    _normalText = normalText;
-    notifyListeners();
+  void setNormalText(String normalText) {
+    state = state.copyWith(normalText: normalText);
   }
+}
 
-  String get getNormalText => _normalText;
+class BrailleState {
+  final List<bool> word;
+  final PagesSizes pagesSizes;
+  final String braileConverted;
+  final String normalText;
+
+  final Color pickerTextColor;
+
+  BrailleState({
+    required this.word,
+    required this.normalText,
+    required this.pagesSizes,
+    required this.braileConverted,
+    required this.pickerTextColor,
+  });
+
+  BrailleState copyWith({
+    List<bool>? word,
+    PagesSizes? pagesSizes,
+    String? braileConverted,
+    Color? pickerTextColor,
+    String? normalText,
+  }) {
+    return BrailleState(
+      word: word ?? this.word,
+      pagesSizes: pagesSizes ?? this.pagesSizes,
+      braileConverted: braileConverted ?? this.braileConverted,
+      pickerTextColor: pickerTextColor ?? this.pickerTextColor,
+      normalText: normalText ?? this.normalText,
+    );
+  }
 }

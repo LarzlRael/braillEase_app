@@ -1,6 +1,6 @@
 part of '../widgets.dart';
 
-class LetterBraileCreator extends StatelessWidget {
+class LetterBraileCreator extends ConsumerWidget {
   final double? childAspectRatio;
   final Function(List<bool>) onWordChanged;
   final List<bool>? params;
@@ -12,8 +12,9 @@ class LetterBraileCreator extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final brailleProvider = context.watch<BrailleProvider>();
+  Widget build(BuildContext context, ref) {
+    final brailleProviderS = ref.watch(brailleProvider);
+    final brailleProviderN = ref.read(brailleProvider.notifier);
     return Container(
       margin: EdgeInsets.all(13),
       child: GridView.count(
@@ -24,16 +25,18 @@ class LetterBraileCreator extends StatelessWidget {
         childAspectRatio: childAspectRatio ?? 1,
         mainAxisSpacing: 13,
         children: List.generate(
-          brailleProvider.getWord.length,
+          brailleProviderS.word.length,
           (index) => GestureDetector(
             onTap: () {
-              brailleProvider.setWordIndex(
-                  index, !brailleProvider.getWord[index]);
-              onWordChanged(brailleProvider.getWord);
+              brailleProviderN.setWordIndex(
+                index,
+                !brailleProviderS.word[index],
+              );
+              onWordChanged(brailleProviderS.word);
             },
             child: Point(
               /* selected: word[index], */
-              selected: brailleProvider.getWord[index],
+              selected: brailleProviderS.word[index],
             ),
           ),
         ),

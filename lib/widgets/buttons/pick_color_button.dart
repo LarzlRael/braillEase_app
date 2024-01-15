@@ -1,43 +1,34 @@
 part of '../widgets.dart';
 
-class PickColorButton extends StatefulWidget {
+class PickColorButton extends ConsumerWidget {
   const PickColorButton({super.key});
 
-  @override
-  State<PickColorButton> createState() => _PickColorButtonState();
-}
-
-class _PickColorButtonState extends State<PickColorButton> {
-  late BrailleProvider braileProvider;
+  /* late BrailleProvider braileProvider;
   @override
   void initState() {
     super.initState();
     braileProvider = context.read<BrailleProvider>();
-  }
-
-  void changeColor(Color color) {
-    braileProvider.setPickerTextColor = color;
-    context.pop();
-  }
+  } */
 
   @override
-  Widget build(BuildContext context) {
-    final globalProvider = context.watch<BrailleProvider>();
+  Widget build(BuildContext context, ref) {
+    final globalProvider = ref.watch(brailleProvider);
     return GestureDetector(
-      onTap: showPickerColorDialog,
+      onTap: () => showPickerColorDialog(context, ref),
       child: Container(
         width: 25,
         height: 25,
         decoration: BoxDecoration(
-          color: globalProvider.getPickerTextColor,
+          color: globalProvider.pickerTextColor,
           shape: BoxShape.circle,
         ),
       ),
     );
   }
 
-  showPickerColorDialog() {
-    final globalProvider = context.read<BrailleProvider>();
+  showPickerColorDialog(BuildContext context, ref) {
+    final brailleProviderState = ref.watch(brailleProvider);
+    final brailleNotifier = ref.watch(brailleProvider.notifier);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -45,8 +36,10 @@ class _PickColorButtonState extends State<PickColorButton> {
           title: const Text('Escoge un color'),
           content: SingleChildScrollView(
             child: MaterialPicker(
-              pickerColor: globalProvider.getPickerTextColor,
-              onColorChanged: changeColor,
+              pickerColor: brailleProviderState.getPickerTextColor,
+              onColorChanged: (color) {
+                brailleNotifier.setPickerTextColor(color);
+              },
 
               /* showLabel: true,
                                     pickerAreaHeightPercent: 0.8, */

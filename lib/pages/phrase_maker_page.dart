@@ -1,21 +1,20 @@
 part of 'pages.dart';
 
-class PhraseMakerPage extends StatefulWidget {
+class PhraseMakerPage extends ConsumerStatefulWidget {
   final String? phrase;
   const PhraseMakerPage({super.key, this.phrase});
   @override
-  State<PhraseMakerPage> createState() => _PhraseMakerPageState();
+  _PhraseMakerPageState createState() => _PhraseMakerPageState();
 }
 
-class _PhraseMakerPageState extends State<PhraseMakerPage> {
-  late GlobalProvider globalProvider;
+class _PhraseMakerPageState extends ConsumerState<PhraseMakerPage> {
   TextEditingController textFormController = TextEditingController();
   ScrollController scrollController = ScrollController();
   final _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
-    globalProvider = context.read<GlobalProvider>();
+
     textFormController.text = widget.phrase ?? '';
     InterstitialAdManager.loadAd();
   }
@@ -40,194 +39,194 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GlobalProvider>(builder: (_, globalProvider, __) {
-      final listGenerate = getLetterConverted(textFormController.text);
-      final phrase = textFormController.text;
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Creador de frases'),
-          actions: [
-            if (phrase.isNotEmpty)
-              IconButton(
-                tooltip: "Borrar todo",
-                onPressed: () {
-                  /* globalProvider.setPhrase = ''; */
-                  textFormController.text = '';
-                  setState(() {});
-                },
-                icon: Icon(Icons.cancel),
-              ),
+    final globalProviderN = ref.watch(globalProvider.notifier);
+    final listGenerate = getLetterConverted(textFormController.text);
+    final phrase = textFormController.text;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Creador de frases'),
+        actions: [
+          if (phrase.isNotEmpty)
             IconButton(
+              tooltip: "Borrar todo",
               onPressed: () {
-                showDialogPicker();
+                /* globalProvider.setPhrase = ''; */
+                textFormController.text = '';
+                setState(() {});
               },
-              icon: Icon(FontAwesomeIcons.braille),
+              icon: Icon(Icons.cancel),
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: Container(
-            child: Column(
-              children: [
-                Flexible(
-                  child: phrase.isEmpty
-                      ? FadeInOpacity(
-                          duration: Duration(milliseconds: 500),
-                          child: NoInformation(
-                            icon: Icons.info_outline,
-                            text: "Escribe una frase para comenzar",
-                            showButton: false,
-                            iconButton: Icons.add_a_photo,
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * .75,
-                                child: GridView.builder(
-                                  controller: scrollController,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 5,
-                                    crossAxisSpacing: 1,
-                                    mainAxisSpacing: 1,
-                                    childAspectRatio: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                        (MediaQuery.of(context).size.height /
-                                            1.15),
-                                  ),
-                                  shrinkWrap: true,
-                                  itemCount: listGenerate.length,
-                                  itemBuilder: (_, int index) {
-                                    final letter = phrase[index];
-                                    final listGenerated = listGenerate[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        /* globalProvider.showSnackBar(
+          IconButton(
+            onPressed: () {
+              showDialogPicker(ref);
+            },
+            icon: Icon(FontAwesomeIcons.braille),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: [
+              Flexible(
+                child: phrase.isEmpty
+                    ? FadeInOpacity(
+                        duration: Duration(milliseconds: 500),
+                        child: NoInformation(
+                          icon: Icons.info_outline,
+                          text: "Escribe una frase para comenzar",
+                          showButton: false,
+                          iconButton: Icons.add_a_photo,
+                        ),
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * .75,
+                              child: GridView.builder(
+                                controller: scrollController,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 5,
+                                  crossAxisSpacing: 1,
+                                  mainAxisSpacing: 1,
+                                  childAspectRatio:
+                                      MediaQuery.of(context).size.width /
+                                          (MediaQuery.of(context).size.height /
+                                              1.15),
+                                ),
+                                shrinkWrap: true,
+                                itemCount: listGenerate.length,
+                                itemBuilder: (_, int index) {
+                                  final letter = phrase[index];
+                                  final listGenerated = listGenerate[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      /* globalProvider.showSnackBar(
                               context,
                               letter,
                               backgroundColor: Colors.blue,
                             ); */
-                                        context.push('/details/$letter');
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          FadeInOpacity(
-                                            duration:
-                                                Duration(milliseconds: 500),
-                                            child: BraileLetterCardPickeed(
-                                              globalProvider: globalProvider,
-                                              listGenerated: listGenerated,
-                                              letter: letter,
-                                            ),
+                                      context.push('/details/$letter');
+                                    },
+                                    child: Stack(
+                                      children: [
+                                        FadeInOpacity(
+                                          duration: Duration(milliseconds: 500),
+                                          child: BraileLetterCardPickeed(
+                                            globalProvider:
+                                                ref.watch(globalProvider),
+                                            listGenerated: listGenerated,
+                                            letter: letter,
                                           ),
-                                          Positioned(
-                                            top: -13,
-                                            right: -13,
-                                            child: IconButton(
-                                              onPressed: () {
-                                                /* globalProvider.setPhrase =
+                                        ),
+                                        Positioned(
+                                          top: -13,
+                                          right: -13,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              /* globalProvider.setPhrase =
                                                   phrase.replaceFirst(letter, ''); */
-                                                textFormController.text = phrase
-                                                    .replaceFirst(letter, '');
-                                                setState(() {});
-                                              },
-                                              icon: Icon(
-                                                Icons.cancel,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
+                                              textFormController.text = phrase
+                                                  .replaceFirst(letter, '');
+                                              setState(() {});
+                                            },
+                                            icon: Icon(
+                                              Icons.cancel,
+                                              size: 15,
+                                              color: Colors.white,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                ),
-                Container(
-                  /* margin: EdgeInsets.only(top: 20), */
-                  child: Row(
-                    children: [
-                      Container(
-                        child: Flexible(
-                          child: Card(
-                            child: TextField(
-                              keyboardType: TextInputType.multiline,
-                              focusNode: _focusNode,
-                              controller: textFormController,
-                              maxLines: 3,
-                              minLines: 1,
-                              onChanged: (value) {
-                                setState(() {});
-                                if (textFormController.text.length > 5)
-                                  _performActionAndScrollToBottom();
-                              },
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Escribe una frase',
-                                hintStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                contentPadding: EdgeInsets.all(10),
-                              ),
-                            ),
-                          ),
-                          /* padding: EdgeInsets.all(10), */
-                        ),
-                      ),
-                      AnimatedContainer(
-                        duration: Duration(milliseconds: 250),
-                        margin: textFormController.text.isEmpty
-                            ? EdgeInsets.all(0)
-                            : EdgeInsets.symmetric(horizontal: 5),
-                        child: textFormController.text.isEmpty
-                            ? SizedBox()
-                            : FloatingActionButton(
-                                shape: StadiumBorder(),
-                                onPressed: () async {
-                                  if (addCounterIntersitialAd()) {
-                                    InterstitialAdManager.showAd();
-                                  }
-                                  await Clipboard.setData(ClipboardData(
-                                    text: convertToBraillex(
-                                        textFormController.text),
-                                  ));
-                                  globalProvider.showSnackBar(
-                                    backgroundColor: Colors.blue,
-                                    context,
-                                    "Texto copiado al portapapeles",
+                                        ),
+                                      ],
+                                    ),
                                   );
                                 },
-                                child: Icon(Icons.copy_outlined, size: 30),
                               ),
-                      )
-                    ],
-                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
+              Container(
+                /* margin: EdgeInsets.only(top: 20), */
+                child: Row(
+                  children: [
+                    Container(
+                      child: Flexible(
+                        child: Card(
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            focusNode: _focusNode,
+                            controller: textFormController,
+                            maxLines: 3,
+                            minLines: 1,
+                            onChanged: (value) {
+                              setState(() {});
+                              if (textFormController.text.length > 5)
+                                _performActionAndScrollToBottom();
+                            },
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Escribe una frase',
+                              hintStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              contentPadding: EdgeInsets.all(10),
+                            ),
+                          ),
+                        ),
+                        /* padding: EdgeInsets.all(10), */
+                      ),
+                    ),
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 250),
+                      margin: textFormController.text.isEmpty
+                          ? EdgeInsets.all(0)
+                          : EdgeInsets.symmetric(horizontal: 5),
+                      child: textFormController.text.isEmpty
+                          ? SizedBox()
+                          : FloatingActionButton(
+                              shape: StadiumBorder(),
+                              onPressed: () async {
+                                if (addCounterIntersitialAd()) {
+                                  InterstitialAdManager.showAd();
+                                }
+                                await Clipboard.setData(ClipboardData(
+                                  text: convertToBraillex(
+                                      textFormController.text),
+                                ));
+                                globalProviderN.showSnackBar(
+                                  backgroundColor: Colors.blue,
+                                  context,
+                                  "Texto copiado al portapapeles",
+                                );
+                              },
+                              child: Icon(Icons.copy_outlined, size: 30),
+                            ),
+                    )
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 
-  void showDialogPicker() {
+  void showDialogPicker(WidgetRef ref) {
     BuildContext mainContext = context;
     showDialog(
       context: mainContext,
       builder: (BuildContext context) {
-        final brailleProvider = context.read<BrailleProvider>();
+        final brailleProviderN = ref.read(brailleProvider.notifier);
+        final brailleProviderS = ref.read(brailleProvider);
+        final globalProviderN = ref.read(globalProvider.notifier);
         String wordToShow = '';
         List<String> matchingCharacters = [];
 
@@ -236,7 +235,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
           title: Row(
             children: [
               IconButton(
-                onPressed: brailleProvider.fillWord,
+                onPressed: brailleProviderN.fillWord,
                 icon: Icon(Icons.apps_rounded),
               ),
               SizedBox(width: 10),
@@ -253,9 +252,10 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               void selectedAndPop(String x) {
-                globalProvider.setPhrase =
-                    globalProvider.getPhrase + x.toString();
-                brailleProvider.clearWord();
+                globalProviderN
+                    .setPhrase(ref.read(globalProvider).phrase + x.toString());
+
+                brailleProviderN.clearWord();
                 textFormController.text =
                     textFormController.text + x.toString();
                 /* context.pop(); */
@@ -288,8 +288,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Provider.of<GlobalProvider>(context, listen: false)
-                          .pickerColor,
+                      color: ref.watch(globalProvider).pickerColor,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     height: 300,
@@ -350,7 +349,7 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
             ),
             IconButton(
                 onPressed: () {
-                  brailleProvider.clearWord();
+                  brailleProviderN.clearWord();
                   setState(() {
                     matchingCharacters.clear();
                     wordToShow = "";
@@ -367,13 +366,18 @@ class _PhraseMakerPageState extends State<PhraseMakerPage> {
               child: const Text('AGREGAR'),
               onPressed: () {
                 if (matchingCharacters.isEmpty) {
-                  globalProvider.setPhrase = globalProvider.getPhrase + " ";
+                  globalProviderN
+                      .setPhrase(ref.read(globalProvider).phrase + " ");
+
                   return;
                 }
-                globalProvider.setPhrase =
-                    globalProvider.getPhrase + matchingCharacters[0];
+                /* globalProvider.setPhrase =
+                    globalProvider.getPhrase + matchingCharacters[0]; */
 
-                brailleProvider.clearWord();
+                globalProviderN.setPhrase(
+                    ref.read(globalProvider).phrase + matchingCharacters[0]);
+
+                brailleProviderN.clearWord();
 
                 /* context.pop(); */
               },

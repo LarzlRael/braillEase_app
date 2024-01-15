@@ -1,24 +1,19 @@
 part of 'pages.dart';
 
-class AbecedarioPage extends StatefulWidget {
+class AbecedarioPage extends ConsumerWidget {
   final PageRouteParams pageArgs;
   const AbecedarioPage({super.key, required this.pageArgs});
 
   @override
-  State<AbecedarioPage> createState() => _AbecedarioPageState();
-}
-
-class _AbecedarioPageState extends State<AbecedarioPage> {
-  @override
-  Widget build(BuildContext context) {
-    final globalProvider = context.read<GlobalProvider>();
-    final listGenerate = getLetterConverted(widget.pageArgs.phase);
+  Widget build(BuildContext context, ref) {
+    final globalRef = ref.watch(globalProvider);
+    final listGenerate = getLetterConverted(pageArgs.phase);
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             CustomAppbar(
-              titlePage: widget.pageArgs.titlePage,
+              titlePage: pageArgs.titlePage,
             ),
             Expanded(
               child: GridView.builder(
@@ -30,12 +25,12 @@ class _AbecedarioPageState extends State<AbecedarioPage> {
                       (MediaQuery.of(context).size.height / 1.15),
                 ),
                 shrinkWrap: true,
-                itemCount: widget.pageArgs.phase.length,
+                itemCount: pageArgs.phase.length,
                 itemBuilder: (_, int index) {
-                  final letter = widget.pageArgs.phase[index];
+                  final letter = pageArgs.phase[index];
                   final listGenerated = listGenerate[index];
                   return BraileLetterCard(
-                    globalProvider: globalProvider,
+                    globalState: globalRef,
                     listGenerated: listGenerated,
                     letter: letter,
                     onSelected: () {
@@ -55,13 +50,13 @@ class _AbecedarioPageState extends State<AbecedarioPage> {
 class BraileLetterCard extends StatelessWidget {
   const BraileLetterCard({
     super.key,
-    required this.globalProvider,
+    required this.globalState,
     required this.listGenerated,
     required this.letter,
     required this.onSelected,
   });
 
-  final GlobalProvider globalProvider;
+  final GlobalState globalState;
   final List<bool> listGenerated;
   final String letter;
   final Function() onSelected;
@@ -97,7 +92,7 @@ class BraileLetterCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
             elevation: 0,
-            color: globalProvider.pickerColor,
+            color: globalState.pickerColor,
             child: Column(
               children: [
                 LetterBraile(
@@ -130,7 +125,7 @@ class BraileLetterCardPickeed extends StatelessWidget {
     required this.letter,
   });
 
-  final GlobalProvider globalProvider;
+  final GlobalState globalProvider;
   final List<bool> listGenerated;
   final String letter;
 

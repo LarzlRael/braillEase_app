@@ -19,20 +19,20 @@ class Slideshow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ProviderState.ChangeNotifierProvider(
       create: (_) => _SlideShowModel(),
       child: SafeArea(
         child: Center(
           child: Builder(
             builder: (context) {
-              Provider.of<_SlideShowModel>(context).primaryColorValue =
-                  primaryColor;
-              Provider.of<_SlideShowModel>(context).secondaryColorValue =
-                  secondaryColor;
-              Provider.of<_SlideShowModel>(context).primaryBulletValue =
-                  primaryBullet;
-              Provider.of<_SlideShowModel>(context).secondaryBulletValue =
-                  secondaryBullet;
+              ProviderState.Provider.of<_SlideShowModel>(context)
+                  .primaryColorValue = primaryColor;
+              ProviderState.Provider.of<_SlideShowModel>(context)
+                  .secondaryColorValue = secondaryColor;
+              ProviderState.Provider.of<_SlideShowModel>(context)
+                  .primaryBulletValue = primaryBullet;
+              ProviderState.Provider.of<_SlideShowModel>(context)
+                  .secondaryBulletValue = secondaryBullet;
               return _CreateSlideShow(
                 indicatorTopPosition: indicatorTopPosition,
                 slides: slides,
@@ -131,7 +131,7 @@ class _Dot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ssModel = Provider.of<_SlideShowModel>(context);
+    final ssModel = ProviderState.Provider.of<_SlideShowModel>(context);
     Color color;
     double size;
     if (ssModel.currentPageValue >= index - 0.5 &&
@@ -174,11 +174,11 @@ class _SlidesState extends State<_Slides> {
   void initState() {
     super.initState();
     pageViewController.addListener(() {
-      Provider.of<_SlideShowModel>(context, listen: false).currentPageValue =
-          pageViewController.page!;
+      ProviderState.Provider.of<_SlideShowModel>(context, listen: false)
+          .currentPageValue = pageViewController.page!;
 
-      context.read<GlobalProvider>().setIsLastPageSlider =
-          pageViewController.page!.toInt() == widget.slides.length - 1;
+      /* context.read<GlobalProvider>().setIsLastPageSlider =
+          pageViewController.page!.toInt() == widget.slides.length - 1; */
     });
   }
 

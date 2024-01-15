@@ -1,14 +1,15 @@
 part of 'pages.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends ConsumerWidget {
   static const String routeName = 'welcome_page';
   const WelcomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     final colors = Theme.of(context).colorScheme;
-    final themeProvider = context.watch<ThemeProviderNotifier>();
-    final globaProvider = context.watch<GlobalProvider>();
+    /* final themeProvider = context.watch<ThemeProviderNotifier>();
+    final globaProvider = context.watch<GlobalProvider>(); */
+    final globaProviderState = ref.watch(globalProvider);
     return Scaffold(
       body: SizedBox.expand(
         child: Stack(
@@ -57,7 +58,7 @@ class WelcomePage extends StatelessWidget {
               child: const OnlyImageAndTitle(),
             ), */
 
-            globaProvider.getIsLastPageSlider
+            globaProviderState.isLastPageSlider
                 ? Positioned(
                     bottom: 15,
                     right: 15,

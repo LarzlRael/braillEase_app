@@ -1,23 +1,28 @@
 part of 'providers.dart';
 
-class GlobalProvider extends ChangeNotifier {
-  late Color _pickerColor;
-  Color _currentColor = Colors.pink;
-  bool _isLastPageSlider = false;
+final globalProvider =
+    StateNotifierProvider<GlobalProvider, GlobalState>((ref) {
+  return GlobalProvider();
+});
 
-  String _phrase = "";
+class GlobalProvider extends StateNotifier<GlobalState> {
+  GlobalProvider()
+      : super(GlobalState(
+          pickerColor: Colors.blue,
+          currentColor: Colors.blue,
+          isLastPageSlider: false,
+          phrase: '',
+        ));
 
-  String get getPhrase => _phrase;
-  set setPhrase(String value) {
-    _phrase = value;
-    notifyListeners();
+  void setPhrase(String value) {
+    state = state.copyWith(phrase: value);
   }
 
-  GlobalProvider() {
+  /* GlobalProvider() {
     _pickerColor = UserPreferences.getPickerColor == null
         ? Colors.blue
         : Color(UserPreferences.getPickerColor!);
-  }
+  } */
   void showSnackBar(
     BuildContext context,
     String message, {
@@ -33,25 +38,42 @@ class GlobalProvider extends ChangeNotifier {
     );
   }
 
-  bool get getIsLastPageSlider => _isLastPageSlider;
-
-  set setIsLastPageSlider(bool value) {
-    _isLastPageSlider = value;
-    notifyListeners();
+  void setIsLastPageSlider(bool value) {
+    state = state.copyWith(isLastPageSlider: value);
   }
 
-  Color get pickerColor => _pickerColor;
-  Color get currentColor {
-    return _currentColor;
+  void setPickerColor(Color color) {
+    state = state.copyWith(pickerColor: color);
   }
 
-  set pickerColor(Color color) {
-    _pickerColor = color;
-    notifyListeners();
+  void currentColor(Color color) {
+    state = state.copyWith(currentColor: color);
   }
+}
 
-  set currentColor(Color color) {
-    _currentColor = color;
-    notifyListeners();
-  }
+class GlobalState {
+  final Color pickerColor;
+  final Color currentColor;
+  final bool isLastPageSlider;
+  final String phrase;
+
+  GlobalState({
+    required this.pickerColor,
+    required this.currentColor,
+    required this.isLastPageSlider,
+    required this.phrase,
+  });
+
+  GlobalState copyWith({
+    Color? pickerColor,
+    Color? currentColor,
+    bool? isLastPageSlider,
+    String? phrase,
+  }) =>
+      GlobalState(
+        pickerColor: pickerColor ?? this.pickerColor,
+        currentColor: currentColor ?? this.currentColor,
+        isLastPageSlider: isLastPageSlider ?? this.isLastPageSlider,
+        phrase: phrase ?? this.phrase,
+      );
 }

@@ -1,6 +1,6 @@
 part of 'pages.dart';
 
-class DetailLetterPage extends StatelessWidget {
+class DetailLetterPage extends ConsumerWidget {
   /* final DetailPageRouteParams detailPageRouteParams; */
   final String letter;
   const DetailLetterPage({
@@ -10,8 +10,8 @@ class DetailLetterPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final braileProvider = context.read<GlobalProvider>();
+  Widget build(BuildContext context, ref) {
+    final braileState = ref.watch(brailleProvider);
     final size = MediaQuery.of(context).size;
     final convertedLetter = getOneLetterConverted(letter);
     return Scaffold(
@@ -34,7 +34,7 @@ class DetailLetterPage extends StatelessWidget {
                     vertical: size.height * 0.05,
                   ), */
                   child: Card(
-                    color: braileProvider.pickerColor,
+                    color: braileState.pickerTextColor,
                     /* child: LetterBraile(
                       word: detailPageRouteParams.listGenerated,
                     ), */
