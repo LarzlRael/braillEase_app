@@ -60,6 +60,14 @@ class _TranslatePageState extends State<TranslatePage> {
     setState(() {});
   }
 
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _lastWords = result.recognizedWords;
+      textController.text = _lastWords;
+      textBraille = convertToBraillex(_lastWords);
+    });
+  }
+
   @override
   void dispose() {
     _speechToText.cancel();
@@ -69,13 +77,6 @@ class _TranslatePageState extends State<TranslatePage> {
 
   /// This is the callback that the SpeechToText plugin calls when
   /// the platform returns recognized words.
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      _lastWords = result.recognizedWords;
-      textController.text = _lastWords;
-      textBraille = convertToBraillex(_lastWords);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

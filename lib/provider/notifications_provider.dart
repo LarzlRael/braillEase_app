@@ -32,8 +32,12 @@ class NotificationProvider extends ChangeNotifier {
 
   void _getAndSaveFCMToken() async {
     token = (await messaging.getToken())!;
+    if (token == UserPreferences.getFCMToken) {
+      return;
+    }
     print('FCM Token: $token');
-    final savedDeviceId = await Request.sendRequest(
+    UserPreferences.setFCMToken = token!;
+    await Request.sendRequest(
       RequestType.get,
       '/notifications/saveDeviceId/$token/$packageName',
     );

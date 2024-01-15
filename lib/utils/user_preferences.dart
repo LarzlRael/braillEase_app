@@ -30,4 +30,10 @@ class UserPreferences {
   static set setCountInterstialAd(int value) {
     _prefs.setInt('countIntersitialAd', value);
   }
+
+  static String get getFCMToken => _prefs.getString('FCMToken') ?? '';
+
+  static set setFCMToken(String token) {
+    _prefs.setString('FCMToken', token);
+  }
 }

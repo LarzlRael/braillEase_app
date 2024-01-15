@@ -22,6 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void changeColor(Color color) {
     globalProvider.pickerColor = color;
     UserPreferences.setPickerColor = color.value;
+
     context.pop();
   }
 
