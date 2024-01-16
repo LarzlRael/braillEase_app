@@ -100,16 +100,24 @@ class TranslatePage extends HookConsumerWidget {
                                   ? SizedBox()
                                   : IconButton(
                                       onPressed: () async {
-                                        await Clipboard.setData(ClipboardData(
-                                            text: textBraille.value));
+                                        /*  await Clipboard.setData(ClipboardData(
+                                            text: textBraille.value)); */
+                                        ShareServiceImp().shareOnlyText(
+                                          appMessageOnShared(
+                                            ref
+                                                .read(brailleProvider)
+                                                .normalText,
+                                            textBraille.value,
+                                          ),
+                                        );
 
-                                        ref
+                                        /* ref
                                             .read(globalProvider.notifier)
                                             .showSnackBar(
                                               backgroundColor: Colors.blue,
                                               context,
                                               "Texto copiado al portapapeles",
-                                            );
+                                            ); */
                                       },
                                       icon: Icon(
                                         Icons.copy,

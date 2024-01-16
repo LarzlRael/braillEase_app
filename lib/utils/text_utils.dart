@@ -30,3 +30,13 @@ String textInAlphabet(String character) {
 String clearMessageId(String? id) {
   return id?.replaceAll(':', '').replaceAll('%', '') ?? '';
 }
+
+String appMessageOnShared(String normalText, String brailleText) {
+  return """
+🤔En texto $normalText:
+
+😎En braille $brailleText
+
+Enviado desde $appName
+""";
+}
