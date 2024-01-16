@@ -1,6 +1,23 @@
 part of 'pages.dart';
 
-class WelcomePage extends ConsumerWidget {
+final slidesItems = <SlideItem>[
+  SlideItem(
+      assetImage: 'assets/icons/braille.png',
+      title: "Tu puerta al mundo táctil",
+      subtitle:
+          "Descubre el lenguaje de los puntos y abre un mundo lleno de conocimiento y comunicación"),
+  SlideItem(
+      assetImage: 'assets/slideshow/braille_1.png',
+      title: "Siente el Conocimiento con $appName",
+      subtitle: "Ayuda con la tarea propuesta y gana dinero por ello."),
+  SlideItem(
+      assetImage: 'assets/slideshow/braille_2.jpg',
+      title: "Toca la Educación y la Inclusión",
+      subtitle:
+          "Conviértete en un experto del braille y abre puertas a una vida llena de aprendizaje y comprensión.")
+];
+
+class WelcomePage extends HookConsumerWidget {
   static const String routeName = 'welcome_page';
   const WelcomePage({super.key});
 
@@ -9,6 +26,7 @@ class WelcomePage extends ConsumerWidget {
     final colors = Theme.of(context).colorScheme;
     /* final themeProvider = context.watch<ThemeProviderNotifier>();
     final globaProvider = context.watch<GlobalProvider>(); */
+    final isLastPage = useState(false);
     final globaProviderState = ref.watch(globalProvider);
     return Scaffold(
       body: SizedBox.expand(
@@ -18,28 +36,30 @@ class WelcomePage extends ConsumerWidget {
               alignment: Alignment.center,
               child: Container(
                 height: 475,
-                child: Slideshow(
-                  primaryColor: colors.primary,
-                  secondaryColor: Colors.grey,
-                  primaryBullet: 15.0,
-                  secondaryBullet: 10.0,
-                  slides: [
-                    SlideItem(
-                        assetImage: 'assets/icons/braille.png',
-                        title: "Tu puerta al mundo táctil",
-                        subtitle:
-                            "Descubre el lenguaje de los puntos y abre un mundo lleno de conocimiento y comunicación"),
-                    SlideItem(
-                        assetImage: 'assets/slideshow/braille_1.png',
-                        title: "Siente el Conocimiento con $appName",
-                        subtitle:
-                            "Ayuda con la tarea propuesta y gana dinero por ello."),
-                    SlideItem(
-                        assetImage: 'assets/slideshow/braille_2.jpg',
-                        title: "Toca la Educación y la Inclusión",
-                        subtitle:
-                            "Conviértete en un experto del braille y abre puertas a una vida llena de aprendizaje y comprensión.")
-                  ],
+                child: Swiper(
+                  loop: false,
+                  onIndexChanged: (value) {
+                    print('onIndexChanged: $value');
+                    if (value == slidesItems.length - 1) {
+                      isLastPage.value = true;
+                    } else {
+                      isLastPage.value = false;
+                    }
+                  },
+                  pagination: const SwiperPagination(
+                    alignment: Alignment.bottomCenter,
+                    builder: DotSwiperPaginationBuilder(
+                      activeColor: Colors.blue,
+                      color: Colors.grey,
+                      activeSize: 18.5,
+                      size: 14.0,
+                    ),
+                  ),
+                  itemCount: slidesItems.length,
+                  itemBuilder: (context, index) {
+                    final slide = slidesItems[index];
+                    return slide;
+                  },
                 ),
               ),
             ),
@@ -53,33 +73,31 @@ class WelcomePage extends ConsumerWidget {
                 },
               ),
             ),
-            /* Container(
-              margin: const EdgeInsets.symmetric(vertical: 32),
-              child: const OnlyImageAndTitle(),
-            ), */
-
-            globaProviderState.isLastPageSlider
-                ? Positioned(
-                    bottom: 15,
-                    right: 15,
-                    child: FadeInOpacity(
-                      child: FilledButton(
-                        onPressed: () {
-                          goToNextPage(context);
-                        },
-                        child: Text('Comenzar'),
-                      ),
-                    ),
-                  )
-                : SizedBox(),
+            Positioned(
+              bottom: 15,
+              right: 15,
+              child: AnimatedOpacity(
+                opacity: isLastPage.value ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 500),
+                child: FilledButton(
+                  onPressed: () {
+                    goToNextPage(context);
+                  },
+                  child: Text('Comenzar'),
+                ),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  void goToNextPage(BuildContext context) {
-    UserPreferences.isFirstTime = false;
+  void goToNextPage(BuildContext context) async {
+    await KeyValueStorageServiceImpl().setKeyValue<bool>(
+      IS_FIRST_TIME_KEY,
+      false,
+    );
     context.go('/');
   }
 }

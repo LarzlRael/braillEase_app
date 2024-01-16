@@ -7,6 +7,7 @@ class Slideshow extends StatelessWidget {
   final Color secondaryColor;
   final double primaryBullet;
   final double secondaryBullet;
+  final Function(bool isLastPageSlider)? onLastPage;
   const Slideshow({
     Key? key,
     required this.slides,
@@ -15,6 +16,7 @@ class Slideshow extends StatelessWidget {
     this.secondaryBullet = 12.0,
     required this.primaryColor,
     required this.secondaryColor,
+    this.onLastPage,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,10 @@ class Slideshow extends StatelessWidget {
         child: Center(
           child: Builder(
             builder: (context) {
+              if (onLastPage != null) {
+                onLastPage!(ProviderState.Provider.of<_SlideShowModel>(context)
+                    .isLastPageSlider);
+              }
               ProviderState.Provider.of<_SlideShowModel>(context)
                   .primaryColorValue = primaryColor;
               ProviderState.Provider.of<_SlideShowModel>(context)
@@ -176,7 +182,9 @@ class _SlidesState extends State<_Slides> {
     pageViewController.addListener(() {
       ProviderState.Provider.of<_SlideShowModel>(context, listen: false)
           .currentPageValue = pageViewController.page!;
-
+      ProviderState.Provider.of<_SlideShowModel>(context, listen: false)
+              .isLastPageSlider =
+          pageViewController.page!.toInt() == widget.slides.length - 1;
       /* context.read<GlobalProvider>().setIsLastPageSlider =
           pageViewController.page!.toInt() == widget.slides.length - 1; */
     });

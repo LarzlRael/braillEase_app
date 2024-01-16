@@ -6,22 +6,41 @@ final globalProvider =
 });
 
 class GlobalProvider extends StateNotifier<GlobalState> {
+  final _keyValueStorageServiceImpl = KeyValueStorageServiceImpl();
   GlobalProvider()
       : super(GlobalState(
           pickerColor: Colors.blue,
           currentColor: Colors.blue,
-          isLastPageSlider: false,
           phrase: '',
           isDarkModeEnabled: UserPreferences.isDarkModeEnabled,
-        ));
+        )) {
+    init();
+  }
+
+  void init() async {
+    final color = await _keyValueStorageServiceImpl.getValue<int>(
+      CURRENT_COLOR_KEY,
+    );
+    final isDarkModeEnabled = await _keyValueStorageServiceImpl.getValue<bool>(
+      IS_DARK_MODE_ENABLED_KEY,
+    );
+    state = state.copyWith(
+      currentColor: Color(color ?? Colors.blue.value),
+      isDarkModeEnabled: isDarkModeEnabled ?? false,
+    );
+  }
 
   void setPhrase(String value) {
     state = state.copyWith(phrase: value);
   }
 
-  void toggleTheme() {
+  Future<void> toggleTheme() async {
     state = state.copyWith(
       isDarkModeEnabled: !state.isDarkModeEnabled,
+    );
+    _keyValueStorageServiceImpl.setKeyValue<bool>(
+      IS_DARK_MODE_ENABLED_KEY,
+      state.isDarkModeEnabled,
     );
   }
 
@@ -40,30 +59,29 @@ class GlobalProvider extends StateNotifier<GlobalState> {
     );
   }
 
-  void setIsLastPageSlider(bool value) {
-    state = state.copyWith(isLastPageSlider: value);
-  }
-
   void setPickerColor(Color color) {
     state = state.copyWith(pickerColor: color);
   }
 
-  void currentColor(Color color) {
+  Future<void> currentColor(Color color) async {
     state = state.copyWith(currentColor: color);
+    await _keyValueStorageServiceImpl.setKeyValue<int>(
+      CURRENT_COLOR_KEY,
+      color.value,
+    );
   }
 }
 
 class GlobalState {
   final Color pickerColor;
   final Color currentColor;
-  final bool isLastPageSlider;
+
   final String phrase;
   final bool isDarkModeEnabled;
 
   GlobalState({
     required this.pickerColor,
     required this.currentColor,
-    required this.isLastPageSlider,
     required this.phrase,
     required this.isDarkModeEnabled,
   });
@@ -78,7 +96,6 @@ class GlobalState {
       GlobalState(
         pickerColor: pickerColor ?? this.pickerColor,
         currentColor: currentColor ?? this.currentColor,
-        isLastPageSlider: isLastPageSlider ?? this.isLastPageSlider,
         phrase: phrase ?? this.phrase,
         isDarkModeEnabled: isDarkModeEnabled ?? this.isDarkModeEnabled,
       );

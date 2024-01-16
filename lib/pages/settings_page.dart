@@ -30,10 +30,8 @@ class SettingsPage extends ConsumerWidget {
       body: ListView(
         children: [
           ListTile(
-            onTap: () {
-              globalProviderNotifier.toggleTheme();
-              /* UserPreferences.isDarkModeEnabled =
-                  themeProviderNotifier.isDarkModeEnabled; */
+            onTap: () async {
+              await globalProviderNotifier.toggleTheme();
             },
             title: Text('Cambiar tema'),
             leading: Icon(
@@ -43,7 +41,7 @@ class SettingsPage extends ConsumerWidget {
             ),
           ),
           ListTile(
-            onTap: () => showPickerColor(context, ref),
+            onTap: () async => await showPickerColor(context, ref),
             title: Text('Color actual'),
             leading: Container(
               width: 25,

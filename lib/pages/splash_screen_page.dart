@@ -1,7 +1,6 @@
 part of 'pages.dart';
 
 class SplashScreenPage extends StatefulWidget {
-  static const String routeName = 'splash_screen_page';
   const SplashScreenPage({super.key});
 
   @override
@@ -9,8 +8,11 @@ class SplashScreenPage extends StatefulWidget {
 }
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
-  void _checkFirstTime() {
-    bool isFirstTime = UserPreferences.isFirstTime;
+  void _checkFirstTime() async {
+    final isFirstTime = await KeyValueStorageServiceImpl().getValue<bool>(
+          IS_FIRST_TIME_KEY,
+        ) ??
+        true;
 
     if (isFirstTime) {
       // Primera vez que se inicia la aplicación
