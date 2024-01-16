@@ -7,6 +7,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:templat_project/firebase_options.dart';
 import 'package:templat_project/provider/providers.dart';
 import 'package:templat_project/router/app_router.dart';
+import 'package:templat_project/theme/theme.dart';
 import 'package:templat_project/utils/utils.dart';
 import 'package:templat_project/widgets/widgets.dart';
 import 'constants/constant.dart';
@@ -33,14 +34,13 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final settingsProviderS = ref.watch(settingsProvider);
+    final globalProviderS = ref.watch(globalProvider);
 
     return MaterialApp.router(
       title: appName,
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
-      theme:
-          AppTheme(isDarkmode: settingsProviderS.isDarkModeEnabled).getTheme(),
+      theme: AppTheme(isDarkMode: globalProviderS.isDarkModeEnabled).getTheme(),
       builder: (context, child) => HandleNotificationInteraction(
         child: child!,
       ),

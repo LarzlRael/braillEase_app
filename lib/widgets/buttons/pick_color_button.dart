@@ -12,14 +12,14 @@ class PickColorButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final globalProvider = ref.watch(brailleProvider);
+    final globalProviderS = ref.watch(globalProvider);
     return GestureDetector(
       onTap: () => showPickerColorDialog(context, ref),
       child: Container(
         width: 25,
         height: 25,
         decoration: BoxDecoration(
-          color: globalProvider.pickerTextColor,
+          color: globalProviderS.currentColor,
           shape: BoxShape.circle,
         ),
       ),

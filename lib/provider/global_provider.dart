@@ -12,10 +12,17 @@ class GlobalProvider extends StateNotifier<GlobalState> {
           currentColor: Colors.blue,
           isLastPageSlider: false,
           phrase: '',
+          isDarkModeEnabled: UserPreferences.isDarkModeEnabled,
         ));
 
   void setPhrase(String value) {
     state = state.copyWith(phrase: value);
+  }
+
+  void toggleTheme() {
+    state = state.copyWith(
+      isDarkModeEnabled: !state.isDarkModeEnabled,
+    );
   }
 
   void showSnackBar(
@@ -51,12 +58,14 @@ class GlobalState {
   final Color currentColor;
   final bool isLastPageSlider;
   final String phrase;
+  final bool isDarkModeEnabled;
 
   GlobalState({
     required this.pickerColor,
     required this.currentColor,
     required this.isLastPageSlider,
     required this.phrase,
+    required this.isDarkModeEnabled,
   });
 
   GlobalState copyWith({
@@ -64,11 +73,13 @@ class GlobalState {
     Color? currentColor,
     bool? isLastPageSlider,
     String? phrase,
+    bool? isDarkModeEnabled,
   }) =>
       GlobalState(
         pickerColor: pickerColor ?? this.pickerColor,
         currentColor: currentColor ?? this.currentColor,
         isLastPageSlider: isLastPageSlider ?? this.isLastPageSlider,
         phrase: phrase ?? this.phrase,
+        isDarkModeEnabled: isDarkModeEnabled ?? this.isDarkModeEnabled,
       );
 }

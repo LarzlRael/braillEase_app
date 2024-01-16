@@ -65,7 +65,7 @@ class TranslatePage extends HookConsumerWidget {
                               width: double.infinity,
                               child: TextField(
                                 readOnly: true,
-                                maxLines: 7,
+                                maxLines: 9,
                                 controller: TextEditingController(
                                   text: textBraille.value,
                                 ),
@@ -83,6 +83,8 @@ class TranslatePage extends HookConsumerWidget {
                           ),
                         ),
                         Positioned(
+                          bottom: 10,
+                          right: 10,
                           child: Row(
                             children: [
                               Text(
@@ -94,7 +96,6 @@ class TranslatePage extends HookConsumerWidget {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(width: 5),
                               textBraille.value.isEmpty
                                   ? SizedBox()
                                   : IconButton(
@@ -117,8 +118,6 @@ class TranslatePage extends HookConsumerWidget {
                                     ),
                             ],
                           ),
-                          bottom: 10,
-                          right: 10,
                         ),
                       ],
                     ),
@@ -129,6 +128,10 @@ class TranslatePage extends HookConsumerWidget {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: CustomTextFormSpeechButton(
+                  onClear: () {
+                    textController.clear();
+                    textBraille.value = "";
+                  },
                   focusNode: FocusNode(),
                   onTextChange: (text) {
                     ref.read(brailleProvider.notifier).setNormalText(text);

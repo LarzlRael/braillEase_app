@@ -11,7 +11,7 @@ class DetailLetterPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final braileState = ref.watch(brailleProvider);
+    final globalState = ref.watch(globalProvider);
     final size = MediaQuery.of(context).size;
     final convertedLetter = getOneLetterConverted(letter);
     return Scaffold(
@@ -34,7 +34,7 @@ class DetailLetterPage extends ConsumerWidget {
                     vertical: size.height * 0.05,
                   ), */
                   child: Card(
-                    color: braileState.pickerTextColor,
+                    color: globalState.currentColor,
                     /* child: LetterBraile(
                       word: detailPageRouteParams.listGenerated,
                     ), */

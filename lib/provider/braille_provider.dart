@@ -22,7 +22,6 @@ class BrailleNotifier extends StateNotifier<BrailleState> {
           word: [false, false, false, false, false, false],
           normalText: '',
           braileConverted: '',
-          pickerTextColor: Colors.black,
         ));
   final defaultWord = [false, false, false, false, false, false];
 
@@ -67,14 +66,14 @@ class BrailleState {
   final String braileConverted;
   final String normalText;
 
-  final Color pickerTextColor;
+  /* final Color pickerTextColor; */
 
   BrailleState({
     required this.word,
     required this.normalText,
     required this.pagesSizes,
     required this.braileConverted,
-    required this.pickerTextColor,
+    /* required this.pickerTextColor, */
   });
 
   BrailleState copyWith({
@@ -88,7 +87,7 @@ class BrailleState {
       word: word ?? this.word,
       pagesSizes: pagesSizes ?? this.pagesSizes,
       braileConverted: braileConverted ?? this.braileConverted,
-      pickerTextColor: pickerTextColor ?? this.pickerTextColor,
+      /* pickerTextColor: pickerTextColor ?? this.pickerTextColor, */
       normalText: normalText ?? this.normalText,
     );
   }

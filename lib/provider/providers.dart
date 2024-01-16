@@ -9,7 +9,7 @@ import '../constants/constant.dart';
 import '../request/services.dart';
 import '../theme/theme.dart';
 
-part 'theme_provider.dart';
+/* part 'theme_provider.dart'; */
 part 'global_provider.dart';
 part 'braille_provider.dart';
 part 'notifications_provider.dart';

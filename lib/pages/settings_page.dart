@@ -21,8 +21,8 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final globalProviderNotifier = ref.watch(settingsProvider.notifier);
-    final globalProviderState = ref.watch(settingsProvider);
+    final globalProviderNotifier = ref.watch(globalProvider.notifier);
+    final globalProviderState = ref.watch(globalProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Configuraciones'),

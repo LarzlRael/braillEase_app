@@ -18,9 +18,7 @@ class CustomTextFormSpeechButton extends HookConsumerWidget {
   });
   @override
   Widget build(BuildContext context, ref) {
-    final textController = useTextEditingController(
-        /* text: initialValue, */
-        );
+    final textController = useTextEditingController();
     final textTheme = Theme.of(context).textTheme;
     final globalProviderS = ref.watch(globalProvider);
 /* 
