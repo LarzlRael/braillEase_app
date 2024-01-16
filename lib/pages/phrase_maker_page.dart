@@ -13,22 +13,19 @@ class PhraseMakerPage extends HookConsumerWidget {
   PhraseMakerPage({super.key, required this.phraseArg});
   @override
   Widget build(BuildContext context, ref) {
-    final textFormController = useTextEditingController();
     final scrollController = useScrollController();
     final _focusNode = FocusNode();
     final globalProviderN = ref.watch(globalProvider.notifier);
+    final phrase = useState(phraseArg ?? '');
     final listGenerate =
-        useState<List<List<bool>>>(getLetterConverted(textFormController.text));
-
-    final phrase = useState(textFormController.text);
+        useState<List<List<bool>>>(getLetterConverted(phrase.value));
 
     useEffect(() {
-      listGenerate.value = getLetterConverted(textFormController.text);
-      phrase.value = textFormController.text;
-    }, [textFormController.text]);
+      listGenerate.value = getLetterConverted(phrase.value);
+    }, [phrase.value]);
 
     useEffect(() {
-      textFormController.text = phraseArg ?? '';
+      /* textFormController.text = phraseArg ?? ''; */
       InterstitialAdManager.loadAd();
       return () {
         /* textFormController.dispose();
@@ -58,7 +55,8 @@ class PhraseMakerPage extends HookConsumerWidget {
               onPressed: () {
                 /* globalProvider.setPhrase = ''; */
                 ref.read(globalProvider.notifier).setPhrase('');
-                textFormController.text = '';
+                /* textFormController.text = ''; */
+                phrase.value = '';
               },
               icon: Icon(Icons.cancel),
             ),
@@ -67,7 +65,7 @@ class PhraseMakerPage extends HookConsumerWidget {
               showDialogPicker(
                 context,
                 ref,
-                textFormController,
+                phrase,
               );
             },
             icon: Icon(FontAwesomeIcons.braille),
@@ -137,8 +135,7 @@ class PhraseMakerPage extends HookConsumerWidget {
                                             onPressed: () {
                                               /* globalProvider.setPhrase =
                                                   phrase.replaceFirst(letter, ''); */
-                                              textFormController.text = phrase
-                                                  .value
+                                              phrase.value = phrase.value
                                                   .replaceFirst(letter, '');
                                             },
                                             icon: Icon(
@@ -220,17 +217,23 @@ class PhraseMakerPage extends HookConsumerWidget {
                 ), */
                 child: CustomTextFormSpeechButton(
                   focusNode: _focusNode,
+                  initialValue: phrase.value,
                   onTextChange: (value) {
-                    if (textFormController.text.length > 5) {
+                    print(value);
+                    /* if (textFormController.text.length > 5) {
                       _performActionAndScrollToBottom();
-                    }
-
-                    textFormController.text = value;
+                    } */
+                    /* textFormController.text = value; */
+                    phrase.value = value;
                   },
                   onSpeechResult: (value) {
-                    if (textFormController.text.length > 5)
-                      _performActionAndScrollToBottom();
-                    textFormController.text = value.recognizedWords;
+                    /* if (textFormController.text.length > 5)
+                      _performActionAndScrollToBottom(); */
+                    /* textFormController.text = value.recognizedWords; */
+                    phrase.value = phrase.value + value.recognizedWords;
+                  },
+                  onClear: () {
+                    phrase.value = '';
                   },
                 ),
               ),
@@ -244,7 +247,7 @@ class PhraseMakerPage extends HookConsumerWidget {
   void showDialogPicker(
     BuildContext context,
     WidgetRef ref,
-    TextEditingController textFormController,
+    ValueNotifier pharse,
   ) {
     BuildContext mainContext = context;
     showDialog(
@@ -282,8 +285,7 @@ class PhraseMakerPage extends HookConsumerWidget {
                     .setPhrase(ref.read(globalProvider).phrase + x.toString());
 
                 brailleProviderN.clearWord();
-                textFormController.text =
-                    textFormController.text + x.toString();
+                pharse.value = pharse.value + x.toString();
                 /* context.pop(); */
                 setState(() {
                   matchingCharacters.clear();

@@ -6,17 +6,30 @@ class CustomTextFormSpeechButton extends HookConsumerWidget {
   final Function(SpeechRecognitionResult res) onSpeechResult;
   final Function(String onchange) onTextChange;
   final FocusNode focusNode;
+  final String? initialValue;
+  final Function()? onClear;
   const CustomTextFormSpeechButton({
     super.key,
+    this.onClear,
+    this.initialValue,
     required this.onSpeechResult,
     required this.onTextChange,
     required this.focusNode,
   });
   @override
   Widget build(BuildContext context, ref) {
-    final textController = useTextEditingController();
+    final textController = useTextEditingController(
+        /* text: initialValue, */
+        );
     final textTheme = Theme.of(context).textTheme;
     final globalProviderS = ref.watch(globalProvider);
+/* 
+    useEffect(() {
+      if (initialValue != null) {
+        textController.text = initialValue!;
+      }
+      return;
+    }, [initialValue]); */
 
     return Row(
       children: [
@@ -44,6 +57,9 @@ class CustomTextFormSpeechButton extends HookConsumerWidget {
                           textController.clear();
 
                           ref.read(brailleProvider.notifier).setNormalText("");
+                          if (onClear != null) {
+                            onClear!();
+                          }
                         },
                         icon: Icon(
                           Icons.cancel,
