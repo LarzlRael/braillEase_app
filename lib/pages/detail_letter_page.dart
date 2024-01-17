@@ -46,7 +46,7 @@ class DetailLetterPage extends ConsumerWidget {
                         ),
                         line(),
                         Text(
-                          textInAlphabet(letter),
+                          textInAlphabet(letter, true),
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

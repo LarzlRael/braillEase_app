@@ -1,18 +1,20 @@
 <manifest
   xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.dosan.braillease">
+  package="com.dosan.braillease"
+>
 >
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-  <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
    <application
     android:label="BraillEase"
     android:name="${applicationName}"
     android:icon="@mipmap/launcher_icon"
   >
   <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+      android:name="com.google.android.gms.ads.APPLICATION_ID"
+      android:value="ca-app-pub-3940256099942544~3347511713"
+    />
         <activity
       android:name=".MainActivity"
       android:exported="true"
@@ -34,6 +36,20 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Deep linking config -->
+            <meta-data
+        android:name="flutter_deeplinking_enabled"
+        android:value="true"
+      />
+ <intent-filter android:autoVerify="true">
+     <action android:name="android.intent.action.VIEW" />
+     <category android:name="android.intent.category.DEFAULT" />
+     <category android:name="android.intent.category.BROWSABLE" />
+     <data android:scheme="http"  />
+     <data android:scheme="https" />
+     <data android:host="braillease.web.app" />
+ </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

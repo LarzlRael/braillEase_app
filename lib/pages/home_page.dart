@@ -10,16 +10,42 @@ class HomePage extends StatelessWidget {
           (item) => FadeInRight(
             child: ButtonCategory(
               icon: item.icon,
-              text: item.texto + "\n" + convertToBraillex(item.texto),
+              title: Wrap(
+                children: getTitleAndPhase(item.path)
+                    .split('')
+                    .map((e) => Column(
+                          children: [
+                            Text(
+                              e,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            /* line(), */
+                            Text(
+                              convertToBraillex(e),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ))
+                    .toList(),
+              ),
               color1: item.color1,
               color2: item.color2,
               onPress: () {
+                /* print(getTitleAndPhase(item.path)); */
                 context.push(
                   item.path,
-                  extra: PageRouteParams(
+                  /* extra: PageRouteParams(
                     phase: item.phase,
                     titlePage: item.texto,
-                  ),
+                  ), */
                 );
               },
             ),

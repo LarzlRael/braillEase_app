@@ -2,14 +2,14 @@ part of '../widgets.dart';
 
 class ButtonCategory extends StatelessWidget {
   final IconData icon;
-  final String text;
+  final Widget title;
   final Color color1;
   final Color color2;
   final VoidCallback onPress;
 
   const ButtonCategory({
     Key? key,
-    required this.text,
+    required this.title,
     required this.onPress,
     this.icon = Icons.category,
     this.color1 = Colors.grey,
@@ -34,15 +34,7 @@ class ButtonCategory extends StatelessWidget {
                   color: Colors.white,
                   size: 40,
                 ),
-                title: Hero(
-                  tag: text,
-                  child: Text(
-                    text,
-                    style: textTheme.titleLarge!.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                title: title,
                 /*  const FaIcon(
                       FontAwesomeIcons.chevronRight,
                       color: Colors.white,

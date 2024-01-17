@@ -11,7 +11,6 @@ class GlobalProvider extends StateNotifier<GlobalState> {
       : super(GlobalState(
           pickerColor: Colors.blue,
           currentColor: Colors.blue,
-          phrase: '',
           isDarkModeEnabled: UserPreferences.isDarkModeEnabled,
         )) {
     init();
@@ -28,10 +27,6 @@ class GlobalProvider extends StateNotifier<GlobalState> {
       currentColor: Color(color ?? Colors.blue.value),
       isDarkModeEnabled: isDarkModeEnabled ?? false,
     );
-  }
-
-  void setPhrase(String value) {
-    state = state.copyWith(phrase: value);
   }
 
   Future<void> toggleTheme() async {
@@ -76,13 +71,11 @@ class GlobalState {
   final Color pickerColor;
   final Color currentColor;
 
-  final String phrase;
   final bool isDarkModeEnabled;
 
   GlobalState({
     required this.pickerColor,
     required this.currentColor,
-    required this.phrase,
     required this.isDarkModeEnabled,
   });
 
@@ -90,13 +83,11 @@ class GlobalState {
     Color? pickerColor,
     Color? currentColor,
     bool? isLastPageSlider,
-    String? phrase,
     bool? isDarkModeEnabled,
   }) =>
       GlobalState(
         pickerColor: pickerColor ?? this.pickerColor,
         currentColor: currentColor ?? this.currentColor,
-        phrase: phrase ?? this.phrase,
         isDarkModeEnabled: isDarkModeEnabled ?? this.isDarkModeEnabled,
       );
 }

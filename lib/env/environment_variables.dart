@@ -13,4 +13,6 @@ class Environment {
       'No está configurado el ADMOB_INTERSITIAL';
   static String serverUrl =
       dotenv.env['SERVER_URL'] ?? 'No está configurado el API_URL';
+  static String serverDeepLink = dotenv.env['SERVER_DEEP_LINK'] ??
+      'No está configurado el SERVER_DEEP_LINK';
 }

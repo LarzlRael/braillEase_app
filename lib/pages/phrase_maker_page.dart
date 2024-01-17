@@ -14,8 +14,9 @@ class PhraseMakerPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final scrollController = useScrollController();
+    final textController = useTextEditingController();
     final _focusNode = FocusNode();
-    final globalProviderN = ref.watch(globalProvider.notifier);
+    final brailleProviderN = ref.watch(brailleProvider.notifier);
     final phrase = useState(phraseArg ?? '');
     final listGenerate =
         useState<List<List<bool>>>(getLetterConverted(phrase.value));
@@ -54,7 +55,7 @@ class PhraseMakerPage extends HookConsumerWidget {
               tooltip: "Borrar todo",
               onPressed: () {
                 /* globalProvider.setPhrase = ''; */
-                ref.read(globalProvider.notifier).setPhrase('');
+                brailleProviderN.setNormalText('');
                 /* textFormController.text = ''; */
                 phrase.value = '';
               },
@@ -65,7 +66,6 @@ class PhraseMakerPage extends HookConsumerWidget {
               showDialogPicker(
                 context,
                 ref,
-                phrase,
               );
             },
             icon: Icon(FontAwesomeIcons.braille),
@@ -122,7 +122,7 @@ class PhraseMakerPage extends HookConsumerWidget {
                                         FadeInOpacity(
                                           duration: Duration(milliseconds: 500),
                                           child: BraileLetterCardPickeed(
-                                            globalProvider:
+                                            globalState:
                                                 ref.watch(globalProvider),
                                             listGenerated: listGenerated,
                                             letter: letter,
@@ -216,8 +216,9 @@ class PhraseMakerPage extends HookConsumerWidget {
                   ],
                 ), */
                 child: CustomTextFormSpeechButton(
+                  textController: textController,
                   focusNode: _focusNode,
-                  initialValue: phrase.value,
+                  /* initialValue: phrase.value, */
                   onTextChange: (value) {
                     print(value);
                     /* if (textFormController.text.length > 5) {
@@ -247,7 +248,7 @@ class PhraseMakerPage extends HookConsumerWidget {
   void showDialogPicker(
     BuildContext context,
     WidgetRef ref,
-    ValueNotifier pharse,
+    /* ValueNotifier pharse, */
   ) {
     BuildContext mainContext = context;
     showDialog(
@@ -255,7 +256,7 @@ class PhraseMakerPage extends HookConsumerWidget {
       builder: (BuildContext context) {
         final brailleProviderN = ref.read(brailleProvider.notifier);
         final brailleProviderS = ref.watch(brailleProvider);
-        final globalProviderN = ref.read(globalProvider.notifier);
+
         String wordToShow = '';
         List<String> matchingCharacters = [];
 
@@ -281,12 +282,11 @@ class PhraseMakerPage extends HookConsumerWidget {
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               void selectedAndPop(String x) {
-                globalProviderN
-                    .setPhrase(ref.read(globalProvider).phrase + x.toString());
+                brailleProviderN
+                    .setNormalText(brailleProviderS.normalText + x.toString());
 
                 brailleProviderN.clearWord();
-                pharse.value = pharse.value + x.toString();
-                /* context.pop(); */
+
                 setState(() {
                   matchingCharacters.clear();
                 });
@@ -331,7 +331,7 @@ class PhraseMakerPage extends HookConsumerWidget {
                             ? FadeInOpacity(
                                 duration: Duration(milliseconds: 250),
                                 child: Text(
-                                  textInAlphabet(wordToShow),
+                                  textInAlphabet(wordToShow, false),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -393,15 +393,15 @@ class PhraseMakerPage extends HookConsumerWidget {
               child: const Text('AGREGAR'),
               onPressed: () {
                 if (matchingCharacters.isEmpty) {
-                  globalProviderN
-                      .setPhrase(ref.read(globalProvider).phrase + " ");
+                  brailleProviderN
+                      .setNormalText(brailleProviderS.normalText + " ");
 
                   return;
                 }
                 /* globalProvider.setPhrase =
                     globalProvider.getPhrase + matchingCharacters[0]; */
-                globalProviderN.setPhrase(
-                    ref.read(globalProvider).phrase + matchingCharacters[0]);
+                brailleProviderN.setNormalText(
+                    brailleProviderS.normalText + matchingCharacters[0]);
 
                 brailleProviderN.clearWord();
 

@@ -18,7 +18,6 @@ final slidesItems = <SlideItem>[
 ];
 
 class WelcomePage extends HookConsumerWidget {
-  static const String routeName = 'welcome_page';
   const WelcomePage({super.key});
 
   @override

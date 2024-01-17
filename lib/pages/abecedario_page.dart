@@ -1,19 +1,21 @@
 part of 'pages.dart';
 
 class AbecedarioPage extends ConsumerWidget {
-  final PageRouteParams pageArgs;
-  const AbecedarioPage({super.key, required this.pageArgs});
+  final String titlePage;
+  final String phase;
+  const AbecedarioPage(
+      {super.key, required this.titlePage, required this.phase});
 
   @override
   Widget build(BuildContext context, ref) {
     final globalRef = ref.watch(globalProvider);
-    final listGenerate = getLetterConverted(pageArgs.phase);
+    final listGenerate = getLetterConverted(phase);
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             CustomAppbar(
-              titlePage: pageArgs.titlePage,
+              titlePage: titlePage,
             ),
             Expanded(
               child: GridView.builder(
@@ -25,9 +27,9 @@ class AbecedarioPage extends ConsumerWidget {
                       (MediaQuery.of(context).size.height / 1.15),
                 ),
                 shrinkWrap: true,
-                itemCount: pageArgs.phase.length,
+                itemCount: phase.length,
                 itemBuilder: (_, int index) {
-                  final letter = pageArgs.phase[index];
+                  final letter = phase[index];
                   final listGenerated = listGenerate[index];
                   return BraileLetterCard(
                     globalState: globalRef,
@@ -50,6 +52,7 @@ class AbecedarioPage extends ConsumerWidget {
 class BraileLetterCard extends StatelessWidget {
   const BraileLetterCard({
     super.key,
+    this.showUpperLetter = false,
     required this.globalState,
     required this.listGenerated,
     required this.letter,
@@ -60,20 +63,12 @@ class BraileLetterCard extends StatelessWidget {
   final List<bool> listGenerated;
   final String letter;
   final Function() onSelected;
+  final bool showUpperLetter;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onSelected,
-      /* () {
-        /* context.push(
-          '/details',
-          extra: DetailPageRouteParams(
-            letter: letter,
-            listGenerated: listGenerated,
-          ),
-        ); */
-      }, */
       child: Hero(
         tag: letter,
         child: DecoratedBox(
@@ -101,7 +96,7 @@ class BraileLetterCard extends StatelessWidget {
                 ),
                 line(),
                 Text(
-                  textInAlphabet(letter),
+                  textInAlphabet(letter, showUpperLetter),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -120,14 +115,16 @@ class BraileLetterCard extends StatelessWidget {
 class BraileLetterCardPickeed extends StatelessWidget {
   const BraileLetterCardPickeed({
     super.key,
-    required this.globalProvider,
+    required this.globalState,
     required this.listGenerated,
     required this.letter,
+    this.showUpperLetter = true,
   });
 
-  final GlobalState globalProvider;
+  final GlobalState globalState;
   final List<bool> listGenerated;
   final String letter;
+  final bool showUpperLetter;
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +144,7 @@ class BraileLetterCardPickeed extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         elevation: 0,
-        color: globalProvider.pickerColor,
+        color: globalState.pickerColor,
         child: Column(
           children: [
             LetterBraile(
@@ -155,7 +152,7 @@ class BraileLetterCardPickeed extends StatelessWidget {
             ),
             line(),
             Text(
-              textInAlphabet(letter),
+              textInAlphabet(letter, showUpperLetter),
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

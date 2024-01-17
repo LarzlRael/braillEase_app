@@ -1,27 +1,29 @@
 part of 'pages.dart';
 
 class TranslatePage extends HookConsumerWidget {
-  final PageRouteParams titlePage;
+  final String titlePage;
+  final String? phraseArg;
   const TranslatePage({
     super.key,
+    this.phraseArg,
     required this.titlePage,
   });
 
   @override
   Widget build(BuildContext context, ref) {
     final textController = useTextEditingController();
-    final textBraille = useState("");
+
+    final globalProviderS = ref.watch(globalProvider);
+    final brailleProviderN = ref.watch(brailleProvider.notifier);
+    final brailleProviderS = ref.watch(brailleProvider);
+    final textTheme = Theme.of(context).textTheme;
     useEffect(() {
-      textController.text = ref.read(brailleProvider).normalText;
-      textBraille.value = convertToBraillex(textController.text);
+      textController.text = brailleProviderS.normalText;
       InterstitialAdManager.loadAd();
       return () {
         textController.dispose();
       };
     }, []);
-
-    final globalProviderS = ref.watch(globalProvider);
-    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       body: SafeArea(
@@ -36,16 +38,17 @@ class TranslatePage extends HookConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomAppbar(
-                      titlePage: titlePage.titlePage,
+                      titlePage: titlePage,
                       actions: [
-                        textController.text.isNotEmpty
+                        PopupMenu(),
+                        /* textController.text.isNotEmpty
                             ? IconButton(
                                 icon: Icon(Icons.picture_as_pdf_rounded),
                                 onPressed: () {
                                   if (addCounterIntersitialAd()) {
                                     InterstitialAdManager.showAd();
                                   }
-                                  /* braileProvider.setBraileConverted = textBraille; */
+
                                   ref
                                       .read(brailleProvider.notifier)
                                       .setBraileConverted(textBraille.value);
@@ -53,7 +56,7 @@ class TranslatePage extends HookConsumerWidget {
                                 },
                                 tooltip: 'Crear pdf',
                               )
-                            : SizedBox(),
+                            : SizedBox(), */
                       ],
                     ),
                     Stack(
@@ -67,7 +70,7 @@ class TranslatePage extends HookConsumerWidget {
                                 readOnly: true,
                                 maxLines: 9,
                                 controller: TextEditingController(
-                                  text: textBraille.value,
+                                  text: brailleProviderS.braileConverted,
                                 ),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
@@ -96,7 +99,7 @@ class TranslatePage extends HookConsumerWidget {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              textBraille.value.isEmpty
+                              brailleProviderS.normalText.isEmpty
                                   ? SizedBox()
                                   : IconButton(
                                       onPressed: () async {
@@ -104,10 +107,8 @@ class TranslatePage extends HookConsumerWidget {
                                             text: textBraille.value)); */
                                         ShareServiceImp().shareOnlyText(
                                           appMessageOnShared(
-                                            ref
-                                                .read(brailleProvider)
-                                                .normalText,
-                                            textBraille.value,
+                                            brailleProviderS.normalText,
+                                            brailleProviderS.braileConverted,
                                           ),
                                         );
 
@@ -136,19 +137,18 @@ class TranslatePage extends HookConsumerWidget {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: CustomTextFormSpeechButton(
+                  textController: textController,
                   onClear: () {
                     textController.clear();
-                    textBraille.value = "";
+                    brailleProviderN.clearWord();
                   },
                   focusNode: FocusNode(),
                   onTextChange: (text) {
-                    ref.read(brailleProvider.notifier).setNormalText(text);
-                    textBraille.value = convertToBraillex(text);
+                    brailleProviderN.setNormalText(text);
+                    /* textBraille.value = convertToBraillex(text); */
                   },
                   onSpeechResult: (value) {
-                    textBraille.value =
-                        convertToBraillex(value.recognizedWords);
-
+                    brailleProviderN.setNormalText(value.recognizedWords);
                     textController.text = value.recognizedWords;
                   },
                 ),

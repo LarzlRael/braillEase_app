@@ -16,7 +16,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
     if (isFirstTime) {
       // Primera vez que se inicia la aplicación
-      context.go('/welcome');
+      context.go('/welcome_page');
       // Actualizamos el valor en SharedPreferences para indicar que ya se mostró la vista "Welcome".
     } else {
       // No es la primera vez que se inicia la aplicación

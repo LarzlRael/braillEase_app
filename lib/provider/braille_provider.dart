@@ -36,7 +36,11 @@ class BrailleNotifier extends StateNotifier<BrailleState> {
   }
 
   void clearWord() {
-    state = state.copyWith(word: [false, false, false, false, false, false]);
+    state = state.copyWith(
+      word: [false, false, false, false, false, false],
+      braileConverted: '',
+      normalText: '',
+    );
   }
 
   void fillWord() {
@@ -47,16 +51,15 @@ class BrailleNotifier extends StateNotifier<BrailleState> {
     state = state.copyWith(pickerTextColor: color);
   }
 
-  void setBraileConverted(String braile) {
-    state = state.copyWith(braileConverted: braile);
-  }
-
   void setSelectedPagesSizes(PagesSizes pagesSizes) {
     state = state.copyWith(pagesSizes: pagesSizes);
   }
 
   void setNormalText(String normalText) {
-    state = state.copyWith(normalText: normalText);
+    state = state.copyWith(
+      normalText: normalText,
+      braileConverted: convertToBraillex(normalText),
+    );
   }
 }
 

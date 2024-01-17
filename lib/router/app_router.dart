@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import '../pages/pages.dart';
 import '../widgets/widgets.dart';
 
-class PageRouteParams {
+/* class PageRouteParams {
   final String titlePage;
   final String phase;
   PageRouteParams({
@@ -10,7 +10,7 @@ class PageRouteParams {
     required this.phase,
   });
 }
-
+ */
 final appRouter = GoRouter(
   initialLocation: '/splash_screen',
   /* refreshListenable: goRouterNotifier, */
@@ -25,28 +25,50 @@ final appRouter = GoRouter(
       builder: (context, state) => HomePage(),
     ),
     GoRoute(
-      path: '/welcome',
+      path: '/welcome_page',
       builder: (context, state) => WelcomePage(),
     ),
     GoRoute(
-      path: '/abecedario',
+      path: '/abcedario_page/:titlePage/:phrase',
       pageBuilder: (context, state) {
-        final pageArgs = state.extra as PageRouteParams;
+        /* final pageArgs = state.extra as PageRouteParams; */
+        final titlePage = state.params['titlePage'] as String;
+        final phrase = state.params['phrase'] as String;
         return fadeInTransition(
           duration: Duration(milliseconds: 250),
           child: AbecedarioPage(
-            pageArgs: pageArgs,
+            titlePage: titlePage,
+            phase: phrase,
           ),
         );
       },
     ),
     GoRoute(
-      path: '/translate',
+      path: '/translate_page/:titlePage',
       pageBuilder: (context, state) {
-        final pageRouteParams = state.extra as PageRouteParams;
+        final pageRouteParams = state.params['titlePage'] as String;
         return fadeInTransition(
-            child: TranslatePage(titlePage: pageRouteParams));
+          child: TranslatePage(
+            titlePage: pageRouteParams,
+          ),
+        );
       },
+      routes: [
+        GoRoute(
+          path: ':phrase',
+          pageBuilder: (context, state) {
+            final phrase = state.params['phrase'] as String;
+
+            return fadeInTransition(
+              child: TranslatePage(
+                titlePage: 'Traductor',
+                phraseArg: phrase,
+              ),
+              duration: const Duration(milliseconds: 500),
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/settings',
@@ -74,18 +96,20 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/phrase_maker/:phrase',
-      pageBuilder: (context, state) {
-        return fadeInTransition(
-          child: PhraseMakerPage(
-            phraseArg: state.params['phrase'] as String,
-          ),
-          duration: const Duration(milliseconds: 250),
-        );
-      },
-    ),
-    GoRoute(
-      path: '/phrase_maker',
+      path: '/phrase_maker_page/:titlePage',
+      routes: [
+        GoRoute(
+          path: ':phrase',
+          pageBuilder: (context, state) {
+            return fadeInTransition(
+              duration: const Duration(milliseconds: 250),
+              child: PhraseMakerPage(
+                phraseArg: state.params['phrase'] as String,
+              ),
+            );
+          },
+        ),
+      ],
       pageBuilder: (context, state) {
         return fadeInTransition(
           child: PhraseMakerPage(

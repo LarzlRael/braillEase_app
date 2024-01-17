@@ -21,8 +21,8 @@ bool isInAlphabet(String character) {
   return regex.hasMatch(character);
 }
 
-String textInAlphabet(String character) {
-  return isInAlphabet(character)
+String textInAlphabet(String character, bool showUpperCase) {
+  return showUpperCase
       ? character + " - " + character.toUpperCase()
       : character;
 }
@@ -39,4 +39,10 @@ String appMessageOnShared(String normalText, String brailleText) {
 
 Enviado desde $appName
 """;
+}
+
+String getTitleAndPhase(String path) {
+  final splitPath = path.split('/');
+  final titlePage = splitPath[2].replaceAll('%20', ' ');
+  return titlePage;
 }

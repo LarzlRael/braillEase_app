@@ -1,52 +1,49 @@
 part of '../widgets.dart';
 
-double fontSize = 20;
+double fontSize = 16;
 
 class CustomTextFormSpeechButton extends HookConsumerWidget {
   final Function(SpeechRecognitionResult res) onSpeechResult;
   final Function(String onchange) onTextChange;
   final FocusNode focusNode;
-  final String? initialValue;
+
   final Function()? onClear;
+  final TextEditingController textController;
   const CustomTextFormSpeechButton({
     super.key,
     this.onClear,
-    this.initialValue,
+    required this.textController,
     required this.onSpeechResult,
     required this.onTextChange,
     required this.focusNode,
   });
   @override
   Widget build(BuildContext context, ref) {
-    final textController = useTextEditingController();
     final textTheme = Theme.of(context).textTheme;
     final globalProviderS = ref.watch(globalProvider);
-/* 
-    useEffect(() {
-      if (initialValue != null) {
-        textController.text = initialValue!;
-      }
-      return;
-    }, [initialValue]); */
 
     return Row(
       children: [
         Expanded(
           child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
+            ),
             child: TextField(
               focusNode: focusNode,
               controller: textController,
               minLines: 1,
               maxLines: 3,
-              style: textTheme.bodySmall!.copyWith(
+              /*  style: textTheme.bodySmall!.copyWith(
                 fontSize: fontSize,
                 /* color: braileProvider.getPickerTextColor, */
-                color: globalProviderS.pickerColor,
+                /* color: globalProviderS.pickerColor, */
                 fontWeight: FontWeight.normal,
-              ),
+              ), */
               decoration: InputDecoration(
                 hintText: "Ingrese su texto aquí",
-                hintStyle: TextStyle(fontSize: 14),
+                contentPadding: EdgeInsets.symmetric(horizontal: 6),
+                hintStyle: TextStyle(fontSize: 15),
                 border: InputBorder.none,
                 suffixIcon: textController.text.isNotEmpty
                     ? IconButton(

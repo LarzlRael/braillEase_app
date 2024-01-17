@@ -15,6 +15,8 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:templat_project/constants/shared_preferences_constants.dart';
+import 'package:templat_project/custom_icons/custom_icons.dart';
+import 'package:templat_project/helpers/helpers.dart';
 import 'package:templat_project/services/services.dart';
 
 import '../constants/constant.dart';

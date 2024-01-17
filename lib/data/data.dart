@@ -1,53 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:templat_project/custom_icons/custom_icons.dart';
 
 class ItemBoton {
   final IconData icon;
-  final String texto;
+  /* final String texto; */
   final Color color1;
   final Color color2;
   final String path;
-  final String phase;
+  /* final String phase; */
   ItemBoton(
     this.icon,
-    this.texto,
+    /* this.texto, */
     this.color1,
     this.color2,
     this.path,
-    this.phase,
+    /* this.phase, */
   );
 }
 
 final items = [
   ItemBoton(
-    Icons.abc,
-    'Abecedario',
+    CustomIcons.abcdario_icon,
     Color(0xff6989F5),
     Color(0xff906EF5),
-    '/abecedario',
-    'abcdefghijklmnñopqrstuvwxyz',
+    '/abcedario_page/Abcedario/abcdefghijklmnñopqrstuvwxyz',
   ),
   ItemBoton(
-    Icons.numbers,
-    'Números',
+    CustomIcons.numbers_icon,
     Color(0xff66A9F2),
     Color(0xff536CF6),
-    '/abecedario',
-    '1234567890+-*/=',
+    '/abcedario_page/Números/1234567890+-*=',
   ),
   ItemBoton(
-    Icons.book,
-    'Traductor',
+    CustomIcons.translate_icon,
     Color(0xffF2D572),
     Color(0xffE06AA3),
-    '/translate',
-    'Traductor',
+    '/translate_page/Traductor',
   ),
   ItemBoton(
-    Icons.book_online,
-    'Creador de frases',
+    CustomIcons.braille_hand_icon_2,
     Color(0xff317183),
     Color(0xff46997D),
-    '/phrase_maker',
-    'Traductor',
+    '/phrase_maker_page/Creador%20frases/holaprobandogetexd',
   ),
 ];
