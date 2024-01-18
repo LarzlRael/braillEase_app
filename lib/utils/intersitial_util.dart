@@ -39,8 +39,9 @@ class InterstitialAdManager {
     }
   }
 
-  static void showAd() {
-    if (_interstitialAd != null && _isAdLoaded) {
+  static Future<void> verifyAndShowAd() async {
+    final verifyCounter = await addCounterIntersitialAd();
+    if (_interstitialAd != null && _isAdLoaded && verifyCounter) {
       _interstitialAd!.show();
     } else {
       // Si el anuncio no está cargado, vuelve a cargarlo y muestra después de la carga

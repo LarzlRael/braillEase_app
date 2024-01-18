@@ -8,6 +8,9 @@ class NotificationProvider extends ChangeNotifier {
     _onForegroundMessage();
   }
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  KeyValueStorageServiceImpl keyValueStorageServiceImpl =
+      KeyValueStorageServiceImpl();
+
   late String? token;
   Future initializeApp() async {
     // Push Notifications
@@ -32,11 +35,13 @@ class NotificationProvider extends ChangeNotifier {
 
   void _getAndSaveFCMToken() async {
     token = (await messaging.getToken())!;
-    if (token == UserPreferences.getFCMToken) {
+    final getToken =
+        await keyValueStorageServiceImpl.getValue<String>(FCM_TOKEN);
+    if (token == getToken) {
       return;
     }
     print('FCM Token: $token');
-    UserPreferences.setFCMToken = token!;
+    await keyValueStorageServiceImpl.setKeyValue<String>(FCM_TOKEN, token!);
     await Request.sendRequest(
       RequestType.get,
       '/notifications/saveDeviceId/$token/$packageName',

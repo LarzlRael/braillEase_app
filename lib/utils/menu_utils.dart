@@ -21,14 +21,18 @@ final List<PopupMenuItemClass> popupMenuItems = [
   ),
 ];
 
-class PopupMenu extends ConsumerWidget {
+class PopupMenu extends HookConsumerWidget {
   final String currentPage;
   const PopupMenu({super.key, required this.currentPage});
 
   @override
   Widget build(BuildContext context, ref) {
+    useEffect(() {
+      InterstitialAdManager.loadAd();
+      return () {};
+    }, []);
     final brailleProviderS = ref.watch(brailleProvider);
-    void handleClick(String value) {
+    Future<void> handleClick(String value) async {
       switch (value) {
         case 'Compartir':
           ShareServiceImp().shareOnlyText(Uri.encodeFull(
@@ -37,9 +41,7 @@ class PopupMenu extends ConsumerWidget {
           break;
 
         case 'Crear texto pdf':
-          if (addCounterIntersitialAd()) {
-            InterstitialAdManager.showAd();
-          }
+          await InterstitialAdManager.verifyAndShowAd();
 
           context.push('/print_pdf_page');
 

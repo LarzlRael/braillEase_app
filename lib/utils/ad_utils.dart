@@ -37,12 +37,17 @@ void loadIntersitialAd(InterstitialAd interstitialAd) {
   );
 }
 
-bool addCounterIntersitialAd() {
+Future<bool> addCounterIntersitialAd() async {
   const MAXCOUNT = 4;
-  UserPreferences.setCountInterstialAd =
-      UserPreferences.getCountIntersitialAd + 1;
-  if (UserPreferences.getCountIntersitialAd == MAXCOUNT) {
-    UserPreferences.setCountInterstialAd = 0;
+  final keyValueStorageServiceImpl = KeyValueStorageServiceImpl();
+  final getCountIntersitialAd =
+      await keyValueStorageServiceImpl.getValue<int>(COUNTER_AD_KEY) ?? 0;
+
+  await keyValueStorageServiceImpl.setKeyValue<int>(
+      COUNTER_AD_KEY, getCountIntersitialAd + 1);
+
+  if (getCountIntersitialAd == MAXCOUNT) {
+    await keyValueStorageServiceImpl.setKeyValue<int>(COUNTER_AD_KEY, 0);
     return true;
   }
   return false;

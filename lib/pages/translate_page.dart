@@ -16,22 +16,21 @@ class TranslatePage extends HookConsumerWidget {
     );
 
     final globalProviderS = ref.watch(globalProvider);
-
-    final brailleProviderN = ref.read(brailleProvider.notifier)
-      ..setNormalText(phraseArg ?? '');
     final brailleProviderS = ref.watch(brailleProvider);
 
+    final brailleProviderN = ref.read(brailleProvider.notifier);
+
     final textTheme = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
 
     useEffect(() {
-      /* TextEditingController(
-                                  text: brailleProviderS.braileConverted,
-                                ) */
-      InterstitialAdManager.loadAd();
+      Future.delayed(Duration.zero, () {
+        brailleProviderN.setNormalText(textController.text);
+      });
       return () {
-        textController.dispose();
+        /* textController.dispose(); */
       };
-    }, []);
+    }, [textController.text]);
 
     return Scaffold(
       body: SafeArea(
@@ -71,17 +70,21 @@ class TranslatePage extends HookConsumerWidget {
                     ),
                     Stack(
                       children: [
-                        Card(
-                          child: SingleChildScrollView(
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              width: double.infinity,
-                              child: Text(
-                                brailleProviderS.braileConverted,
-                                style: textTheme.titleMedium!.copyWith(
-                                  fontSize: 20,
-                                  color: globalProviderS.pickerColor,
-                                  fontWeight: FontWeight.w400,
+                        Container(
+                          width: double.infinity,
+                          height: size.height * 0.6,
+                          child: Card(
+                            child: SingleChildScrollView(
+                              child: Container(
+                                padding: EdgeInsets.all(8.0),
+                                width: double.infinity,
+                                child: Text(
+                                  brailleProviderS.braileConverted,
+                                  style: textTheme.titleMedium!.copyWith(
+                                    fontSize: 20,
+                                    color: globalProviderS.pickerColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),
