@@ -35,7 +35,7 @@ final items = [
     CustomIcons.translate_icon,
     Color(0xffF2D572),
     Color(0xffE06AA3),
-    '/translate_page/Traductor',
+    '/translate_page/Traductor/probandogente',
   ),
   ItemBoton(
     CustomIcons.braille_hand_icon_2,

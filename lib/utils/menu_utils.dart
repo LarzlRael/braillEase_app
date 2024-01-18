@@ -22,7 +22,8 @@ final List<PopupMenuItemClass> popupMenuItems = [
 ];
 
 class PopupMenu extends ConsumerWidget {
-  const PopupMenu({super.key});
+  final String currentPage;
+  const PopupMenu({super.key, required this.currentPage});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -31,7 +32,7 @@ class PopupMenu extends ConsumerWidget {
       switch (value) {
         case 'Compartir':
           ShareServiceImp().shareOnlyText(Uri.encodeFull(
-            "${Environment.serverDeepLink}/phrase_maker_page/creador_de_frases/${brailleProviderS.normalText}",
+            "${Environment.serverDeepLink}/$currentPage/${brailleProviderS.normalText}",
           ));
           break;
 

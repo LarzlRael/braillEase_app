@@ -21,6 +21,10 @@ final appRouter = GoRouter(
       builder: (context, state) => SplashScreenPage(),
     ),
     GoRoute(
+      path: '/splash_screen',
+      builder: (context, state) => SplashScreenPage(),
+    ),
+    GoRoute(
       path: '/',
       builder: (context, state) => HomePage(),
     ),
@@ -58,10 +62,11 @@ final appRouter = GoRouter(
           path: ':phrase',
           pageBuilder: (context, state) {
             final phrase = state.params['phrase'] as String;
+            final titlePage = state.params['titlePage'] as String;
 
             return fadeInTransition(
               child: TranslatePage(
-                titlePage: 'Traductor',
+                titlePage: titlePage,
                 phraseArg: phrase,
               ),
               duration: const Duration(milliseconds: 500),

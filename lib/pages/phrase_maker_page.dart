@@ -14,13 +14,15 @@ class PhraseMakerPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final scrollController = useScrollController();
-    final textController = useTextEditingController();
+    final textController = useTextEditingController(
+      text: phraseArg ?? '',
+    );
     final _focusNode = FocusNode();
-    final brailleProviderN = ref.watch(brailleProvider.notifier);
+    final brailleProviderN = ref.read(brailleProvider.notifier);
     final phrase = useState(phraseArg ?? '');
     final listGenerate =
         useState<List<List<bool>>>(getLetterConverted(phrase.value));
-
+    final size = MediaQuery.of(context).size;
     useEffect(() {
       listGenerate.value = getLetterConverted(phrase.value);
     }, [phrase.value]);
@@ -70,6 +72,9 @@ class PhraseMakerPage extends HookConsumerWidget {
             },
             icon: Icon(FontAwesomeIcons.braille),
           ),
+          PopupMenu(
+            currentPage: 'phrase_maker_page/creador_de_frases',
+          ),
         ],
       ),
       body: SafeArea(
@@ -95,7 +100,7 @@ class PhraseMakerPage extends HookConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: MediaQuery.of(context).size.height * .75,
+                              height: size.height * .75,
                               child: GridView.builder(
                                 controller: scrollController,
                                 gridDelegate:
@@ -104,9 +109,7 @@ class PhraseMakerPage extends HookConsumerWidget {
                                   crossAxisSpacing: 1,
                                   mainAxisSpacing: 1,
                                   childAspectRatio:
-                                      MediaQuery.of(context).size.width /
-                                          (MediaQuery.of(context).size.height /
-                                              1.15),
+                                      size.width / (size.height / 1.15),
                                 ),
                                 shrinkWrap: true,
                                 itemCount: listGenerate.value.length,
@@ -126,6 +129,7 @@ class PhraseMakerPage extends HookConsumerWidget {
                                                 ref.watch(globalProvider),
                                             listGenerated: listGenerated,
                                             letter: letter,
+                                            showUpperLetter: false,
                                           ),
                                         ),
                                         Positioned(
@@ -218,7 +222,6 @@ class PhraseMakerPage extends HookConsumerWidget {
                 child: CustomTextFormSpeechButton(
                   textController: textController,
                   focusNode: _focusNode,
-                  /* initialValue: phrase.value, */
                   onTextChange: (value) {
                     print(value);
                     /* if (textFormController.text.length > 5) {
@@ -250,13 +253,12 @@ class PhraseMakerPage extends HookConsumerWidget {
     WidgetRef ref,
     /* ValueNotifier pharse, */
   ) {
-    BuildContext mainContext = context;
+    final mainContext = context;
+    final brailleProviderN = ref.read(brailleProvider.notifier);
+    final brailleProviderS = ref.watch(brailleProvider);
     showDialog(
       context: mainContext,
       builder: (BuildContext context) {
-        final brailleProviderN = ref.read(brailleProvider.notifier);
-        final brailleProviderS = ref.watch(brailleProvider);
-
         String wordToShow = '';
         List<String> matchingCharacters = [];
 
@@ -369,12 +371,6 @@ class PhraseMakerPage extends HookConsumerWidget {
             },
           ),
           actions: [
-            TextButton(
-              child: const Text('Cerrar'),
-              onPressed: () {
-                context.pop();
-              },
-            ),
             IconButton(
                 onPressed: () {
                   brailleProviderN.clearWord();
@@ -383,31 +379,26 @@ class PhraseMakerPage extends HookConsumerWidget {
                   wordToShow = "";
                 },
                 icon: Icon(Icons.backspace)),
-            /*
-            IconButton(
+            if (matchingCharacters.isNotEmpty)
+              IconButton(
+                icon: Icon(Icons.check_rounded),
                 onPressed: () {
-                  brailleProvider.fillWord();
-                },
-                icon: Icon(Icons.apps_rounded)), */
-            TextButton(
-              child: const Text('AGREGAR'),
-              onPressed: () {
-                if (matchingCharacters.isEmpty) {
-                  brailleProviderN
-                      .setNormalText(brailleProviderS.normalText + " ");
+                  if (matchingCharacters.isEmpty) {
+                    brailleProviderN
+                        .setNormalText(brailleProviderS.normalText + " ");
 
-                  return;
-                }
-                /* globalProvider.setPhrase =
+                    return;
+                  }
+                  /* globalProvider.setPhrase =
                     globalProvider.getPhrase + matchingCharacters[0]; */
-                brailleProviderN.setNormalText(
-                    brailleProviderS.normalText + matchingCharacters[0]);
+                  brailleProviderN.setNormalText(
+                      brailleProviderS.normalText + matchingCharacters[0]);
 
-                brailleProviderN.clearWord();
+                  brailleProviderN.clearWord();
 
-                /* context.pop(); */
-              },
-            ),
+                  /* context.pop(); */
+                },
+              ),
           ],
         );
       },

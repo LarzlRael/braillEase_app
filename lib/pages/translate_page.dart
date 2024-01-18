@@ -11,14 +11,22 @@ class TranslatePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final textController = useTextEditingController();
+    final textController = useTextEditingController(
+      text: phraseArg ?? '',
+    );
 
     final globalProviderS = ref.watch(globalProvider);
-    final brailleProviderN = ref.watch(brailleProvider.notifier);
+
+    final brailleProviderN = ref.read(brailleProvider.notifier)
+      ..setNormalText(phraseArg ?? '');
     final brailleProviderS = ref.watch(brailleProvider);
+
     final textTheme = Theme.of(context).textTheme;
+
     useEffect(() {
-      textController.text = brailleProviderS.normalText;
+      /* TextEditingController(
+                                  text: brailleProviderS.braileConverted,
+                                ) */
       InterstitialAdManager.loadAd();
       return () {
         textController.dispose();
@@ -40,7 +48,9 @@ class TranslatePage extends HookConsumerWidget {
                     CustomAppbar(
                       titlePage: titlePage,
                       actions: [
-                        PopupMenu(),
+                        PopupMenu(
+                          currentPage: 'translate_page/Traductor',
+                        ),
                         /* textController.text.isNotEmpty
                             ? IconButton(
                                 icon: Icon(Icons.picture_as_pdf_rounded),
@@ -66,20 +76,12 @@ class TranslatePage extends HookConsumerWidget {
                             child: Container(
                               padding: EdgeInsets.all(8.0),
                               width: double.infinity,
-                              child: TextField(
-                                readOnly: true,
-                                maxLines: 9,
-                                controller: TextEditingController(
-                                  text: brailleProviderS.braileConverted,
-                                ),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                                style: textTheme.bodySmall!.copyWith(
-                                  fontSize: fontSize + 5,
-                                  /* color: braileProvider.getPickerTextColor, */
+                              child: Text(
+                                brailleProviderS.braileConverted,
+                                style: textTheme.titleMedium!.copyWith(
+                                  fontSize: 20,
                                   color: globalProviderS.pickerColor,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
