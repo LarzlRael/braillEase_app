@@ -68,6 +68,7 @@ class PhraseMakerPage extends HookConsumerWidget {
               showDialogPicker(
                 context,
                 ref,
+                phrase,
               );
             },
             icon: Icon(FontAwesomeIcons.braille),
@@ -251,7 +252,7 @@ class PhraseMakerPage extends HookConsumerWidget {
   void showDialogPicker(
     BuildContext context,
     WidgetRef ref,
-    /* ValueNotifier pharse, */
+    ValueNotifier phrase,
   ) {
     final mainContext = context;
     final brailleProviderN = ref.read(brailleProvider.notifier);
@@ -286,6 +287,7 @@ class PhraseMakerPage extends HookConsumerWidget {
               void selectedAndPop(String x) {
                 brailleProviderN
                     .setNormalText(brailleProviderS.normalText + x.toString());
+                phrase.value = phrase.value + x.toString();
 
                 brailleProviderN.clearWord();
 
@@ -332,12 +334,19 @@ class PhraseMakerPage extends HookConsumerWidget {
                         matchingCharacters.length == 1
                             ? FadeInOpacity(
                                 duration: Duration(milliseconds: 250),
-                                child: Text(
-                                  textInAlphabet(wordToShow, false),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
+                                child: FadeInOpacity(
+                                  duration: Duration(milliseconds: 400),
+                                  child: FilledButton(
+                                    /* style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                            ), */
+                                    onPressed: () {
+                                      selectedAndPop(matchingCharacters[0]);
+                                    },
+                                    child: Text(matchingCharacters[0]),
                                   ),
                                 ),
                               )

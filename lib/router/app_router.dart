@@ -17,6 +17,10 @@ final appRouter = GoRouter(
   routes: [
     ///* Primera pantalla
     GoRoute(
+      path: '/test',
+      builder: (context, state) => TestWidget(),
+    ),
+    GoRoute(
       path: '/splash_screen',
       builder: (context, state) => SplashScreenPage(),
     ),

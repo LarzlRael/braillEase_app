@@ -37,3 +37,4 @@ part '404/no_information.dart';
 part 'notifications/handle_notification_interactive.dart';
 
 part 'forms/custom_text_form_speech_button.dart';
+part 'test/test_widget.dart';

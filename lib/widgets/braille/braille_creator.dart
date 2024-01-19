@@ -31,8 +31,10 @@ class LetterBraileCreator extends ConsumerWidget {
               brailleProviderN.setWordIndex(
                 index,
                 !brailleProviderS.word[index],
+                (updatedWord) {
+                  onWordChanged(updatedWord);
+                },
               );
-              onWordChanged(brailleProviderS.word);
             },
             child: Point(
               /* selected: word[index], */
