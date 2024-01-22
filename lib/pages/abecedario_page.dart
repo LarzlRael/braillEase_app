@@ -3,13 +3,18 @@ part of 'pages.dart';
 class AbecedarioPage extends ConsumerWidget {
   final String titlePage;
   final String phase;
-  const AbecedarioPage(
-      {super.key, required this.titlePage, required this.phase});
+
+  const AbecedarioPage({
+    super.key,
+    required this.titlePage,
+    required this.phase,
+  });
 
   @override
   Widget build(BuildContext context, ref) {
-    final globalRef = ref.watch(globalProvider);
+    final globalProviderS = ref.watch(globalProvider);
     final listGenerate = getLetterConverted(phase);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -23,8 +28,7 @@ class AbecedarioPage extends ConsumerWidget {
                   crossAxisCount: 5,
                   crossAxisSpacing: 1,
                   mainAxisSpacing: 1,
-                  childAspectRatio: MediaQuery.of(context).size.width /
-                      (MediaQuery.of(context).size.height / 1.15),
+                  childAspectRatio: size.width / (size.height / 1.15),
                 ),
                 shrinkWrap: true,
                 itemCount: phase.length,
@@ -32,12 +36,10 @@ class AbecedarioPage extends ConsumerWidget {
                   final letter = phase[index];
                   final listGenerated = listGenerate[index];
                   return BraileLetterCard(
-                    globalState: globalRef,
+                    globalState: globalProviderS,
                     listGenerated: listGenerated,
                     letter: letter,
-                    onSelected: () {
-                      context.push('/details/$letter');
-                    },
+                    onSelected: () => context.push('/details/$letter'),
                   );
                 },
               ),
@@ -52,7 +54,7 @@ class AbecedarioPage extends ConsumerWidget {
 class BraileLetterCard extends StatelessWidget {
   const BraileLetterCard({
     super.key,
-    this.showUpperLetter = false,
+    this.showUpperLetter = true,
     required this.globalState,
     required this.listGenerated,
     required this.letter,

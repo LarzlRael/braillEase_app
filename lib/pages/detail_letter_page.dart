@@ -1,19 +1,20 @@
 part of 'pages.dart';
 
 class DetailLetterPage extends ConsumerWidget {
-  /* final DetailPageRouteParams detailPageRouteParams; */
   final String letter;
   const DetailLetterPage({
     super.key,
-    /* required this.detailPageRouteParams, */
     required this.letter,
   });
 
   @override
   Widget build(BuildContext context, ref) {
     final globalState = ref.watch(globalProvider);
+
     final size = MediaQuery.of(context).size;
-    final convertedLetter = getOneLetterConverted(letter);
+
+    final convertedLetter = getOneLetterConverted(
+        letter.length > 1 ? letter.substring(0, letter.length - 1) : letter);
     return Scaffold(
       appBar: AppBar(
         title: Text(letter + " ${convertToBraillex(letter)}"),
@@ -26,9 +27,12 @@ class DetailLetterPage extends ConsumerWidget {
               alignment: Alignment.center,
               child: Hero(
                 tag: letter,
+                /* placeholderBuilder: (context, size, widget) {
+                  return CircularProgressIndicator();
+                }, */
                 child: Container(
-                  height: size.height * 0.40,
-                  width: size.width * 0.5,
+                  width: 180,
+                  height: 300,
                   /* margin: EdgeInsets.symmetric(
                     horizontal: size.width * 0.10,
                     vertical: size.height * 0.05,

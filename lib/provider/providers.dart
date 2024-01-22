@@ -18,4 +18,3 @@ import '../theme/theme.dart';
 part 'global_provider.dart';
 part 'braille_provider.dart';
 part 'notifications_provider.dart';
-part 'make_pharse_provider.dart';

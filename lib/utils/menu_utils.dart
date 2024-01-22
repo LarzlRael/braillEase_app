@@ -49,22 +49,24 @@ class PopupMenu extends HookConsumerWidget {
       }
     }
 
-    return PopupMenuButton<String>(
-      onSelected: handleClick,
-      itemBuilder: (BuildContext context) {
-        return popupMenuItems.map((choice) {
-          return PopupMenuItem<String>(
-            value: choice.title,
-            child: Row(
-              children: [
-                Icon(choice.icon),
-                SizedBox(width: 5),
-                Text(choice.title),
-              ],
-            ),
+    return brailleProviderS.normalText.isEmpty
+        ? SizedBox()
+        : PopupMenuButton<String>(
+            onSelected: handleClick,
+            itemBuilder: (BuildContext context) {
+              return popupMenuItems.map((choice) {
+                return PopupMenuItem<String>(
+                  value: choice.title,
+                  child: Row(
+                    children: [
+                      Icon(choice.icon),
+                      SizedBox(width: 5),
+                      Text(choice.title),
+                    ],
+                  ),
+                );
+              }).toList();
+            },
           );
-        }).toList();
-      },
-    );
   }
 }

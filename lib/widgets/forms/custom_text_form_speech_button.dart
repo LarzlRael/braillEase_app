@@ -29,44 +29,49 @@ class CustomTextFormSpeechButton extends HookConsumerWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(40),
             ),
-            child: TextField(
-              focusNode: focusNode,
-              controller: textController,
-              minLines: 1,
-              maxLines: 3,
-              /*  style: textTheme.bodySmall!.copyWith(
-                fontSize: fontSize,
-                /* color: braileProvider.getPickerTextColor, */
-                /* color: globalProviderS.pickerColor, */
-                fontWeight: FontWeight.normal,
-              ), */
-              decoration: InputDecoration(
-                hintText: "Ingrese su texto aquí",
-                contentPadding: EdgeInsets.symmetric(horizontal: 6),
-                hintStyle: TextStyle(fontSize: 15),
-                border: InputBorder.none,
-                suffixIcon: textController.text.isNotEmpty
-                    ? IconButton(
-                        onPressed: () {
-                          textController.text = "";
-                          textController.clear();
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: TextField(
+                focusNode: focusNode,
+                controller: textController,
+                minLines: 1,
+                maxLines: 3,
+                /*  style: textTheme.bodySmall!.copyWith(
+                  fontSize: fontSize,
+                  /* color: braileProvider.getPickerTextColor, */
+                  /* color: globalProviderS.pickerColor, */
+                  fontWeight: FontWeight.normal,
+                ), */
+                decoration: InputDecoration(
+                  hintText: "Ingrese su texto aquí",
+                  /* contentPadding: EdgeInsets.symmetric(horizontal: 6), */
+                  hintStyle: TextStyle(fontSize: 15),
+                  border: InputBorder.none,
+                  suffixIcon: textController.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            textController.text = "";
+                            textController.clear();
 
-                          ref.read(brailleProvider.notifier).setNormalText("");
-                          if (onClear != null) {
-                            onClear!();
-                          }
-                        },
-                        icon: Icon(
-                          Icons.cancel,
-                          color: globalProviderS.pickerColor,
-                        ),
-                      )
-                    : null,
+                            ref
+                                .read(brailleProvider.notifier)
+                                .setNormalText("");
+                            if (onClear != null) {
+                              onClear!();
+                            }
+                          },
+                          icon: Icon(
+                            Icons.cancel,
+                            color: globalProviderS.pickerColor,
+                          ),
+                        )
+                      : null,
+                ),
+                onChanged: (value) {
+                  /* ref.read(brailleProvider.notifier).setNormalText(value); */
+                  onTextChange(value);
+                },
               ),
-              onChanged: (value) {
-                /* ref.read(brailleProvider.notifier).setNormalText(value); */
-                onTextChange(value);
-              },
             ),
           ),
         ),

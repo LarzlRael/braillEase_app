@@ -73,7 +73,7 @@ final appRouter = GoRouter(
                 titlePage: titlePage,
                 phraseArg: phrase,
               ),
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 250),
             );
           },
         ),
@@ -91,7 +91,7 @@ final appRouter = GoRouter(
           child: DetailLetterPage(
             letter: letter,
           ),
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 250),
         );
       },
     ),
@@ -100,7 +100,7 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         return fadeInTransition(
           child: PrintPdfPage(),
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 250),
         );
       },
     ),

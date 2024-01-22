@@ -48,7 +48,7 @@
      <category android:name="android.intent.category.BROWSABLE" />
      <data android:scheme="http"  />
      <data android:scheme="https" />
-     <data android:host="braillease.web.app" />
+     <data android:host="braillease-git-main-larzlrael.vercel.app" />
  </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

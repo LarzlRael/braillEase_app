@@ -35,12 +35,12 @@ final items = [
     CustomIcons.translate_icon,
     Color(0xffF2D572),
     Color(0xffE06AA3),
-    '/translate_page/Traductor/probandogente',
+    '/translate_page/Traductor/',
   ),
   ItemBoton(
     CustomIcons.braille_hand_icon_2,
     Color(0xff317183),
     Color(0xff46997D),
-    '/phrase_maker_page/Creador%20frases/holaprobandogetexd',
+    '/phrase_maker_page/Creador%20frases/',
   ),
 ];

@@ -5,8 +5,8 @@ class TestWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final globalProviderS = ref.watch(globalProvider);
-    final makePhraseProviderS = ref.watch(makePhraseNotifier);
-    final makePhraseProviderN = ref.read(makePhraseNotifier.notifier);
+    final makePhraseProviderS = ref.watch(brailleProvider);
+    final makePhraseProviderN = ref.read(brailleProvider.notifier);
     return Scaffold(
       body: SizedBox.expand(
         child: Stack(

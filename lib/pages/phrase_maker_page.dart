@@ -28,6 +28,15 @@ class PhraseMakerPage extends HookConsumerWidget {
     }, [phrase.value]);
 
     useEffect(() {
+      Future.delayed(Duration.zero, () {
+        brailleProviderN.setNormalText(textController.text);
+      });
+      return () {
+        /* textController.dispose(); */
+      };
+    }, [phrase.value, textController.text]);
+
+    useEffect(() {
       /* textFormController.text = phraseArg ?? ''; */
       InterstitialAdManager.loadAd();
       return () {
@@ -56,22 +65,22 @@ class PhraseMakerPage extends HookConsumerWidget {
             IconButton(
               tooltip: "Borrar todo",
               onPressed: () {
-                /* globalProvider.setPhrase = ''; */
                 brailleProviderN.setNormalText('');
-                /* textFormController.text = ''; */
+                textController.clear();
                 phrase.value = '';
               },
               icon: Icon(Icons.cancel),
             ),
           IconButton(
             onPressed: () {
+              hideKeyboard(context);
               showDialogPicker(
                 context,
                 ref,
                 phrase,
               );
             },
-            icon: Icon(FontAwesomeIcons.braille),
+            icon: Icon(CustomIcons.braille_hand_icon),
           ),
           PopupMenu(
             currentPage: 'phrase_maker_page/creador_de_frases',
@@ -79,167 +88,118 @@ class PhraseMakerPage extends HookConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: Container(
-          child: Column(
+        child: SizedBox.expand(
+          child: Stack(
             children: [
-              Flexible(
-                child: phrase.value.isEmpty
-                    ? FadeInOpacity(
-                        duration: Duration(milliseconds: 500),
-                        child: NoInformation(
-                          onPressed: () {
-                            FocusScope.of(context).requestFocus(_focusNode);
-                          },
-                          icon: Icons.info_outline,
-                          text: "Escribe una frase para comenzar",
-                          showButton: false,
-                          iconButton: Icons.add_a_photo,
-                        ),
-                      )
-                    : SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: size.height * .75,
-                              child: GridView.builder(
-                                controller: scrollController,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 5,
-                                  crossAxisSpacing: 1,
-                                  mainAxisSpacing: 1,
-                                  childAspectRatio:
-                                      size.width / (size.height / 1.15),
-                                ),
-                                shrinkWrap: true,
-                                itemCount: listGenerate.value.length,
-                                itemBuilder: (_, int index) {
-                                  final letter = phrase.value[index];
-                                  final listGenerated =
-                                      listGenerate.value[index];
-                                  return GestureDetector(
-                                    onTap: () =>
-                                        context.push('/details/$letter'),
-                                    child: Stack(
-                                      children: [
-                                        FadeInOpacity(
-                                          duration: Duration(milliseconds: 500),
-                                          child: BraileLetterCardPickeed(
-                                            globalState:
-                                                ref.watch(globalProvider),
-                                            listGenerated: listGenerated,
-                                            letter: letter,
-                                            showUpperLetter: false,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: -13,
-                                          right: -13,
-                                          child: IconButton(
-                                            onPressed: () {
-                                              /* globalProvider.setPhrase =
-                                                  phrase.replaceFirst(letter, ''); */
-                                              phrase.value = phrase.value
-                                                  .replaceFirst(letter, '');
-                                            },
-                                            icon: Icon(
-                                              Icons.cancel,
-                                              size: 15,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
+              Column(
+                children: [
+                  Flexible(
+                    child: phrase.value.isEmpty
+                        ? FadeInOpacity(
+                            duration: Duration(milliseconds: 250),
+                            child: NoInformation(
+                              onPressed: () {
+                                FocusScope.of(context).requestFocus(_focusNode);
+                              },
+                              icon: Icons.info_outline,
+                              text: "Escribe una frase para comenzar",
+                              showButton: false,
+                              iconButton: Icons.add_a_photo,
                             ),
-                          ],
-                        ),
-                      ),
-              ),
-              Container(
-                /* margin: EdgeInsets.only(top: 20), */
-                /* child: Row(
-                  children: [
-                    Container(
-                      child: Flexible(
-                        child: Card(
-                          child: TextField(
-                            keyboardType: TextInputType.multiline,
-                            focusNode: _focusNode,
-                            controller: textFormController,
-                            maxLines: 3,
-                            minLines: 1,
-                            onChanged: (value) {
-                              setState(() {});
-                              if (textFormController.text.length > 5)
-                                _performActionAndScrollToBottom();
-                            },
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Escribe una frase',
-                              hintStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              contentPadding: EdgeInsets.all(10),
+                          )
+                        : SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: size.height * .75,
+                                  child: GridView.builder(
+                                    controller: scrollController,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 5,
+                                      crossAxisSpacing: 1,
+                                      mainAxisSpacing: 1,
+                                      childAspectRatio:
+                                          size.width / (size.height / 1.15),
+                                    ),
+                                    shrinkWrap: true,
+                                    itemCount: listGenerate.value.length,
+                                    itemBuilder: (_, int index) {
+                                      final letter = phrase.value[index];
+                                      final listGenerated =
+                                          listGenerate.value[index];
+                                      return GestureDetector(
+                                        onTap: () =>
+                                            context.push('/details/$letter'),
+                                        child: Stack(
+                                          children: [
+                                            FadeInOpacity(
+                                              duration:
+                                                  Duration(milliseconds: 500),
+                                              child: BraileLetterCardPickeed(
+                                                globalState:
+                                                    ref.watch(globalProvider),
+                                                listGenerated: listGenerated,
+                                                letter: letter,
+                                                showUpperLetter: false,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: -13,
+                                              right: -13,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  phrase.value = phrase.value
+                                                      .replaceFirst(letter, '');
+                                                  textController.text =
+                                                      textController.text
+                                                          .replaceFirst(
+                                                              letter, '');
+                                                },
+                                                icon: Icon(
+                                                  Icons.cancel,
+                                                  size: 15,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        /* padding: EdgeInsets.all(10), */
-                      ),
-                    ),
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 250),
-                      margin: textFormController.text.isEmpty
-                          ? EdgeInsets.all(0)
-                          : EdgeInsets.symmetric(horizontal: 5),
-                      child: textFormController.text.isEmpty
-                          ? SizedBox()
-                          : FloatingActionButton(
-                              shape: StadiumBorder(),
-                              onPressed: () async {
-                                if (addCounterIntersitialAd()) {
-                                  InterstitialAdManager.showAd();
-                                }
-                                await Clipboard.setData(ClipboardData(
-                                  text: convertToBraillex(
-                                      textFormController.text),
-                                ));
-                                globalProviderN.showSnackBar(
-                                  backgroundColor: Colors.blue,
-                                  context,
-                                  "Texto copiado al portapapeles",
-                                );
-                              },
-                              child: Icon(Icons.copy_outlined, size: 30),
-                            ),
-                    )
-                  ],
-                ), */
-                child: CustomTextFormSpeechButton(
-                  textController: textController,
-                  focusNode: _focusNode,
-                  onTextChange: (value) {
-                    print(value);
-                    /* if (textFormController.text.length > 5) {
-                      _performActionAndScrollToBottom();
-                    } */
-                    /* textFormController.text = value; */
-                    phrase.value = value;
-                  },
-                  onSpeechResult: (value) {
-                    /* if (textFormController.text.length > 5)
-                      _performActionAndScrollToBottom(); */
-                    /* textFormController.text = value.recognizedWords; */
-                    phrase.value = phrase.value + value.recognizedWords;
-                  },
-                  onClear: () {
-                    phrase.value = '';
-                  },
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: CustomTextFormSpeechButton(
+                    textController: textController,
+                    focusNode: _focusNode,
+                    onTextChange: (value) {
+                      print(value);
+                      /* if (textFormController.text.length > 5) {
+                            _performActionAndScrollToBottom();
+                          } */
+                      /* textFormController.text = value; */
+                      phrase.value = value;
+                    },
+                    onSpeechResult: (value) {
+                      /* if (textFormController.text.length > 5)
+                            _performActionAndScrollToBottom(); */
+                      /* textFormController.text = value.recognizedWords; */
+                      phrase.value = phrase.value + value.recognizedWords;
+                    },
+                    onClear: () {
+                      phrase.value = '';
+                    },
+                  ),
                 ),
               ),
             ],
