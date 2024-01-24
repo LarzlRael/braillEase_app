@@ -1,0 +1,7 @@
+<resources>
+  <string name="app_name">BraillEase</string>
+  <string name="admob_application_id">ca-app-pub-3940256099942544~3347511713</string>
+  <string name="android_host_deep_linking">braillease-git-main-larzlrael.vercel.app</string>
+  <!-- Agrega más cadenas según sea necesario -->
+  <!-- Add more string  -->
+</resources>

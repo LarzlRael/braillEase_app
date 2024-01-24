@@ -3,18 +3,15 @@ import 'package:templat_project/custom_icons/custom_icons.dart';
 
 class ItemBoton {
   final IconData icon;
-  /* final String texto; */
+
   final Color color1;
   final Color color2;
   final String path;
-  /* final String phase; */
   ItemBoton(
     this.icon,
-    /* this.texto, */
     this.color1,
     this.color2,
     this.path,
-    /* this.phase, */
   );
 }
 
@@ -42,5 +39,11 @@ final items = [
     Color(0xff317183),
     Color(0xff46997D),
     '/phrase_maker_page/Creador%20frases/',
+  ),
+  ItemBoton(
+    Icons.gamepad,
+    Color(0xff6989F5),
+    Color(0xff906EF5),
+    '/phrase_maker_page/Juega%20y%20practica/',
   ),
 ];

@@ -20,7 +20,7 @@ import 'package:templat_project/helpers/helpers.dart';
 import 'package:templat_project/services/services.dart';
 
 import '../constants/constant.dart';
-import '../data/data.dart';
+import '../data/menu_items_data.dart';
 import '../env/environment_variables.dart';
 import '../provider/providers.dart';
 import '../router/app_router.dart';
