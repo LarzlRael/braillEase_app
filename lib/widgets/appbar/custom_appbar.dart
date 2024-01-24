@@ -7,7 +7,6 @@ class CustomAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      /* mainAxisAlignment: MainAxisAlignment.spaceBetween, */
       children: [
         IconButton(
           onPressed: context.pop,
@@ -15,10 +14,7 @@ class CustomAppbar extends StatelessWidget {
         ),
         Hero(
           tag: titlePage,
-          child: Text(
-            titlePage + "" + convertToBraillex(titlePage),
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          child: TitleAndBraillePhrase(titlePage: titlePage),
         ),
         Spacer(),
         if (actions != null) ...actions!,

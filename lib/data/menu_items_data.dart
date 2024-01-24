@@ -20,13 +20,7 @@ final items = [
     CustomIcons.abcdario_icon,
     Color(0xff6989F5),
     Color(0xff906EF5),
-    '/abcedario_page/Abcedario/abcdefghijklmnñopqrstuvwxyz',
-  ),
-  ItemBoton(
-    CustomIcons.numbers_icon,
-    Color(0xff66A9F2),
-    Color(0xff536CF6),
-    '/abcedario_page/Números/1234567890+-*=',
+    '/select_option_page/Abecedario/',
   ),
   ItemBoton(
     CustomIcons.translate_icon,
@@ -40,10 +34,10 @@ final items = [
     Color(0xff46997D),
     '/phrase_maker_page/Creador%20frases/',
   ),
-  ItemBoton(
+  /*  ItemBoton(
     Icons.gamepad,
-    Color(0xff6989F5),
-    Color(0xff906EF5),
-    '/phrase_maker_page/Juega%20y%20practica/',
-  ),
+    Color(0xff66A9F2),
+    Color(0xff536CF6),
+    '/games_selection_page/Juegos/',
+  ) */
 ];

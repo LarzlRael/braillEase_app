@@ -50,22 +50,6 @@ class TranslatePage extends HookConsumerWidget {
                         PopupMenu(
                           currentPage: 'translate_page/Traductor',
                         ),
-                        /* textController.text.isNotEmpty
-                            ? IconButton(
-                                icon: Icon(Icons.picture_as_pdf_rounded),
-                                onPressed: () {
-                                  if (addCounterIntersitialAd()) {
-                                    InterstitialAdManager.showAd();
-                                  }
-
-                                  ref
-                                      .read(brailleProvider.notifier)
-                                      .setBraileConverted(textBraille.value);
-                                  context.push('/print_pdf_page');
-                                },
-                                tooltip: 'Crear pdf',
-                              )
-                            : SizedBox(), */
                       ],
                     ),
                     Stack(
@@ -82,7 +66,7 @@ class TranslatePage extends HookConsumerWidget {
                                   brailleProviderS.braileConverted,
                                   style: textTheme.titleMedium!.copyWith(
                                     fontSize: 20,
-                                    color: globalProviderS.pickerColor,
+                                    color: globalProviderS.currentColor,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -99,7 +83,7 @@ class TranslatePage extends HookConsumerWidget {
                                 "Traducción en Braille",
                                 style: textTheme.titleMedium!.copyWith(
                                   fontSize: 13,
-                                  color: globalProviderS.pickerColor
+                                  color: globalProviderS.currentColor
                                       .withOpacity(0.7),
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -127,7 +111,7 @@ class TranslatePage extends HookConsumerWidget {
                                       },
                                       icon: Icon(
                                         Icons.copy,
-                                        color: globalProviderS.pickerColor,
+                                        color: globalProviderS.currentColor,
                                       ),
                                     ),
                             ],

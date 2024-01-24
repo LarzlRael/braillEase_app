@@ -62,7 +62,7 @@ class CustomTextFormSpeechButton extends HookConsumerWidget {
                           },
                           icon: Icon(
                             Icons.cancel,
-                            color: globalProviderS.pickerColor,
+                            color: globalProviderS.currentColor,
                           ),
                         )
                       : null,

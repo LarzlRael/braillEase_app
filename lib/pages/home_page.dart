@@ -39,7 +39,6 @@ class HomePage extends StatelessWidget {
               color1: item.color1,
               color2: item.color2,
               onPress: () {
-                /* print(getTitleAndPhase(item.path)); */
                 context.push(
                   item.path,
                   /* extra: PageRouteParams(
@@ -54,17 +53,23 @@ class HomePage extends StatelessWidget {
         .toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(appName + " ${convertToBraillex(appName)}"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.push('/settings');
-            },
-            icon: Icon(Icons.settings),
-          ),
-        ],
-        centerTitle: true,
-      ),
+          title: TitleAndBraillePhrase(titlePage: appName),
+          actions: [
+            IconButton(
+              onPressed: () {
+                context.push('/settings');
+              },
+              icon: Icon(Icons.settings),
+            ),
+          ],
+          centerTitle: false,
+          leading: FittedBox(
+            child: Image.asset(
+              iconAppPath,
+              width: 40,
+              height: 40,
+            ),
+          )),
       body: Container(
         width: double.infinity,
         height: double.infinity,

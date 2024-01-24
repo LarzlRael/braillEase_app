@@ -89,7 +89,7 @@ class BraileLetterCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
             elevation: 0,
-            color: globalState.pickerColor,
+            color: globalState.currentColor,
             child: Column(
               children: [
                 LetterBraile(
@@ -146,7 +146,7 @@ class BraileLetterCardPickeed extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         elevation: 0,
-        color: globalState.pickerColor,
+        color: globalState.currentColor,
         child: Column(
           children: [
             LetterBraile(

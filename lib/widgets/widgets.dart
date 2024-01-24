@@ -18,8 +18,10 @@ import '../router/app_router.dart';
 import '../utils/utils.dart';
 
 part 'simple_text.dart';
+part 'text/title_and_braille_phrase.dart';
 part './cards/image_gallery.dart';
 part 'buttons/button_category.dart';
+part 'buttons/button_select_option.dart';
 part 'buttons/pick_color_button.dart';
 part 'buttons/spech_button.dart';
 

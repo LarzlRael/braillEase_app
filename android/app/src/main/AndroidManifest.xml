@@ -12,8 +12,8 @@
     android:icon="@mipmap/launcher_icon"
   >
     <meta-data
-      android:name="@string/admob_application_id"
-      android:value="ca-app-pub-3940256099942544~3347511713"
+    android:name="com.google.android.gms.ads.APPLICATION_ID"
+      android:value="@string/admob_application_id"
     />
     <activity
       android:name=".MainActivity"

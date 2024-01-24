@@ -29,6 +29,10 @@ final appRouter = GoRouter(
       builder: (context, state) => SplashScreenPage(),
     ),
     GoRoute(
+      path: '/select_option_page/:titlePage',
+      builder: (context, state) => SelectOptionPage(),
+    ),
+    GoRoute(
       path: '/',
       builder: (context, state) => HomePage(),
     ),
@@ -37,7 +41,7 @@ final appRouter = GoRouter(
       builder: (context, state) => WelcomePage(),
     ),
     GoRoute(
-      path: '/abcedario_page/:titlePage/:phrase',
+      path: '/abecedario/:titlePage/:phrase',
       pageBuilder: (context, state) {
         /* final pageArgs = state.extra as PageRouteParams; */
         final titlePage = state.params['titlePage'] as String;

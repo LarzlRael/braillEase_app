@@ -59,7 +59,10 @@ class PhraseMakerPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Creador de frases'),
+        centerTitle: false,
+        title: TitleAndBraillePhrase(
+          titlePage: 'Creador de frases',
+        ),
         actions: [
           if (phrase.value.isNotEmpty)
             IconButton(
@@ -73,7 +76,6 @@ class PhraseMakerPage extends HookConsumerWidget {
             ),
           IconButton(
             onPressed: () {
-              hideKeyboard(context);
               showDialogPicker(
                 context,
                 ref,
@@ -215,6 +217,7 @@ class PhraseMakerPage extends HookConsumerWidget {
     ValueNotifier phrase,
   ) {
     final mainContext = context;
+    hideKeyboard(mainContext);
     final brailleProviderN = ref.read(brailleProvider.notifier);
     final brailleProviderS = ref.watch(brailleProvider);
     showDialog(
@@ -280,7 +283,7 @@ class PhraseMakerPage extends HookConsumerWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: ref.watch(globalProvider).pickerColor,
+                      color: ref.watch(globalProvider).currentColor,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     height: 300,
